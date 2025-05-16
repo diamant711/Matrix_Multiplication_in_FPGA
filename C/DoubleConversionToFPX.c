@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <assert.h>
 #include <stdint.h>
 
@@ -60,7 +61,7 @@ void integerToBinary(int input, char *output)
 {
   // Voglio che abbia la dimensione di un intero * la dimensione di un byte,
   // non so quanto fosse grande in precedenza, quindi lo riassegno
-  output = (char *)realloc(sizeof(int) * 8);
+  output = (char *)realloc(output, sizeof(int) * 8);
 
   if (output == NULL)
   {
@@ -90,8 +91,8 @@ FPX doubleToFPX(double input)
   mantissa = input_bits & 0x000FFFFFFFFFFFFF;         // Mantissa
   exponent = (input_bits & 0xEFF0000000000000) >> 52; // Esponente
 
-  integerToBinary( mantissa , output.m );
-  integerToBinary( exponent , output.e );
+  integerToBinary(mantissa, output.m);
+  integerToBinary(exponent, output.e);
 
   return output;
 }
@@ -109,21 +110,20 @@ FPX FPXProduct(const FPX *inputA, const FPX *inputB)
 {
   FPX output;
 
-
   return output;
 }
 
-void BitVectorAdd(const char *first, const char *second, char *out)
+void BitVectorAdd(const char *inputA, const char *inputB, char *output)
 {
   // Implementing Carry Addition
   char carry = '0';
-  
 
   return;
 }
 
 void BitVectorProd(const char *first, const char *second, char *out)
 {
+
   return;
 }
 
