@@ -86,10 +86,15 @@ FPX doubleToFPX(double input)
   int mantissa = 0, exponent = 0;
   FPX output = {.s = (input > 0) ? '1' : '0', .m = NULL, .e = NULL};
 
-  int64_t input_bits = *((int64_t *)&input);
+  // int64_t input_bits = *((int64_t *)&input); // Porto nella rappresentazione binaria il double
+  // Found better way to do this
+  union { 
+    double f;
+    uint64_t i;
+  } input_bits = {.f = input};
 
-  mantissa = input_bits & 0x000FFFFFFFFFFFFF;         // Mantissa
-  exponent = (input_bits & 0xEFF0000000000000) >> 52; // Esponente
+  mantissa = input_bits.i & 0x000FFFFFFFFFFFFF;         // Mantissa
+  exponent = (input_bits.i & 0xEFF0000000000000) >> 52; // Esponente
 
   integerToBinary(mantissa, output.m);
   integerToBinary(exponent, output.e);
