@@ -1,7 +1,9 @@
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <stdint.h>
+#include <math.h>
 
 #define M_SIZE 32
 #define E_SIZE 32
@@ -10,7 +12,7 @@ typedef struct
 {
   char s;         // Segno vale '0' o '1'
   char m[M_SIZE]; // Mantissa definita come stringa
-  char e[E_SIZE]; // Esponente definito come stringa '010' = 2^2
+  char e[E_SIZE]; // Esponente definito come stringa '011' = 2^3
 } FPX;
 
 // Conversione Binario -> Decimale
@@ -61,6 +63,8 @@ void integerToBinary(int input, char *output)
 {
   // Voglio che abbia la dimensione di un intero * la dimensione di un byte,
   // non so quanto fosse grande in precedenza, quindi lo riassegno
+  //
+  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso
   output = (char *)realloc(output, sizeof(int) * 8);
 
   if (output == NULL)
@@ -80,6 +84,75 @@ void integerToBinary(int input, char *output)
   assert((input == 0 || input == 1) && "Conversione non riuscita");
 }
 
+
+
+void BitVectorAdd(const char *inputA, const char *inputB, char *output)
+{
+  // Implementing Carry Addition
+  char carry = '0';
+  int size;
+  if (strlen(inputA) != strlen(inputB)) {
+    fprintf(stderr, "Error: BitVectorAdd: strlen(inputA) != strlen(inputB),\
+                      check the caller function\n");
+  }
+  size = strlen(inputA);
+  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso
+  output = (char *)realloc(output, size * sizeof(char));
+  for (int i = 0; i < size; i++) {
+    switch(((inputA[i]-48) + (inputB[i]-48) + (carry-48))) {
+      case 0:
+        output[i] = '0';
+        carry = '0';
+      break;
+      case 1:
+        output[i] = '1';
+        carry = '0';
+      break;
+      case 2:
+        output[i] = '0';
+        carry = '1';
+      break;
+      case 3:
+        output[i] = '1';
+        carry = '1';
+      break;
+      default:
+        fprintf(stderr, "Error: BitVectorAdd: Unexpected error\n");
+      break;
+    }
+  }
+  return;
+}
+
+void BitVectorProd(const char *inputA, const char *inputB, char *output)
+{
+  int size;
+  char carry = '0';
+  if (strlen(inputA) != strlen(inputB)) {
+    fprintf(stderr, "Error: BitVectorProd: strlen(inputA) != strlen(inputB),\
+                      check the caller function\n");
+  }
+  size = strlen(inputA);
+  char summatrix[size][size];
+  memset(summatrix, '0', sizeof(char) * size * size);
+  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso
+  output = (char *)realloc(output, size * sizeof(char));
+  memset(output, '0', sizeof(char) * size);
+  for (int i = 0; i < size; i++) {
+    for (int j = 0; j < size; j++) {
+      if ((inputA[i] == '1') && (inputB[j] == '1')) {
+        summatrix[i][i + j] = '1';
+      } else {
+        summatrix[i][i + j] = '0';
+      }
+    }
+  }
+  for (int i = 0; i < size; i++) {
+    BitVectorAdd(output, summatrix[i], output);
+  }
+  return;
+}
+
 // Conversione Double -> FPX
 FPX doubleToFPX(double input)
 {
@@ -88,7 +161,7 @@ FPX doubleToFPX(double input)
 
   // int64_t input_bits = *((int64_t *)&input); // Porto nella rappresentazione binaria il double
   // Found better way to do this
-  union { 
+  union {
     double f;
     uint64_t i;
   } input_bits = {.f = input};
@@ -106,7 +179,14 @@ FPX doubleToFPX(double input)
 double FPXToDouble(const FPX *input)
 {
   double output;
-
+  double mantissa = 0;
+  int size = strlen(input->m);
+  for (int i = 0; i < size; i++) {
+    mantissa += (input->m)[i] * pow(2, (-1) * i);
+  }
+  output = ((input->s == '1') ? -1 : 1)
+           * (1.0 + mantissa)
+           * pow(2, 1024 - binaryToInteger(input->e));
   return output;
 }
 
@@ -116,20 +196,6 @@ FPX FPXProduct(const FPX *inputA, const FPX *inputB)
   FPX output;
 
   return output;
-}
-
-void BitVectorAdd(const char *inputA, const char *inputB, char *output)
-{
-  // Implementing Carry Addition
-  char carry = '0';
-
-  return;
-}
-
-void BitVectorProd(const char *first, const char *second, char *out)
-{
-
-  return;
 }
 
 // Somma tra FPX
