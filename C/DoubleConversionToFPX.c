@@ -61,27 +61,30 @@ int binaryToInteger(const char *input)
 // Conversione Decimale -> Binario
 void integerToBinary(int input, char *output)
 {
+  int checksum = 0;
   // Voglio che abbia la dimensione di un intero * la dimensione di un byte,
   // non so quanto fosse grande in precedenza, quindi lo riassegno
   //
-  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso
+  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso (fix needed)
   output = (char *)realloc(output, sizeof(int) * 8);
 
   if (output == NULL)
   {
-    printf("Memory allocation failed\n");
-    return;
+    printf("Error: integerToBinary: Memory allocation failed\n");
+    exit(1);
   }
 
   for (int i = 0; i < sizeof(int) * 8; i++)
   {
-    output[sizeof(int) * 8 - 1 - i] = (input & 1) ? '1' : '0';
+    output[sizeof(int) * 8 - 1 - i] = ((input & 1) == 1) ? '1' : '0';
     input >>= 1;
   }
-
-  // Al termine della conversione l'output deve essere o 0 o 1
-  // Se non è così, la conversione non è riuscita
-  assert((input == 0 || input == 1) && "Conversione non riuscita");
+  for(int i = 0; i < sizeof(int) * 8; i++) {
+    if(output[i] != '0' || output[i] != '1') {
+      fprintf(stderr, "Error: integerToBinary: Failed conversion (unexpected)");
+      exit(1);
+    }
+  }
 }
 
 
@@ -91,12 +94,13 @@ void BitVectorAdd(const char *inputA, const char *inputB, char *output)
   // Implementing Carry Addition
   char carry = '0';
   int size;
+  //Potrebbero essere non null terminated (fix needed)
   if (strlen(inputA) != strlen(inputB)) {
     fprintf(stderr, "Error: BitVectorAdd: strlen(inputA) != strlen(inputB),\
                       check the caller function\n");
   }
   size = strlen(inputA);
-  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso
+  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso (fix needed)
   output = (char *)realloc(output, size * sizeof(char));
   for (int i = 0; i < size; i++) {
     switch(((inputA[i]-48) + (inputB[i]-48) + (carry-48))) {
@@ -128,14 +132,16 @@ void BitVectorProd(const char *inputA, const char *inputB, char *output)
 {
   int size;
   char carry = '0';
+  // Potrebbero essere non null-terminated (fix needed)
   if (strlen(inputA) != strlen(inputB)) {
     fprintf(stderr, "Error: BitVectorProd: strlen(inputA) != strlen(inputB),\
                       check the caller function\n");
+    exit(1);
   }
   size = strlen(inputA);
   char summatrix[size][size];
   memset(summatrix, '0', sizeof(char) * size * size);
-  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso
+  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso (fix needed)
   output = (char *)realloc(output, size * sizeof(char));
   memset(output, '0', sizeof(char) * size);
   for (int i = 0; i < size; i++) {
