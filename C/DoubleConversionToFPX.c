@@ -5,8 +5,9 @@
 #include <stdint.h>
 #include <math.h>
 
-#define M_SIZE 32
-#define E_SIZE 32
+#define M_SIZE 53
+#define E_SIZE 12
+#define STRLEN_LIMIT 128
 
 typedef struct
 {
@@ -19,7 +20,13 @@ typedef struct
 int binaryToInteger(const char *);
 
 // Conversione Decimale -> Binario
-void integerToBinary(int, char *);
+char* integerToBinary(int);
+
+// Somma tra vettori di bit
+char* BitVectorAdd(const char *, const char *);
+
+// Prodotto tra vettori di bit
+char* BitVectorProd(const char*, const char *);
 
 // Conversione Double -> FPX
 FPX doubleToFPX(double);
@@ -29,10 +36,6 @@ double FPXToDouble(const FPX *);
 
 // Prodotto tra FPX
 FPX FPXProduct(const FPX *, const FPX *);
-
-void BitVectorAdd(const char *, const char *, char *);
-void BitVectorProd(const char*, const char *, char *);
-
 
 // Somma tra FPX
 FPX FPXSum(const FPX *, const FPX *);
@@ -59,49 +62,49 @@ int binaryToInteger(const char *input)
 }
 
 // Conversione Decimale -> Binario
-void integerToBinary(int input, char *output)
+char* integerToBinary(int input)
 {
-  int checksum = 0;
-  // Voglio che abbia la dimensione di un intero * la dimensione di un byte,
-  // non so quanto fosse grande in precedenza, quindi lo riassegno
-  //
-  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso (fix needed)
-  output = (char *)realloc(output, sizeof(int) * 8);
-
+  size_t size = sizeof(int) * 8;
+  char* output = (char *)malloc(size + 1);
   if (output == NULL)
   {
     printf("Error: integerToBinary: Memory allocation failed\n");
     exit(1);
   }
+  memset(output, '\0', size + 1);
 
-  for (int i = 0; i < sizeof(int) * 8; i++)
+  for (int i = 0; i < size; i++)
   {
-    output[sizeof(int) * 8 - 1 - i] = ((input & 1) == 1) ? '1' : '0';
+    output[size - 1 - i] = ((input & 1) == 1) ? '1' : '0';
     input >>= 1;
   }
-  for(int i = 0; i < sizeof(int) * 8; i++) {
-    if(output[i] != '0' || output[i] != '1') {
-      fprintf(stderr, "Error: integerToBinary: Failed conversion (unexpected)");
-      exit(1);
-    }
-  }
+  return output;
 }
 
 
 
-void BitVectorAdd(const char *inputA, const char *inputB, char *output)
+char* BitVectorAdd(const char *inputA, const char *inputB)
 {
-  // Implementing Carry Addition
   char carry = '0';
   int size;
-  //Potrebbero essere non null terminated (fix needed)
-  if (strlen(inputA) != strlen(inputB)) {
+  if  ((strnlen(inputA, STRLEN_LIMIT) == STRLEN_LIMIT)
+     &&(strnlen(inputB, STRLEN_LIMIT) == STRLEN_LIMIT)) {
+    fprintf(stderr, "Error: BitVectorAdd: input vector not null-terminated,\
+                      check the caller function\n");
+    exit(1);
+  }
+  if (strnlen(inputA, STRLEN_LIMIT) != strnlen(inputB, STRLEN_LIMIT)) {
     fprintf(stderr, "Error: BitVectorAdd: strlen(inputA) != strlen(inputB),\
                       check the caller function\n");
+    exit(1);
   }
-  size = strlen(inputA);
-  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso (fix needed)
-  output = (char *)realloc(output, size * sizeof(char));
+  size = strnlen(inputA, STRLEN_LIMIT);
+  char* output = (char *)malloc((size + 1) * sizeof(char));
+  if(output == NULL) {
+    printf("Error: BitVectorAdd: Memory allocation failed\n");
+    exit(1);
+  }
+  memset(output, '\0', size + 1);
   for (int i = 0; i < size; i++) {
     switch(((inputA[i]-48) + (inputB[i]-48) + (carry-48))) {
       case 0:
@@ -122,27 +125,35 @@ void BitVectorAdd(const char *inputA, const char *inputB, char *output)
       break;
       default:
         fprintf(stderr, "Error: BitVectorAdd: Unexpected error\n");
+        exit(1);
       break;
     }
   }
-  return;
+  return output;
 }
 
-void BitVectorProd(const char *inputA, const char *inputB, char *output)
+char* BitVectorProd(const char *inputA, const char *inputB)
 {
   int size;
-  char carry = '0';
-  // Potrebbero essere non null-terminated (fix needed)
-  if (strlen(inputA) != strlen(inputB)) {
-    fprintf(stderr, "Error: BitVectorProd: strlen(inputA) != strlen(inputB),\
+  if  ((strnlen(inputA, STRLEN_LIMIT) == STRLEN_LIMIT)
+     &&(strnlen(inputB, STRLEN_LIMIT) == STRLEN_LIMIT)) {
+    fprintf(stderr, "Error: BitVectorAdd: input vector not null-terminated,\
                       check the caller function\n");
     exit(1);
   }
-  size = strlen(inputA);
+  if (strnlen(inputA, STRLEN_LIMIT) != strnlen(inputB, STRLEN_LIMIT)) {
+    fprintf(stderr, "Error: BitVectorAdd: strlen(inputA) != strlen(inputB),\
+                      check the caller function\n");
+    exit(1);
+  }
+  size = strnlen(inputA, STRLEN_LIMIT);
   char summatrix[size][size];
   memset(summatrix, '0', sizeof(char) * size * size);
-  // In caso l'area di memoria sia spostata la funzione chiamante non ne avrà accesso (fix needed)
-  output = (char *)realloc(output, size * sizeof(char));
+  char* output = (char *)malloc((size + 1) * sizeof(char));
+  if(output == NULL) {
+    printf("Error: BitVectorProd: Memory allocation failed\n");
+    exit(1);
+  }
   memset(output, '0', sizeof(char) * size);
   for (int i = 0; i < size; i++) {
     for (int j = 0; j < size; j++) {
@@ -154,16 +165,20 @@ void BitVectorProd(const char *inputA, const char *inputB, char *output)
     }
   }
   for (int i = 0; i < size; i++) {
-    BitVectorAdd(output, summatrix[i], output);
+    output = BitVectorAdd(output, summatrix[i]);
   }
-  return;
+  output[size + 1] = '\0';
+  return output;
 }
 
 // Conversione Double -> FPX
 FPX doubleToFPX(double input)
 {
   int mantissa = 0, exponent = 0;
-  FPX output = {.s = (input > 0) ? '1' : '0', .m = NULL, .e = NULL};
+  FPX output;
+  output.s = (input > 0) ? '1' : '0';
+  output.m[52] = '\0';
+  output.e[11] = '\0';
 
   // int64_t input_bits = *((int64_t *)&input); // Porto nella rappresentazione binaria il double
   // Found better way to do this
@@ -175,8 +190,13 @@ FPX doubleToFPX(double input)
   mantissa = input_bits.i & 0x000FFFFFFFFFFFFF;         // Mantissa
   exponent = (input_bits.i & 0xEFF0000000000000) >> 52; // Esponente
 
-  integerToBinary(mantissa, output.m);
-  integerToBinary(exponent, output.e);
+  char* tmp = NULL;
+  tmp = integerToBinary(mantissa);
+  strcpy(output.m, tmp);
+  free(tmp);
+  tmp = integerToBinary(exponent);
+  strcpy(output.e, tmp);
+  free(tmp);
 
   return output;
 }
