@@ -220,7 +220,14 @@ double FPXToDouble(const FPX *input)
 FPX FPXProduct(const FPX *inputA, const FPX *inputB)
 {
   FPX output;
-
+  output.s = (inputA->s == inputB->s) ? '0' : '1';
+  char* tmp = NULL;
+  tmp = BitVectorProd(inputA->m, inputB->m);
+  strcpy(output.m, tmp);
+  free(tmp);
+  tmp = BitVectorAdd(inputA->e, inputB->e);
+  strcpy(output.e, tmp);
+  free(tmp);
   return output;
 }
 
