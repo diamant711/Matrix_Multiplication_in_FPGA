@@ -265,6 +265,15 @@ FPX FPXProduct(const FPX *inputA, const FPX *inputB)
 FPX FPXSum(const FPX *inputA, const FPX *inputB)
 {
   FPX output;
+  char* tmp;
+  int inputA_e = binaryToInteger(inputA->e);
+  int inputB_e = binaryToInteger(inputB->e);
+  if (inputA_e > inputB_e) {
 
+  } else if (inputA_e < inputB_e) {
+
+  } else {
+
+  }
   return output;
 }
