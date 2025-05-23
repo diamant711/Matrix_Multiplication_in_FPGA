@@ -28,6 +28,9 @@ char* BitVectorAdd(const char *, const char *);
 // Prodotto tra vettori di bit
 char* BitVectorProd(const char*, const char *);
 
+// Shift vettore di bit
+void BitVectorShift(char*, char);
+
 // Conversione Double -> FPX
 FPX doubleToFPX(double);
 
@@ -171,12 +174,39 @@ char* BitVectorProd(const char *inputA, const char *inputB)
   return output;
 }
 
+// Shift vettore di bit
+void BitVectorShift(char* vett, char mode) {
+  size_t size = strnlen(vett, STRLEN_LIMIT);
+  if (size == STRLEN_LIMIT) {
+    fprintf(stderr, "Error: BitVectorShift: caller sent a non null-terminated bit vector\n");
+  }
+  switch(mode) {
+    case 'd':
+      for(int i = (size - 1); i > 0; i--) {
+        vett[i] = vett[i-1];
+      }
+      vett[0] = '0';
+    break;
+    case 's':
+      for(int i = 0; i < (size - 1); i++) {
+        vett[i] = vett[i+1];
+      }
+      vett[size - 1] = '0';
+    break;
+    default:
+      fprintf(stderr, "Error: BitVectorShift: caller sent a char mode undefined\n");
+      exit(1);
+    break;
+  }
+  return;
+}
+
 // Conversione Double -> FPX
 FPX doubleToFPX(double input)
 {
   int mantissa = 0, exponent = 0;
   FPX output;
-  output.s = (input > 0) ? '1' : '0';
+ output.s = (input > 0) ? '1' : '0';
   output.m[52] = '\0';
   output.e[11] = '\0';
 
