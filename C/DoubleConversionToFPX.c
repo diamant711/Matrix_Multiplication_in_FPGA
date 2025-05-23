@@ -20,13 +20,13 @@ typedef struct
 int binaryToInteger(const char *);
 
 // Conversione Decimale -> Binario
-char* integerToBinary(int);
+char *integerToBinary(int);
 
 // Somma tra vettori di bit
-char* BitVectorAdd(const char *, const char *);
+char *BitVectorAdd(const char *, const char *);
 
 // Prodotto tra vettori di bit
-char* BitVectorProd(const char*, const char *);
+char *BitVectorProd(const char *, const char *);
 
 // Shift vettore di bit
 void BitVectorShift(char*, char);
@@ -65,10 +65,10 @@ int binaryToInteger(const char *input)
 }
 
 // Conversione Decimale -> Binario
-char* integerToBinary(int input)
+char *integerToBinary(int input)
 {
   size_t size = sizeof(int) * 8;
-  char* output = (char *)malloc(size + 1);
+  char *output = (char *)malloc(size + 1);
   if (output == NULL)
   {
     printf("Error: integerToBinary: Memory allocation failed\n");
@@ -84,67 +84,70 @@ char* integerToBinary(int input)
   return output;
 }
 
-
-
-char* BitVectorAdd(const char *inputA, const char *inputB)
+char *BitVectorAdd(const char *inputA, const char *inputB)
 {
   char carry = '0';
   int size;
-  if  ((strnlen(inputA, STRLEN_LIMIT) == STRLEN_LIMIT)
-     &&(strnlen(inputB, STRLEN_LIMIT) == STRLEN_LIMIT)) {
+  if ((strnlen(inputA, STRLEN_LIMIT) == STRLEN_LIMIT) && (strnlen(inputB, STRLEN_LIMIT) == STRLEN_LIMIT))
+  {
     fprintf(stderr, "Error: BitVectorAdd: input vector not null-terminated,\
                       check the caller function\n");
     exit(1);
   }
-  if (strnlen(inputA, STRLEN_LIMIT) != strnlen(inputB, STRLEN_LIMIT)) {
+  if (strnlen(inputA, STRLEN_LIMIT) != strnlen(inputB, STRLEN_LIMIT))
+  {
     fprintf(stderr, "Error: BitVectorAdd: strlen(inputA) != strlen(inputB),\
                       check the caller function\n");
     exit(1);
   }
   size = strnlen(inputA, STRLEN_LIMIT);
-  char* output = (char *)malloc((size + 1) * sizeof(char));
-  if(output == NULL) {
+  char *output = (char *)malloc((size + 1) * sizeof(char));
+  if (output == NULL)
+  {
     printf("Error: BitVectorAdd: Memory allocation failed\n");
     exit(1);
   }
   memset(output, '\0', size + 1);
-  for (int i = 0; i < size; i++) {
-    switch(((inputA[i]-48) + (inputB[i]-48) + (carry-48))) {
-      case 0:
-        output[i] = '0';
-        carry = '0';
+  for (int i = 0; i < size; i++)
+  {
+    switch (((inputA[i] - 48) + (inputB[i] - 48) + (carry - 48)))
+    {
+    case 0:
+      output[i] = '0';
+      carry = '0';
       break;
-      case 1:
-        output[i] = '1';
-        carry = '0';
+    case 1:
+      output[i] = '1';
+      carry = '0';
       break;
-      case 2:
-        output[i] = '0';
-        carry = '1';
+    case 2:
+      output[i] = '0';
+      carry = '1';
       break;
-      case 3:
-        output[i] = '1';
-        carry = '1';
+    case 3:
+      output[i] = '1';
+      carry = '1';
       break;
-      default:
-        fprintf(stderr, "Error: BitVectorAdd: Unexpected error\n");
-        exit(1);
+    default:
+      fprintf(stderr, "Error: BitVectorAdd: Unexpected error\n");
+      exit(1);
       break;
     }
   }
   return output;
 }
 
-char* BitVectorProd(const char *inputA, const char *inputB)
+char *BitVectorProd(const char *inputA, const char *inputB)
 {
   int size;
-  if  ((strnlen(inputA, STRLEN_LIMIT) == STRLEN_LIMIT)
-     &&(strnlen(inputB, STRLEN_LIMIT) == STRLEN_LIMIT)) {
+  if ((strnlen(inputA, STRLEN_LIMIT) == STRLEN_LIMIT) && (strnlen(inputB, STRLEN_LIMIT) == STRLEN_LIMIT))
+  {
     fprintf(stderr, "Error: BitVectorAdd: input vector not null-terminated,\
                       check the caller function\n");
     exit(1);
   }
-  if (strnlen(inputA, STRLEN_LIMIT) != strnlen(inputB, STRLEN_LIMIT)) {
+  if (strnlen(inputA, STRLEN_LIMIT) != strnlen(inputB, STRLEN_LIMIT))
+  {
     fprintf(stderr, "Error: BitVectorAdd: strlen(inputA) != strlen(inputB),\
                       check the caller function\n");
     exit(1);
@@ -152,22 +155,29 @@ char* BitVectorProd(const char *inputA, const char *inputB)
   size = strnlen(inputA, STRLEN_LIMIT);
   char summatrix[size][size];
   memset(summatrix, '0', sizeof(char) * size * size);
-  char* output = (char *)malloc((size + 1) * sizeof(char));
-  if(output == NULL) {
+  char *output = (char *)malloc((size + 1) * sizeof(char));
+  if (output == NULL)
+  {
     printf("Error: BitVectorProd: Memory allocation failed\n");
     exit(1);
   }
   memset(output, '0', sizeof(char) * size);
-  for (int i = 0; i < size; i++) {
-    for (int j = 0; j < size; j++) {
-      if ((inputA[i] == '1') && (inputB[j] == '1')) {
+  for (int i = 0; i < size; i++)
+  {
+    for (int j = 0; j < size; j++)
+    {
+      if ((inputA[i] == '1') && (inputB[j] == '1'))
+      {
         summatrix[i][i + j] = '1';
-      } else {
+      }
+      else
+      {
         summatrix[i][i + j] = '0';
       }
     }
   }
-  for (int i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++)
+  {
     output = BitVectorAdd(output, summatrix[i]);
   }
   output[size + 1] = '\0';
@@ -212,7 +222,8 @@ FPX doubleToFPX(double input)
 
   // int64_t input_bits = *((int64_t *)&input); // Porto nella rappresentazione binaria il double
   // Found better way to do this
-  union {
+  union
+  {
     double f;
     uint64_t i;
   } input_bits = {.f = input};
@@ -220,7 +231,7 @@ FPX doubleToFPX(double input)
   mantissa = input_bits.i & 0x000FFFFFFFFFFFFF;         // Mantissa
   exponent = (input_bits.i & 0xEFF0000000000000) >> 52; // Esponente
 
-  char* tmp = NULL;
+  char *tmp = NULL;
   tmp = integerToBinary(mantissa);
   strcpy(output.m, tmp);
   free(tmp);
@@ -237,12 +248,11 @@ double FPXToDouble(const FPX *input)
   double output;
   double mantissa = 0;
   int size = strlen(input->m);
-  for (int i = 0; i < size; i++) {
+  for (int i = 0; i < size; i++)
+  {
     mantissa += (input->m)[i] * pow(2, (-1) * i);
   }
-  output = ((input->s == '1') ? -1 : 1)
-           * (1.0 + mantissa)
-           * pow(2, 1024 - binaryToInteger(input->e));
+  output = ((input->s == '1') ? -1 : 1) * (1.0 + mantissa) * pow(2, 1024 - binaryToInteger(input->e));
   return output;
 }
 
@@ -251,7 +261,7 @@ FPX FPXProduct(const FPX *inputA, const FPX *inputB)
 {
   FPX output;
   output.s = (inputA->s == inputB->s) ? '0' : '1';
-  char* tmp = NULL;
+  char *tmp = NULL;
   tmp = BitVectorProd(inputA->m, inputB->m);
   strcpy(output.m, tmp);
   free(tmp);
