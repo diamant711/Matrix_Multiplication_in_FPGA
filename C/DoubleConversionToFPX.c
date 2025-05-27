@@ -104,11 +104,22 @@ vbit sum_vm(vbit a, vbit b) {
   if (((a_s==1ull)&&(!(b_s==1ull)))||((!(a_s==1ull))&&(b_s==1ull))) {
     //discordi
     if (a_s == 1) {
-      r |= sum(b_m, ~a_m) << 51;
+      if (a_m > b_m) {
+        r |= (~sum(b_m, ~a_m)) << 51;
+        r |= (1ull<<63);
+      } else if (b_m > a_m) {
+        r |= sum(b_m, ~a_m) << 51;
+        r |= 0;
+      }
     } else if (b_s == 1) {
-      r |= sum(a_m, ~b_m) << 51;
+      if (a_m > b_m) {
+        r |= sum(a_m, ~b_m) << 51;
+        r |= 0;
+      } else if (b_m > a_m) {
+        r |= (~sum(a_m, ~b_m)) << 51;
+        r |= (1ull<<63);
+      }
     }
-    r |= ((r>>51)<0) ? (1ull<<63) : 0;
     r |= a_e;
   } else {
     //concordi
