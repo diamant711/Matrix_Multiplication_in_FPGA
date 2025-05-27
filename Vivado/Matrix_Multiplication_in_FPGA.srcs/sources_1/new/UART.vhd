@@ -77,18 +77,18 @@ begin
                         SM1_stato <= SM1_WAIT_FOR_START;
                     end if;
                 when SM1_WAIT_FOR_SAMPLE =>
-                    if (SM1_counter = 0) then    
+                    if (SM1_counter = 0) then
                         SM1_counter <= to_unsigned(UART_SPEED, UART_SPEED_COUNTER_WIDTH);
                         SM1_stato <= SM1_SAMPLE;
                     else
                         SM1_counter <= SM1_counter - 1;
                         SM1_stato <= SM1_WAIT_FOR_SAMPLE;
                     end if;
-                 when SM1_SAMPLE =>       
+                 when SM1_SAMPLE =>
                         RX_VECT <= RX_VECT(6 downto 0) & D_IN_reg;
                         SM1_stato <= SM1_WAIT_AFTER_SAMPLE;
-                 when SM1_WAIT_AFTER_SAMPLE =>       
-                        if (SM1_counter = 0) then  
+                 when SM1_WAIT_AFTER_SAMPLE =>
+                        if (SM1_counter = 0) then
                             SM1_counter <= to_unsigned(UART_SPEED, UART_SPEED_COUNTER_WIDTH);
                             if (Bits_to_receive = 0) then
                                 UART_RX_DATA <= RX_VECT;
@@ -101,12 +101,12 @@ begin
                         else
                             SM1_counter <= SM1_counter - 1;
                             SM1_stato <= SM1_WAIT_AFTER_SAMPLE;
-                        end if;                                
+                        end if;
                     when others =>
                         SM1_stato <= SM1_RESET;
             end case;
         end if;
-    end if;    
+    end if;
 end process;
 
 end V0;
