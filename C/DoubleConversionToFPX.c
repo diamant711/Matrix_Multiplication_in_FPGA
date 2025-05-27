@@ -71,6 +71,7 @@ vbit sum(vbit a, vbit b) {
   }
   return r;
 }
+
 vbit prod(vbit a, vbit b) {
   vbit r = 0;
   vbit pr = 0;
@@ -88,9 +89,32 @@ vbit prod(vbit a, vbit b) {
 
 vbit sum_vm(vbit a, vbit b) {
   vbit r = 0;
-  if ((a & E_MASK) > (b & E_MASK)) {
-  } else if ((a & E_MASK) < (b & E_MASK)) {
+  vbit a_s = (a & S_MASK) >> 63;
+  vbit b_s = (b & S_MASK) >> 63;
+  vbit a_m = (a & M_MASK) >> 52;
+  vbit b_m = (b & M_MASK) >> 52;
+  vbit a_e = (a & E_MASK);
+  vbit b_e = (b & E_MASK);
+  if (a_e > b_e) {
+    b_m >>= sum(a_e, ~b_e);
+  } else if (a_e < b_e) {
+    a_m >>= sum(b_e, ~a_e);
+  }
+  //xor
+  if (((a_s==1ull)&&(!(b_s==1ull)))||((!(a_s==1ull))&&(b_s==1ull))) {
+    //discordi
+    if (a_s == 1) {
+      r |= sum(b_m, ~a_m) << 51;
+    } else if (b_s == 1) {
+      r |= sum(a_m, ~b_m) << 51;
+    }
+    r |= ((r>>51)<0) ? (1ull<<63) : 0;
+    r |= a_e;
   } else {
+    //concordi
+    r |= (a_s == 1ull) ? (1ull<<63) : 0;
+    r |= sum(a_m, b_m) << 51;
+    r |= a_e;
   }
   return r;
 }
