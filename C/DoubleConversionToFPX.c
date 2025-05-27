@@ -2,6 +2,10 @@
 
 #define N 100
 
+#define S_MASK 0x8000000000000000ULL
+#define M_MASK 0x7FF0000000000000ULL
+#define E_MASK 0x000FFFFFFFFFFFFFULL
+
 typedef __uint128_t vbit;
 
 void print_uint128_bin(vbit);
@@ -84,11 +88,18 @@ vbit prod(vbit a, vbit b) {
 
 vbit sum_vm(vbit a, vbit b) {
   vbit r = 0;
+  if ((a & E_MASK) > (b & E_MASK)) {
+  } else if ((a & E_MASK) < (b & E_MASK)) {
+  } else {
+  }
   return r;
 }
 
 vbit prod_vm(vbit a, vbit b) {
   vbit r = 0;
+  r |= (sum((a & S_MASK) >> 63,(b & S_MASK) >> 63) == 1ull) ? (1ull<<63) : 0;
+  r |= prod((a & M_MASK)>>51, (b & M_MASK)>>51) << 51;
+  r |= sum(a & E_MASK, b & E_MASK);
   return r;
 }
 
