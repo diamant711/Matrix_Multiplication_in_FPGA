@@ -1,28 +1,50 @@
 #include <stdio.h>
+#include <string.h>
 
 #include "inner_product.h"
+#include "case_manager.h"
 
-int main(/* int argc, char const *argv[] */)
+int main(int argc, char const *argv[])
 {
-    double a[] = {1.0, 2.0, 3.0};
-    double b[] = {4.0, 5.0, 6.0};
-    uint64_t size = sizeof(a) / sizeof(a[0]);
+    enum OPERATING_MODE mode = STANDARD;
 
-    double expected = standard_inner_product(a, b, size);
-    double obtained =  inner_product(a, b, size);
-
-    printf("Standard Inner Product : %f\n", expected);
-    printf("Inner product: %f\n", obtained);
-
-    if (expected == obtained)
+    if (argc == 2)
     {
-        printf("TEST SUCCEDED\n");
-    }
-    else
-    {
-        printf("TEST FAILED\n");
+        set_operating_mode(&mode, argv[1]);
     }
 
+    switch (mode)
+    {
+    case STANDARD:
+    {
+        print_operating_mode(mode);
+        assert(mode == STANDARD && "Operating in standard mode.");
+        return standard_case();
+    }
+    case CHECK_DOUBLE_COMPOSITION:
+    {
+        print_operating_mode(mode);
+        assert(mode == CHECK_DOUBLE_COMPOSITION && "Checking double composition.");
+        return check_double_composition_case();
+    }
+    case CHECK_EXPONENT:
+    {
+        print_operating_mode(mode);
+        assert(mode == CHECK_EXPONENT && "Checking exponent addition.");
+        return check_exponent_case();
+    }
 
-    return 0;
+    case CHECK_MANTISSA:
+    {
+        print_operating_mode(mode);
+        assert(mode == CHECK_MANTISSA && "Checking mantissa multiplication.");
+        return check_mantissa_case();
+    }
+
+    default:
+    {
+        fprintf(stderr, "Invalid operating mode.\n");
+        return 1;
+    }
+    }
 }

@@ -69,16 +69,15 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
 
     // Normalization is always needed, in fact from the multiplication result you
     // will always have 10.xxxx or 11.xxxx, so we alway need to shift the result
-    // *normalization_needed = ((multiplication_result & check_normalization) >> 105);
-    *normalization_needed = 1;
+    *normalization_needed = ((multiplication_result & check_normalization) >> 105);
+    // *normalization_needed = 1;
 
     if (*normalization_needed)
     {
         multiplication_result >>= 1; // move the result to the left of one bit
     }
 
-    // Need to manage approximation
-    // the standard mandates that if 
+    // @TODO: Need to manage approximation
 
     // Now we always have 105 bits, we want to return to have 53 bits
     // 105 - 53 = 52 bits to shift
