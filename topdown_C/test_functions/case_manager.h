@@ -1,5 +1,5 @@
 #pragma once
-#define _USE_MATH_DEFINES 
+#define _USE_MATH_DEFINES
 
 #include <stdio.h>
 #include <stdint.h>
@@ -7,6 +7,10 @@
 #include <string.h>
 #include <assert.h>
 #include <math.h>
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 #include "inner_product.h"
 #include "multiplier.h"
