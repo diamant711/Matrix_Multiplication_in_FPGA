@@ -41,12 +41,12 @@ void set_operating_mode(enum OPERATING_MODE *mode, const char *arg)
         fprintf(stderr, "Invalid argument: %s\n", arg);
         exit(EXIT_FAILURE);
     }
-    
+
 }
 
 int standard_case()
 {
-    
+
     double a[] = {1.0, 2.0, 3.0};
     double b[] = {4.0, 5.0, 6.0};
     uint64_t size = sizeof(a) / sizeof(a[0]);
@@ -65,7 +65,7 @@ int standard_case()
     {
         printf("TEST FAILED\n");
     }
-   
+
     return (expected == obtained) ? 0 : 1;
 }
 
@@ -89,7 +89,7 @@ int check_mantissa_case()
     assert((return_code == 0) && "Error in mantissa detection for first test (1.0)");
 
     return_code = (second_test_mantissa == expected_test_mantissa) ? 0 : 1;
-    assert((return_code == 0) && "Error in mantissa detection for second test (2.0)");    
+    assert((return_code == 0) && "Error in mantissa detection for second test (2.0)");
 
     return_code = (pi_mantissa == expected_pi_mantissa) ? 0 : 1;
     assert((return_code == 0) && "Error in mantissa detection for pi");
@@ -102,7 +102,7 @@ int check_mantissa_case()
     return_code = ((multiplied_mantissa_1 == expected_test_mantissa) && (normalization_needed == 0)) ? 0 : 1;
     assert((return_code == 0) && "1 * 1 == 1, and no normalization needed");
 
-    const uint64_t multiplied_mantissa_2 = multiply_mantissa(expected_test_mantissa, expected_pi_mantissa, &normalization_needed); 
+    const uint64_t multiplied_mantissa_2 = multiply_mantissa(expected_test_mantissa, expected_pi_mantissa, &normalization_needed);
     return_code = ((multiplied_mantissa_2 == expected_pi_mantissa) && (normalization_needed == 0)) ? 0 : 1;
     assert((return_code == 0) && "1 * pi == pi, and no normalization needed");
 

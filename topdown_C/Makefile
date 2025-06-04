@@ -21,7 +21,10 @@ OBJS = $(patsubst %.c,$(BUILD_DIR)/%.o,$(subst ./,,$(ALL_SRC)))
 # Executable
 TARGET = FPGA_simulation.exe
 
-.PHONY: all clean test dirs
+# Debug
+CFLAGS += -DDEBUG
+
+.PHONY: all clean test dirs debug
 
 all: dirs $(TARGET)
 

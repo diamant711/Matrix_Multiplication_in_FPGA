@@ -1,12 +1,16 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdio.h>
 #include <assert.h>
+#include <inttypes.h>
+
+#include "debug_function.h"
 
 #define MANTISSA_MASK (0x000FFFFFFFFFFFFF)
 #define EXPONENT_MASK (0x7FF0000000000000)
 #define EXPONENT_SHIFT (52)
-#define BIAS ((1 << 10) - 1) // 11 bits for exponent, so bias is  1023 = 1024 - 1 
+#define BIAS ((1 << 10) - 1) // 11 bits for exponent, so bias is  1023 = 1024 - 1
 #define SIGN_SHIFT (63)
 
 typedef union  {
@@ -23,4 +27,3 @@ uint8_t get_sign(const double value);
 
 uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b, uint8_t *normalization_needed);
 uint64_t add_exponents(const uint64_t exponent_a, const uint64_t exponent_b);
-
