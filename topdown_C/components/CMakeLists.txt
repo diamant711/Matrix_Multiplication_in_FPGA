@@ -16,3 +16,9 @@ target_link_libraries(
     PUBLIC
     FPGA_sim_compiler_flags
 )
+
+target_link_libraries(
+    components
+    PUBLIC
+    testing_functions
+)

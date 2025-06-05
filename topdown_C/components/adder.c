@@ -16,7 +16,7 @@ double double_adder(const double a, const double b, const uint8_t subtraction_mo
     }
 
     // Check if the exponents are equal
-    uint64_t exponent_shift = exponent_a - exponent_b;
+    int64_t exponent_shift = exponent_a - exponent_b;
 
     // Normalize exponents to same value
     if (exponent_shift >= 0)

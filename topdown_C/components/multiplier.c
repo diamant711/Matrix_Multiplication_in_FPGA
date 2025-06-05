@@ -21,6 +21,7 @@ double multiplier(const double a, const double b)
     return compose_double(sign_result, exponent_result, mantissa_result);
 }
 
+
 uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b, uint8_t *normalization_needed)
 {
     __uint128_t check_normalization = 0x1;
@@ -29,8 +30,55 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     // @TODO: Define a bitwise multiplication ( Maybe specific to floating point )
     __uint128_t a = (__uint128_t)(mantissa_a);
     __uint128_t b = (__uint128_t)(mantissa_b);
-    __uint128_t multiplication_result = a * b;
-
+    __uint128_t multiplication_result = 0x0;
+    __uint128_t partial_multiplication_result = 0x0;
+    uint8_t uint128_t_bit_size = 128;
+#ifdef DEBUG
+    printf("\n###DEBUG MANTISSA CONVERSION###\n");
+    print_bin(&mantissa_a, UINT64);
+    printf(" ->\n");
+    print_bin(&a, UINT128);
+    putchar('\n');
+    for (int i = 0; i < 131; i++) putchar('-');
+    putchar('\n');
+    print_bin(&mantissa_b, UINT64);
+    printf(" ->\n");
+    print_bin(&b, UINT128);
+    // Bitwise multiplication
+    printf("\n###DEBUG MANTISSA MULTIPLICATION###\n");
+    print_bin(&a, UINT128);
+    printf(" *\n");
+    print_bin(&b, UINT128);
+    printf(" =\n");
+    for (int i = 0; i < 130; i++) putchar('-');
+    putchar('\n');
+#endif
+    uint8_t carry = 0;
+    for (uint8_t i = 0; i < uint128_t_bit_size; i++) {
+        for (uint8_t j = 0; j < uint128_t_bit_size; j++) {
+            partial_multiplication_result |=
+              (((a >> i) & 1) & (b >> i) & 1) * (2*i);
+        }
+#ifdef DEBUG
+        print_bin(&partial_multiplication_result, UINT128);
+        printf(" +\n");
+#endif
+        for (uint8_t j = 0; j < uint128_t_bit_size; j++) {
+            multiplication_result |=
+                (((multiplication_result >> j) & 1) ^
+                (partial_multiplication_result >> j & 1) ^
+                carry) * (2*j) ;
+            carry =
+              ((multiplication_result >> j) & (partial_multiplication_result >> j)) |
+              (carry & ((multiplication_result >> j) ^ (partial_multiplication_result >> j)));
+        }
+    }
+#ifdef DEBUG
+    for (int i = 0; i < 130; i++) putchar('-');
+    putchar('\n');
+    print_bin(&multiplication_result, UINT128);
+    putchar('\n');
+#endif
     // Now there are 53 + 53 bits = 106 bits, we need to reduce only to the most significant
     // and before that managing overflow, in fact we have one bits to consider before doing anything else
     // this is 106th bit
@@ -46,6 +94,8 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     }
 
     // @TODO: Need to manage approximation
+    // No need for approximation after we see the number as affected with
+    // UNCERTAINTY
 
     // Now we always have 105 bits, we want to return to have 53 bits
     // 105 - 53 = 52 bits to shift

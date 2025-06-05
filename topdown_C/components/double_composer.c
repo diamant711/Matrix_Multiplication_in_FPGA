@@ -19,10 +19,32 @@ double compose_double(const uint8_t sign, const uint64_t exponent, const uint64_
 uint64_t get_mantissa(const double value)
 {
     conversion conv = {.d = value};
+#ifdef DEBUG
+    uint64_t tmp = conv.u;
+    printf("\n###DEBUG GET_MANTISSA###\n");
+    printf("conv.d = %lf, conv.u => \n", value);
+    print_bin(&tmp, UINT64);
+    printf("\nMANTISSA_MASK => \n");
+    tmp = MANTISSA_MASK;
+    print_bin(&tmp, UINT64);
+    printf("\nconv.u &= MANTISSA_MASK => \n");
+    tmp = conv.u & MANTISSA_MASK;
+    print_bin(&tmp, UINT64);
+    printf("\nconv.u |= (MANTISSA_MASK + 1) => \n");
+    tmp |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
+    print_bin(&tmp, UINT64);
+    // DIAMANT POSSIBLE TEMPORARY SOLUTION
+    tmp >>= 51;
+    printf("\nconv.u >> 52 => \n");
+    print_bin(&tmp, UINT64);
+#endif
     conv.u &= MANTISSA_MASK;
     conv.u |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
+    // DIAMANT POSSIBLE TEMPORARY SOLUTION
+    conv.u >>= 51;
     return conv.u;
 }
+
 
 uint64_t get_exponent(const double value)
 {

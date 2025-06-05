@@ -1,7 +1,11 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdio.h>
 #include <assert.h>
+#include <inttypes.h>
+
+#include "debug_function.h"
 
 #include "double_composer.h"
 
