@@ -1,6 +1,7 @@
 
 add_library(testing_functions
     case_manager.c
+    debug_function.c
 )
 
 target_include_directories(

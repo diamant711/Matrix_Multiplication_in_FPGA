@@ -2,7 +2,6 @@
 
 double multiplier(const double a, const double b)
 {
-    conversion result = {.d = 0.0};
     uint8_t sign_a = get_sign(a);
     uint8_t sign_b = get_sign(b);
 
@@ -19,18 +18,10 @@ double multiplier(const double a, const double b)
 
     uint64_t exponent_result = add_exponents(exponent_a, exponent_b) + normalization_needed;
 
-    // Compose the result
-    result.u |= ((uint64_t)(sign_result) << SIGN_SHIFT);
-    assert(((result.u & (EXPONENT_MASK | MANTISSA_MASK)) == 0) && "Error setting sign\n");
-
-    result.u |= (exponent_result << EXPONENT_SHIFT);
-    assert(((result.u & (MANTISSA_MASK)) == 0) && "Error setting exponent\n");
-
-    result.u |= (mantissa_result & MANTISSA_MASK);
-
-    return result.d;
+    return compose_double(sign_result, exponent_result, mantissa_result);
 }
 
+<<<<<<< HEAD
 uint64_t get_mantissa(const double value)
 {
     conversion conv = {.d = value};
@@ -67,6 +58,8 @@ uint8_t get_sign(const double value)
     conversion conv = {.d = value};
     return (uint8_t)((conv.u >> SIGN_SHIFT) & 0x01);
 }
+=======
+>>>>>>> 19ae1b9742ff3851a35ee93a7f8527c68ff26e38
 
 uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b, uint8_t *normalization_needed)
 {
