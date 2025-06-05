@@ -1,4 +1,5 @@
 #include "multiplier.h"
+#include <stdint.h>
 
 double multiplier(const double a, const double b)
 {
@@ -25,16 +26,17 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
 {
     __uint128_t check_normalization = 0x1;
     check_normalization <<= 105;
+#ifdef DEBUG
     printf("\nCheck Mantissa Normalization\n");
     print_hex(&check_normalization, UINT128);
     putchar('\n');
+#endif
 
     // @TODO: Define a bitwise multiplication ( Maybe specific to floating point )
+    // Bitwise multiplication
     __uint128_t a = (__uint128_t)(mantissa_a);
     __uint128_t b = (__uint128_t)(mantissa_b);
     __uint128_t multiplication_result = 0x0;
-    __uint128_t partial_multiplication_result = 0x0;
-    uint8_t uint128_t_bit_size = 128;
 #ifdef DEBUG
     printf("\n###DEBUG MANTISSA CONVERSION###\n");
     print_bin(&mantissa_a, UINT64);
@@ -46,35 +48,32 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     print_bin(&mantissa_b, UINT64);
     printf(" ->\n");
     print_bin(&b, UINT128);
-    // Bitwise multiplication
     printf("\n###DEBUG MANTISSA MULTIPLICATION###\n");
     print_bin(&a, UINT128);
     printf(" *\n");
     print_bin(&b, UINT128);
     printf(" =\n");
-    for (int i = 0; i < 130; i++) putchar('-');
-    putchar('\n');
 #endif
-    uint8_t carry = 0;
-    for (uint8_t i = 0; i < uint128_t_bit_size; i++) {
-        for (uint8_t j = 0; j < uint128_t_bit_size; j++) {
-            partial_multiplication_result |=
-              (((a >> j) & 1) & ((b >> j) & 1)) << j;
+    __uint128_t carry;
+    __uint128_t tmp;
+    __uint128_t x;
+    __uint128_t y;
+    while (b > 0) {
+        if (b & 1) {
+            //Accumulo a in multiplication_result
+            carry = 0x1; // Magic Number
+            x = a;
+            y = multiplication_result;
+            while (carry != 0x0) {
+                tmp = x ^ y;
+                carry = (x & y) << 1;
+                x = tmp;
+                y = carry;
+            }
+            multiplication_result = x;
         }
-        partial_multiplication_result <<= i;
-#ifdef DEBUG
-        print_bin(&partial_multiplication_result, UINT128);
-        printf(" +\n");
-#endif
-        for (uint8_t j = 0; j < uint128_t_bit_size; j++) {
-            multiplication_result |=
-                (((multiplication_result >> j) & 1) ^
-                (partial_multiplication_result >> j & 1) ^
-                carry) << j;
-            carry =
-                ((multiplication_result >> j) & (partial_multiplication_result >> j)) |
-                (carry & ((multiplication_result >> j) ^ (partial_multiplication_result >> j)));
-        }
+        a <<= 1;
+        b >>= 1;
     }
 #ifdef DEBUG
     for (int i = 0; i < 130; i++) putchar('-');
@@ -107,9 +106,43 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
 
 uint64_t add_exponents(const uint64_t exponent_a, const uint64_t exponent_b)
 {
+    uint64_t result;
+    uint64_t a = exponent_a;
+    uint64_t b = exponent_b;
+    uint64_t bias = BIAS;
+    uint64_t tmp;
+    uint64_t carry; //Magic Number
+    uint64_t borrow;
     // @TODO: Define a bitwise addition for exponent ( Needs to include in someway the bias )
-
+    // Bitwise Sum
+#ifdef DEBUG
+    printf("\n###DEBUG EXPONENT SUM###\n");
+    print_bin(&exponent_a, UINT64);
+    printf(" +\n");
+    print_bin(&exponent_b, UINT64);
+    printf(" -\n");
+    print_bin(&bias, UINT64);
+    printf(" =\n");
+#endif
     // (exp_1 + BIAS) + (exp_2 + BIAS) = (exp_1 + exp_2) + 2 * BIAS
-    uint64_t result = exponent_a + exponent_b - BIAS; // Adjust for bias
+    while (b != 0) {
+        tmp = a ^ b;
+        carry = (a & b) << 1;
+        a = tmp;
+        b = carry;
+    }
+    while (bias != 0) {
+        borrow = (~a) & bias;
+        a = a ^ bias;
+        bias = borrow << 1;
+    }
+    result = a;
+    //result = exponent_a + exponent_b - BIAS; // Adjust for bias
+#ifdef DEBUG
+    for (int i = 0; i < 130; i++) putchar('-');
+    putchar('\n');
+    print_bin(&result, UINT64);
+    putchar('\n');
+#endif
     return result;
 }
