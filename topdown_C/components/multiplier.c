@@ -21,6 +21,45 @@ double multiplier(const double a, const double b)
     return compose_double(sign_result, exponent_result, mantissa_result);
 }
 
+<<<<<<< HEAD
+uint64_t get_mantissa(const double value)
+{
+    conversion conv = {.d = value};
+#ifdef DEBUG
+    uint64_t tmp = conv.u;
+    printf("\n###DEBUG GET_MANTISSA###\n");
+    printf("conv.d = %lf, conv.u => \n", value);
+    print_bin(&tmp, UINT64);
+    printf("\nMANTISSA_MASK => \n");
+    tmp = MANTISSA_MASK;
+    print_bin(&tmp, UINT64);
+    printf("\nconv.u &= MANTISSA_MASK => \n");
+    tmp = conv.u & MANTISSA_MASK;
+    print_bin(&tmp, UINT64);
+    printf("\nconv.u |= (MANTISSA_MASK + 1) => \n");
+    tmp |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
+    print_bin(&tmp, UINT64);
+#endif
+    conv.u &= MANTISSA_MASK;
+    conv.u |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
+    return conv.u;
+}
+
+uint64_t get_exponent(const double value)
+{
+    conversion conv = {.d = value};
+    conv.u &= EXPONENT_MASK;   // Mask to get the exponent bits
+    conv.u >>= EXPONENT_SHIFT; // Shift to get the exponent value
+    return conv.u;
+}
+
+uint8_t get_sign(const double value)
+{
+    conversion conv = {.d = value};
+    return (uint8_t)((conv.u >> SIGN_SHIFT) & 0x01);
+}
+=======
+>>>>>>> 19ae1b9742ff3851a35ee93a7f8527c68ff26e38
 
 uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b, uint8_t *normalization_needed)
 {
@@ -60,8 +99,9 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     for (uint8_t i = 0; i < uint128_t_bit_size; i++) {
         for (uint8_t j = 0; j < uint128_t_bit_size; j++) {
             partial_multiplication_result |=
-              (((a >> i) & 1) & (b >> i) & 1) * (2*i);
+              (((a >> j) & 1) & ((b >> j) & 1)) << j;
         }
+        partial_multiplication_result <<= i;
 #ifdef DEBUG
         print_bin(&partial_multiplication_result, UINT128);
         printf(" +\n");
@@ -70,10 +110,10 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
             multiplication_result |=
                 (((multiplication_result >> j) & 1) ^
                 (partial_multiplication_result >> j & 1) ^
-                carry) * (2*j) ;
+                carry) << j;
             carry =
-              ((multiplication_result >> j) & (partial_multiplication_result >> j)) |
-              (carry & ((multiplication_result >> j) ^ (partial_multiplication_result >> j)));
+                ((multiplication_result >> j) & (partial_multiplication_result >> j)) |
+                (carry & ((multiplication_result >> j) ^ (partial_multiplication_result >> j)));
         }
     }
 #ifdef DEBUG
