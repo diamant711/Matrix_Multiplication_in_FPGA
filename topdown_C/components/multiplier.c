@@ -48,15 +48,9 @@ uint64_t get_mantissa(const double value)
     printf("\nconv.u |= (MANTISSA_MASK + 1) => \n");
     tmp |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
     print_bin(&tmp, UINT64);
-    // DIAMANT POSSIBLE TEMPORARY SOLUTION
-    tmp >>= 51;
-    printf("\nconv.u >> 52 => \n");
-    print_bin(&tmp, UINT64);
 #endif
     conv.u &= MANTISSA_MASK;
     conv.u |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
-    // DIAMANT POSSIBLE TEMPORARY SOLUTION
-    conv.u >>= 51;
     return conv.u;
 }
 
@@ -109,8 +103,9 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     for (uint8_t i = 0; i < uint128_t_bit_size; i++) {
         for (uint8_t j = 0; j < uint128_t_bit_size; j++) {
             partial_multiplication_result |=
-              (((a >> i) & 1) & (b >> i) & 1) * (2*i);
+              (((a >> j) & 1) & ((b >> j) & 1)) << j;
         }
+        partial_multiplication_result <<= i;
 #ifdef DEBUG
         print_bin(&partial_multiplication_result, UINT128);
         printf(" +\n");
@@ -119,10 +114,10 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
             multiplication_result |=
                 (((multiplication_result >> j) & 1) ^
                 (partial_multiplication_result >> j & 1) ^
-                carry) * (2*j) ;
+                carry) << j;
             carry =
-              ((multiplication_result >> j) & (partial_multiplication_result >> j)) |
-              (carry & ((multiplication_result >> j) ^ (partial_multiplication_result >> j)));
+                ((multiplication_result >> j) & (partial_multiplication_result >> j)) |
+                (carry & ((multiplication_result >> j) ^ (partial_multiplication_result >> j)));
         }
     }
 #ifdef DEBUG
