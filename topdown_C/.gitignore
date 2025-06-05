@@ -1,0 +1,4 @@
+build/
+.cache/
+FPGA_simulation.exe
+core
