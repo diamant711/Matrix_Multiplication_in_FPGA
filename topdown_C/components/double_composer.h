@@ -2,11 +2,14 @@
 
 #include <stdint.h>
 #include <assert.h>
+#include <stdio.h>
+
+#include "debug_function.h"
 
 #define MANTISSA_MASK (0x000FFFFFFFFFFFFF)
 #define EXPONENT_MASK (0x7FF0000000000000)
 #define EXPONENT_SHIFT (52)
-#define BIAS ((1 << 10) - 1) // 11 bits for exponent, so bias is  1023 = 1024 - 1 
+#define BIAS ((1 << 10) - 1) // 11 bits for exponent, so bias is  1023 = 1024 - 1
 #define SIGN_SHIFT (63)
 
 typedef union  {

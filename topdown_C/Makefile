@@ -1,6 +1,6 @@
 # Compiler and flags
 CC = gcc
-CFLAGS = -Wall -Wextra -Wshadow -std=gnu17 -std=c17
+CFLAGS = -Wall -Wextra -Wshadow -std=gnu17
 INCLUDES = -Icomponents -Itest_functions -lm
 
 # Directories
