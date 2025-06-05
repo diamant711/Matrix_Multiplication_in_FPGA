@@ -33,15 +33,9 @@ uint64_t get_mantissa(const double value)
     printf("\nconv.u |= (MANTISSA_MASK + 1) => \n");
     tmp |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
     print_bin(&tmp, UINT64);
-    // DIAMANT POSSIBLE TEMPORARY SOLUTION
-    tmp >>= 51;
-    printf("\nconv.u >> 52 => \n");
-    print_bin(&tmp, UINT64);
 #endif
     conv.u &= MANTISSA_MASK;
     conv.u |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
-    // DIAMANT POSSIBLE TEMPORARY SOLUTION
-    // conv.u >>= 51;
     return conv.u;
 }
 
