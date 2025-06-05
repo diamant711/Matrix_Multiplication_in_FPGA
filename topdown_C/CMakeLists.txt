@@ -28,4 +28,4 @@ add_test(NAME run COMMAND FPGA_simulation.exe) # Try if runs successfully
 
 add_test(NAME check_multiplier_exponent_addition COMMAND FPGA_simulation.exe --check-multiplier-exponent-addition)
 add_test(NAME check_multiplier_mantissa_multiplication COMMAND FPGA_simulation.exe --check-multiplier-mantissa-multiplication)
-add_test(NAME check_multiplier_double_formation COMMAND FPGA_simulation.exe --check-multiplier-double-formation)
+add_test(NAME check_multiplier_double_formation COMMAND FPGA_simulation.exe --check-double-composition)

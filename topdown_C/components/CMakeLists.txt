@@ -1,7 +1,8 @@
 add_library(components
-adder.c
-multiplier.c
-inner_product.c
+    adder.c
+    multiplier.c
+    inner_product.c
+    double_composer.c
 )
 
 target_include_directories(
