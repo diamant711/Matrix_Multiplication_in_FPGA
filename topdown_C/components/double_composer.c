@@ -41,7 +41,7 @@ uint64_t get_mantissa(const double value)
     conv.u &= MANTISSA_MASK;
     conv.u |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
     // DIAMANT POSSIBLE TEMPORARY SOLUTION
-    conv.u >>= 51;
+    // conv.u >>= 51;
     return conv.u;
 }
 

@@ -26,6 +26,9 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
 {
     __uint128_t check_normalization = 0x1;
     check_normalization <<= 105;
+    printf("\nCheck Mantissa Normalization\n");
+    print_hex(&check_normalization, UINT128);
+    putchar('\n');
 
     // @TODO: Define a bitwise multiplication ( Maybe specific to floating point )
     __uint128_t a = (__uint128_t)(mantissa_a);
@@ -83,10 +86,8 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     // and before that managing overflow, in fact we have one bits to consider before doing anything else
     // this is 106th bit
 
-    // Normalization is always needed, in fact from the multiplication result you
-    // will always have 10.xxxx or 11.xxxx, so we alway need to shift the result
     *normalization_needed = ((multiplication_result & check_normalization) >> 105);
-    // *normalization_needed = 1;
+    
 
     if (*normalization_needed)
     {
