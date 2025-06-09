@@ -1,0 +1,24 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.gen/sources_1/ip/c_mio_sommatore/sim/c_mio_sommatore.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'c_mio_sommatore'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'top'
+ERROR: [VRFC 10-1471] type error near a ; current type std_logic; expected type std_logic_vector [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:58]
+ERROR: [VRFC 10-8820] cannot read from 'out' object 'b'; use 'buffer' or 'inout' instead [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:59]
+ERROR: [VRFC 10-1471] type error near b ; current type std_logic; expected type std_logic_vector [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:59]
+ERROR: [VRFC 10-8350] formal port 'b' of mode 'in' cannot be associated with actual port 'b' of mode 'out' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:59]
+ERROR: [VRFC 10-3031] 'b' with mode 'out' cannot be read [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:59]
+ERROR: [VRFC 10-2989] 'clk' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:60]
+ERROR: [VRFC 10-719] formal port/generic <add> is not declared in <c_mio_sommatore> [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:61]
+ERROR: [VRFC 10-3353] formal port 'ce' has no actual or default value [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:56]
+ERROR: [VRFC 10-2989] 'doa' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:241]
+ERROR: [VRFC 10-3095] actual of formal out port 'doa' cannot be an expression [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:241]
+ERROR: [VRFC 10-2989] 'dob' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:242]
+ERROR: [VRFC 10-3095] actual of formal out port 'dob' cannot be an expression [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:242]
+ERROR: [VRFC 10-2989] 'addra' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:243]
+ERROR: [VRFC 10-2989] 'addrb' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:244]
+ERROR: [VRFC 10-2989] 'clka' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:245]
+ERROR: [VRFC 10-2989] 'clkb' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:246]
+ERROR: [VRFC 10-2989] 'dia' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:247]
+ERROR: [VRFC 10-2989] 'dib' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:248]
+ERROR: [VRFC 10-2989] 'ena' is not declared [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/Vivado/Matrix_Multiplication_in_FPGA.srcs/sources_1/new/top.vhd:249]
+INFO: [#UNDEF] Sorry, too many errors..
