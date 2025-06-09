@@ -5,7 +5,7 @@
 #include <assert.h>
 
 #include "multiplier.h"
-
+#include "adder.h"
 
 // Standard implementation to compare against.
 double standard_inner_product(const double *a, const double *b, const uint64_t n);

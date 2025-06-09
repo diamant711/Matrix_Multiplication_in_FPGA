@@ -109,6 +109,15 @@ int check_mantissa_case()
     const uint64_t multiplied_mantissa_3 = multiply_mantissa(expected_pi_mantissa, expected_pi_mantissa, &normalization_needed);
     const uint64_t expected_pi_squared_mantissa = 0x13bd3cc9be45de;
 
+#ifdef DEBUG
+    printf("PI * PI =\n");
+    print_bin(&multiplied_mantissa_3, UINT64);
+    putchar('\n');
+    printf("PI^2 =\n");
+    print_bin(&expected_pi_squared_mantissa, UINT64);
+    putchar('\n');
+#endif
+
     return_code = (normalization_needed == 1) ? 0 : 1;
     assert((return_code == 0) && "pi * pi == pi^2, so normalization needed");
 

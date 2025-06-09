@@ -4,41 +4,42 @@ double compose_double(const uint8_t sign, const uint64_t exponent, const uint64_
 {
     // Compose the result
     conversion result = {.d = 0.0};
-
     result.u |= ((uint64_t)(sign) << SIGN_SHIFT);
     assert(((result.u & (EXPONENT_MASK | MANTISSA_MASK)) == 0) && "Error setting sign\n");
-
     result.u |= (exponent << EXPONENT_SHIFT);
     assert(((result.u & (MANTISSA_MASK)) == 0) && "Error setting exponent\n");
-
     result.u |= (mantissa & MANTISSA_MASK);
-
+#ifdef DEBUG
+    printf("\n###DEBUG DOUBLE COMPOSER###\n");
+    printf("sign = \n");
+    print_bin(&sign, UINT8);
+    putchar('\n');
+    printf("exponent = \n");
+    print_bin(&exponent, UINT64);
+    putchar('\n');
+    printf("mantissa = \n");
+    print_bin(&mantissa, UINT64);
+    putchar('\n');
+    printf("conv.u = \n");
+    print_bin(&result.u, UINT64);
+    putchar('\n');
+    printf("conv.d = %lf\n", result.d);
+#endif
     return result.d;
 }
 
 uint64_t get_mantissa(const double value)
 {
     conversion conv = {.d = value};
-#ifdef DEBUG
-    uint64_t tmp = conv.u;
-    printf("\n###DEBUG GET_MANTISSA###\n");
-    printf("conv.d = %lf, conv.u => \n", value);
-    print_bin(&tmp, UINT64);
-    printf("\nMANTISSA_MASK => \n");
-    tmp = MANTISSA_MASK;
-    print_bin(&tmp, UINT64);
-    printf("\nconv.u &= MANTISSA_MASK => \n");
-    tmp = conv.u & MANTISSA_MASK;
-    print_bin(&tmp, UINT64);
-    printf("\nconv.u |= (MANTISSA_MASK + 1) => \n");
-    tmp |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
-    print_bin(&tmp, UINT64);
-#endif
-    conv.u &= MANTISSA_MASK;
-    conv.u |= (MANTISSA_MASK + 1); // Set the implicit leading bit for normalized numbers
-    return conv.u;
-}
+    uint64_t mantissa = conv.u & MANTISSA_MASK;
+    uint64_t exponent = (conv.u & EXPONENT_MASK) >> EXPONENT_SHIFT;
 
+    if (exponent != 0) {
+        mantissa |= (1ULL << 52); // Aggiungi il bit implicito SOLO se normalizzato
+    }
+
+    return mantissa;
+}
 
 uint64_t get_exponent(const double value)
 {

@@ -1,5 +1,4 @@
 #include "multiplier.h"
-#include <stdint.h>
 
 double multiplier(const double a, const double b)
 {
@@ -26,11 +25,11 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
 {
     __uint128_t check_normalization = 0x1;
     check_normalization <<= 105;
-#ifdef DEBUG
+/*#ifdef DEBUG
     printf("\nCheck Mantissa Normalization\n");
     print_hex(&check_normalization, UINT128);
     putchar('\n');
-#endif
+#endif*/
 
     // @TODO: Define a bitwise multiplication ( Maybe specific to floating point )
     // Bitwise multiplication
@@ -38,16 +37,6 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     __uint128_t b = (__uint128_t)(mantissa_b);
     __uint128_t multiplication_result = 0x0;
 #ifdef DEBUG
-    printf("\n###DEBUG MANTISSA CONVERSION###\n");
-    print_bin(&mantissa_a, UINT64);
-    printf(" ->\n");
-    print_bin(&a, UINT128);
-    putchar('\n');
-    for (int i = 0; i < 131; i++) putchar('-');
-    putchar('\n');
-    print_bin(&mantissa_b, UINT64);
-    printf(" ->\n");
-    print_bin(&b, UINT128);
     printf("\n###DEBUG MANTISSA MULTIPLICATION###\n");
     print_bin(&a, UINT128);
     printf(" *\n");
@@ -96,11 +85,27 @@ uint64_t multiply_mantissa(const uint64_t mantissa_a, const uint64_t mantissa_b,
     // @TODO: Need to manage approximation
     // No need for approximation after we see the number as affected with
     // UNCERTAINTY
+    // ROUNDING (IEEE-754: round to nearest, ties to even)
+    // Estraggo i bit di guardia (bit 52), round (51), sticky (<51)
+    uint8_t guard_bit = (multiplication_result >> 51) & 0x1;
+    uint8_t round_bit = (multiplication_result >> 50) & 0x1;
+    uint8_t sticky_bit = (multiplication_result & ((1ULL << 50) - 1)) ? 1 : 0;
 
-    // Now we always have 105 bits, we want to return to have 53 bits
-    // 105 - 53 = 52 bits to shift
-    uint64_t result = (uint64_t)(multiplication_result >> 52);
+    // Troncamento iniziale a 53 bit (con 1 implicito già incluso)
+    multiplication_result >>= 52;
 
+    // Applico l'arrotondamento secondo IEEE
+    if (guard_bit && (round_bit || sticky_bit || (multiplication_result & 0x1))) {
+        multiplication_result += 1;
+
+        // Se overflow nella mantissa, serve rinormalizzare
+        if (multiplication_result & (1ULL << 53)) {
+            multiplication_result >>= 1;
+            *normalization_needed = 1;
+        }
+    }
+
+    uint64_t result = (uint64_t)(multiplication_result);
     return result;
 }
 

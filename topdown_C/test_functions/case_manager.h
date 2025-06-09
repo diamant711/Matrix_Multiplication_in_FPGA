@@ -14,6 +14,7 @@
 
 #include "inner_product.h"
 #include "multiplier.h"
+#include "debug_function.h"
 
 enum OPERATING_MODE
 {
