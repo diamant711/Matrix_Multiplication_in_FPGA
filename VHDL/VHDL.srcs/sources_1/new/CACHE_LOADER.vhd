@@ -124,7 +124,8 @@ begin
                     ROW_we  <= '0';
                     COL_we  <= '0';
                     state   <= IDLE;
-
+                when others =>
+                    state <= IDLE;
             end case;
         end if;
     end process;
