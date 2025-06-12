@@ -216,6 +216,7 @@ begin
                         else
                             man_res <= man_res(105 - exp_diff downto 0) & (exp_diff downto 1 => '0');
                         end if;
+                        exp_res <= acc_exp_reg;
                     elsif exp_res > acc_exp_reg then
                         exp_diff <= to_integer(unsigned(exp_res) - unsigned(acc_exp_reg));
                         if exp_diff > 105 then
@@ -223,9 +224,36 @@ begin
                         else
                             acc_man_reg <= acc_man_reg(105 - exp_diff downto 0) & (exp_diff downto 1 => '0');
                         end if;
+                        acc_exp_reg <= exp_res;
                     end if;
                     -- Somma o sottrazione in base al segno
-
+                    if sign_res /= acc_sign then
+                        if sign_res = '1' then
+                            if man_res > acc_man_reg then
+                                acc_sign <= '1';
+                                acc_man_reg <= man_res - acc_man_reg;
+                            elsif man_res = acc_man_reg then
+                                acc_sign <= '0';
+                                acc_man_reg <= (others => '0');
+                            else --if man_res < acc_man_reg then
+                                acc_sign <= '0';
+                                acc_man_reg <= acc_man_reg - man_res;
+                            end if;
+                        else --if acc_sign = '1' then
+                            if man_res > acc_man_reg then
+                                acc_sign <= '0';
+                                acc_man_reg <= man_res - acc_man_reg;
+                            elsif man_res = acc_man_reg then
+                                acc_sign <= '0';
+                                acc_man_reg <= (others => '0');
+                            else --if man_res < acc_man_reg then
+                                acc_sign <= '1';
+                                acc_man_reg <= acc_man_reg - man_res;
+                            end if;
+                        end if;
+                    else
+                        acc_man_reg <= acc_man_reg + man_res;
+                    end if;
                     iready <= '0';
                     state <= PROC;
                 when NORMROUNDCOMP =>
