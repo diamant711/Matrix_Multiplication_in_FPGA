@@ -82,13 +82,25 @@ architecture v0 of DSP is
     signal x_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal tmp_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal bias : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
-    signal borrow : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
+    signal borrow_11 : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
+    signal borrow_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal found : STD_LOGIC := '0';
     signal GETN_reg : STD_LOGIC := '0';
     signal iready : STD_LOGIC := '0';
     
+    -- Normalizzazione del mantissa (acc_man_reg) e dell'esponente (acc_exp_reg)
+    signal tmp_man : std_logic_vector(105 downto 0) := (others => '0');
+    signal norm_man : std_logic_vector(105 downto 0);
+    signal norm_exp : std_logic_vector(11 downto 0) := (others => '0');
+    signal rounded_man : std_logic_vector(52 downto 0); -- 53 bit con 1 implicito
+    signal final_exp : std_logic_vector(10 downto 0);
+    signal ieee_mantissa : std_logic_vector(51 downto 0);
+    signal round_bit : std_logic := '0';
+    signal sticky_bit : std_logic := '0';
+    
     -- variabili di supporto con NUMERIC
     signal exp_diff : integer;
+    signal leading_zeros : integer := 0;
 
 begin
 
@@ -105,7 +117,7 @@ begin
         GETN_reg <= '0';
         iready <= '0';
         bias <= (others => '0');
-        borrow <= (others => '0');
+        borrow_11 <= (others => '0');
         acc_man_reg <= (others => '0');
         acc_sign <= '0';
         acc_exp_reg <= (others => '0');
@@ -195,9 +207,9 @@ begin
                         exp_b <= carry_12;
                     end if;
                     if bias /= ZERO_11 then
-                        borrow <= (not exp_a) and bias;
+                        borrow_11 <= (not exp_a) and bias;
                         exp_a <= exp_a xor bias;
-                        bias <= borrow(10 downto 0) & "0";
+                        bias <= borrow_11(10 downto 0) & "0";
                     end if;
                     if man_b = ZERO_53 and exp_b = ZERO_11 and bias = ZERO_11 then
                         exp_res <= exp_a; -- <-- EXP_RES ASSIGN
@@ -208,6 +220,7 @@ begin
                 when ACC =>
                     -- fino ad ora abbiamo exp_res(12) e man_res(106) che vanno accumulati
                     -- Qui è l'unico punto in cui uso la STD NUMERIC
+                    -- Qui dati i while loop l'esecuzione resta bloccata dentro
                     -- Controllo su esponenti
                     if acc_exp_reg > exp_res then
                         exp_diff <= to_integer(unsigned(acc_exp_reg) - unsigned(exp_res));
@@ -231,33 +244,96 @@ begin
                         if sign_res = '1' then
                             if man_res > acc_man_reg then
                                 acc_sign <= '1';
-                                acc_man_reg <= man_res - acc_man_reg;
+                                --acc_man_reg <= man_res - acc_man_reg;
+                                while acc_man_reg /= ZERO_106 loop
+                                    borrow_106 <= (not man_res) and acc_man_reg;
+                                    man_res <= man_res xor acc_man_reg;
+                                    acc_man_reg <= borrow_106(104 downto 0) & "0";
+                                end loop;
+                                acc_man_reg <= man_res;
                             elsif man_res = acc_man_reg then
                                 acc_sign <= '0';
                                 acc_man_reg <= (others => '0');
                             else --if man_res < acc_man_reg then
                                 acc_sign <= '0';
-                                acc_man_reg <= acc_man_reg - man_res;
+                                --acc_man_reg <= acc_man_reg - man_res;
+                                while man_res /= ZERO_106 loop
+                                    borrow_106 <= (not acc_man_reg) and man_res;
+                                    acc_man_reg <= acc_man_reg xor man_res;
+                                    man_res <= borrow_106(104 downto 0) & "0";
+                                end loop;
                             end if;
                         else --if acc_sign = '1' then
                             if man_res > acc_man_reg then
                                 acc_sign <= '0';
-                                acc_man_reg <= man_res - acc_man_reg;
+                                --acc_man_reg <= man_res - acc_man_reg;
+                                while acc_man_reg /= ZERO_106 loop
+                                    borrow_106 <= (not man_res) and acc_man_reg;
+                                    man_res <= man_res xor acc_man_reg;
+                                    acc_man_reg <= borrow_106(104 downto 0) & "0";
+                                end loop;
+                                acc_man_reg <= man_res;
                             elsif man_res = acc_man_reg then
                                 acc_sign <= '0';
                                 acc_man_reg <= (others => '0');
                             else --if man_res < acc_man_reg then
                                 acc_sign <= '1';
-                                acc_man_reg <= acc_man_reg - man_res;
+                                --acc_man_reg <= acc_man_reg - man_res;
+                                while man_res /= ZERO_106 loop
+                                    borrow_106 <= (not acc_man_reg) and man_res;
+                                    acc_man_reg <= acc_man_reg xor man_res;
+                                    man_res <= borrow_106(104 downto 0) & "0";
+                                end loop;
                             end if;
                         end if;
                     else
-                        acc_man_reg <= acc_man_reg + man_res;
+                        --acc_man_reg <= acc_man_reg + man_res;
+                        while man_res /= ZERO_106 loop
+                            carry_106 <= acc_man_reg and man_res;
+                            carry_106 <= carry_106(105 downto 0) & "0";
+                            acc_man_reg <= acc_man_reg xor man_res;
+                            man_res <= carry_106;
+                        end loop;
                     end if;
                     iready <= '0';
                     state <= PROC;
                 when NORMROUNDCOMP =>
-                    
+                    tmp_man <= acc_man_reg;
+                    norm_exp <= acc_exp_reg;
+                    leading_zeros <= 0;
+                    -- Trova leading '1'
+                    while leading_zeros < 106 and tmp_man(105) = '0' loop
+                        tmp_man <= tmp_man(104 downto 0) & '0';
+                        leading_zeros <= leading_zeros + 1;
+                    end loop;
+                    norm_man <= tmp_man;
+                    norm_exp <= std_logic_vector(unsigned(norm_exp) - leading_zeros);
+                    -- Arrotondamento (round-to-nearest-even)
+                    rounded_man <= norm_man(105 downto 53);
+                    round_bit <= norm_man(52);
+                    sticky_bit <= '0';
+                    for i in 0 to 51 loop
+                        if norm_man(i) = '1' then
+                            sticky_bit <= '1';
+                        end if;
+                    end loop;
+                    -- Applica arrotondamento (round to nearest even)
+                    if (round_bit = '1' and sticky_bit = '1') or
+                       (round_bit = '1' and sticky_bit = '0' and norm_man(53) = '1') then
+                        rounded_man <= std_logic_vector(unsigned(rounded_man) + 1);
+                    end if;
+                    -- Controlla overflow del mantissa (carry nel bit 53)
+                    if rounded_man(52) = '1' then
+                        ieee_mantissa <= rounded_man(51 downto 0); -- taglia il bit implicito
+                        final_exp <= norm_exp(10 downto 0);
+                    else
+                        -- se carry ha causato un bit extra, shiftiamo
+                        ieee_mantissa <= rounded_man(50 downto 0) & '0';
+                        final_exp <= std_logic_vector(unsigned(norm_exp(10 downto 0)) + 1);
+                    end if;
+                    -- Componi il double IEEE-754: sign | exp | mantissa
+                    result <= acc_sign & final_exp & ieee_mantissa;
+                    c <= result;
                     state <= ENDED;
                 when ENDED =>
                     DOUT <= c;
