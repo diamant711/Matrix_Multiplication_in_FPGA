@@ -4,5 +4,5 @@ Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot TB_DSP_behav xil_defaultlib.TB_DSP -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
-ERROR: [VRFC 10-9564] expression has 53 elements; expected 106 [/home/diamant/Scrivania/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:181]
-ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_dsp in library work failed.
+Completed static elaboration
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel

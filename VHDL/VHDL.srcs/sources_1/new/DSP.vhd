@@ -56,6 +56,7 @@ architecture v0 of DSP is
     constant ZERO_106 : std_logic_vector(105 downto 0) := (others => '0');    
     constant ZERO_53 : std_logic_vector(52 downto 0) := (others => '0');
     constant ZERO_11 : std_logic_vector(10 downto 0) := (others => '0');
+    constant ZERO_12 : std_logic_vector(11 downto 0) := (others => '0');
     
     -- buffer ingresso e uscita
     subtype operand_type is STD_LOGIC_VECTOR(63 downto 0);
@@ -67,16 +68,16 @@ architecture v0 of DSP is
     signal sign_a, sign_b, sign_res : STD_LOGIC := '0';
     signal exp_a, exp_b : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal man_a, man_b : STD_LOGIC_VECTOR(52 downto 0) := (others => '0'); -- 53 bit con '1' implicito
-    signal exp_res : STD_LOGIC_VECTOR(11 downto 0) := (others => '0'); -- 1 bit extra per overflow
+    signal exp_res : STD_LOGIC_VECTOR(10 downto 0) := (others => '0'); -- 1 bit extra per overflow
     signal man_res : STD_LOGIC_VECTOR(105 downto 0) := (others => '0'); -- 53+53
     signal acc_sign : STD_LOGIC := '0';
     signal acc_man_reg : STD_LOGIC_VECTOR(105 downto 0) := (others => '0'); -- 53+53+1
-    signal acc_exp_reg : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
+    signal acc_exp_reg : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal result : STD_LOGIC_VECTOR(63 downto 0) := (others => '0');
     
     -- variabili di supporto non NUMERIC
-    signal carry_12 : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
-    signal tmp_12 : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
+    signal carry_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
+    signal tmp_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal carry_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal y_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal x_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
@@ -91,7 +92,7 @@ architecture v0 of DSP is
     -- Normalizzazione del mantissa (acc_man_reg) e dell'esponente (acc_exp_reg)
     signal tmp_man : std_logic_vector(105 downto 0) := (others => '0');
     signal norm_man : std_logic_vector(105 downto 0);
-    signal norm_exp : std_logic_vector(11 downto 0) := (others => '0');
+    signal norm_exp : std_logic_vector(10 downto 0) := (others => '0');
     signal rounded_man : std_logic_vector(52 downto 0); -- 53 bit con 1 implicito
     signal final_exp : std_logic_vector(10 downto 0);
     signal ieee_mantissa : std_logic_vector(51 downto 0);
@@ -103,7 +104,7 @@ architecture v0 of DSP is
     signal leading_zeros : integer := 0;
 
 begin
-
+    
     process(CLOCK, RESET)
     begin
         if RESET = '1' then
@@ -167,7 +168,7 @@ begin
                     man_a  <= "1" & a(51 downto 0); -- aggiungiamo il bit implicito
                     man_b  <= "1" & b(51 downto 0);
                     -- Reset support variable before MULT stage
-                    bias <= "00111111111";
+                    bias <= "000111111111";
                     man_res <= (others => '0');
                     found <= '1';
                     state <= MULT;
@@ -178,7 +179,7 @@ begin
                             --Accumulo a in multiplication_result
                             if found = '1' then
                                 carry_106 <= (others => '1'); -- Magic Number
-                                x_106 <= man_a;
+                                x_106 <= ZERO_53 & man_a;
                                 y_106 <= man_res;
                                 found <= '0';
                             end if;
@@ -190,28 +191,28 @@ begin
                                 y_106 <= carry_106;
                             else
                                 man_res <= x_106; -- <-- MAN_RES ACC
-                                man_a <= man_a(50 downto 0) & "0";
-                                man_b <= "0" & man_b(51 downto 1);
+                                man_a <= man_a(51 downto 0) & "0";
+                                man_b <= "0" & man_b(52 downto 1);
                                 found <= '1';
                             end if;
                         else
-                            man_a <= man_a(50 downto 0) & "0";
-                            man_b <= "0" & man_b(51 downto 1);
+                            man_a <= man_a(51 downto 0) & "0";
+                            man_b <= "0" & man_b(52 downto 1);
                         end if;
                     end if;
                     if exp_b /= ZERO_11 then
-                        tmp_12 <= "0" & exp_a xor exp_b;
-                        carry_12 <= exp_a and exp_b;
-                        carry_12 <= carry_12(10 downto 0) & "0";
-                        exp_a <= tmp_12;
-                        exp_b <= carry_12;
+                        tmp_11 <= "0" & exp_a xor exp_b;
+                        carry_11 <= exp_a and exp_b;
+                        carry_11 <= carry_11(9 downto 0) & "0";
+                        exp_a <= tmp_11;
+                        exp_b <= carry_11;
                     end if;
-                    if bias /= ZERO_11 then
+                    if bias /= ZERO_12 then
                         borrow_11 <= (not exp_a) and bias;
                         exp_a <= exp_a xor bias;
                         bias <= borrow_11(10 downto 0) & "0";
                     end if;
-                    if man_b = ZERO_53 and exp_b = ZERO_11 and bias = ZERO_11 then
+                    if man_b = ZERO_53 and exp_b = ZERO_11 and bias = ZERO_12 then
                         exp_res <= exp_a; -- <-- EXP_RES ASSIGN
                         state <= ACC;
                     else
@@ -290,7 +291,7 @@ begin
                         --acc_man_reg <= acc_man_reg + man_res;
                         while man_res /= ZERO_106 loop
                             carry_106 <= acc_man_reg and man_res;
-                            carry_106 <= carry_106(105 downto 0) & "0";
+                            carry_106 <= carry_106(104 downto 0) & "0";
                             acc_man_reg <= acc_man_reg xor man_res;
                             man_res <= carry_106;
                         end loop;
@@ -302,6 +303,7 @@ begin
                     norm_exp <= acc_exp_reg;
                     leading_zeros <= 0;
                     -- Trova leading '1'
+                    -- QUI FA LOOP INFINITO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
                     while leading_zeros < 106 and tmp_man(105) = '0' loop
                         tmp_man <= tmp_man(104 downto 0) & '0';
                         leading_zeros <= leading_zeros + 1;

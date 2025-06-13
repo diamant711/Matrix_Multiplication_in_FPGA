@@ -9,7 +9,7 @@ end TB_DSP;
 architecture behavior of TB_DSP is
 
     -- Parametri del clock
-    constant clk_period : time := 10 ns;
+    constant clk_period : time := 5 ns;
 
     -- Segnali di test
     signal DINA : STD_LOGIC_VECTOR (63 downto 0);
@@ -27,9 +27,6 @@ architecture behavior of TB_DSP is
 
 begin
 
-    --------------------------------------------------------------------
-    -- Clock process: genera un clock con periodo definito
-    --------------------------------------------------------------------
     clk_process : process
     begin
         while true loop
@@ -39,10 +36,7 @@ begin
             wait for clk_period / 2;
         end loop;
     end process clk_process;
-
-    --------------------------------------------------------------------
-    -- Reset iniziale
-    --------------------------------------------------------------------
+    
     rst_process : process
     begin
         RESET <= '1';
@@ -50,10 +44,6 @@ begin
         RESET <= '0';
         wait;
     end process rst_process;
-
-    --------------------------------------------------------------------
-    -- Istanziamento del DUT (da modificare con il tuo modulo)
-    --------------------------------------------------------------------
         uut : entity work.DSP
             port map ( 
                 RESET => RESET,
@@ -70,24 +60,29 @@ begin
                 MPTY => MPTY
             );
 
-    --------------------------------------------------------------------
-    -- Stimoli di esempio (modifica o estendi)
-    --------------------------------------------------------------------
     stim_proc : process
     begin
         -- Attendi il reset
         wait until RESET = '0';
-
         -- Simulazione
-        DAREADY <= '1';
-        DBREADY <= '1';
+        MPTY <= '0';
+        wait for 20 ns;
+        START <= '1';
+        wait until GETN = '1';
         DINA <= x"3FF0000000000000";
         DINB <= x"4000000000000000";
+        DAREADY <= '1';
+        DBREADY <= '1';
         MPTY <= '1';
         wait until DONE = '1';
-
         -- Fine simulazione
         wait;
     end process stim_proc;
+
+    kill_switch : process
+    begin
+        wait for 100 ns; -- Timeout di sicurezza (modifica secondo le tue esigenze)
+        assert false report "Simulazione terminata per timeout (kill switch attivato)." severity failure;
+    end process kill_switch;
 
 end behavior;
