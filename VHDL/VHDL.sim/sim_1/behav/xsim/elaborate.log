@@ -1,17 +1,8 @@
 Vivado Simulator v2024.2.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot tb_behav xil_defaultlib.tb -log elaborate.log 
+Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot TB_DSP_behav xil_defaultlib.TB_DSP -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
-WARNING: [VRFC 10-4940] 'my_entity' remains a black box since it has no binding entity [/home/diamant/Scrivania/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_DSP.vhd:70]
-Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling package std.standard
-Compiling package std.textio
-Compiling package ieee.std_logic_1164
-Compiling package ieee.numeric_std
-Compiling architecture sim of entity xil_defaultlib.tb
-Built simulation snapshot tb_behav
+ERROR: [VRFC 10-9564] expression has 53 elements; expected 106 [/home/diamant/Scrivania/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:181]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_dsp in library work failed.
