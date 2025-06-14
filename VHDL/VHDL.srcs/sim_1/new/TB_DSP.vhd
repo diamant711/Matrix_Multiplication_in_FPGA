@@ -9,7 +9,7 @@ end TB_DSP;
 architecture behavior of TB_DSP is
 
     -- Parametri del clock
-    constant clk_period : time := 5 ns;
+    constant clk_period : time := 1 ns;
 
     -- Segnali di test
     signal DINA : STD_LOGIC_VECTOR (63 downto 0);
@@ -21,7 +21,6 @@ architecture behavior of TB_DSP is
     signal DAREADY : STD_LOGIC;
     signal DBREADY : STD_LOGIC;
     signal START : STD_LOGIC;
-    signal RDY : STD_LOGIC;
     signal DONE : STD_LOGIC;
     signal MPTY : STD_LOGIC;
 
@@ -55,34 +54,59 @@ begin
                 DAREADY => DAREADY,
                 DBREADY => DBREADY,
                 START => START,
-                RDY => RDY,
                 DONE => DONE,
                 MPTY => MPTY
             );
 
     stim_proc : process
     begin
+        START <= '0';
+        MPTY <= '0';
+        DAREADY <= '0';
+        DBREADY <= '0';
+        DINA <= x"0000000000000000";
+        DINB <= x"0000000000000000";
         -- Attendi il reset
         wait until RESET = '0';
         -- Simulazione
-        MPTY <= '0';
         wait for 20 ns;
         START <= '1';
+        wait until GETN = '1';
+        START <= '0';
+        DINA <= x"3FF0000000000000";
+        DINB <= x"4000000000000000";
+        DAREADY <= '1';
+        DBREADY <= '1';
+        wait until GETN = '0';
+        DINA <= x"0000000000000000";
+        DINB <= x"0000000000000000";
+        DAREADY <= '0';
+        DBREADY <= '0';
         wait until GETN = '1';
         DINA <= x"3FF0000000000000";
         DINB <= x"4000000000000000";
         DAREADY <= '1';
         DBREADY <= '1';
         MPTY <= '1';
+        wait until GETN = '0';
+        DINA <= x"0000000000000000";
+        DINB <= x"0000000000000000";
+        DAREADY <= '0';
+        DBREADY <= '0';
         wait until DONE = '1';
+        MPTY <= '0';
+        DAREADY <= '0';
+        DBREADY <= '0';
+        DINA <= x"0000000000000000";
+        DINB <= x"0000000000000000";
         -- Fine simulazione
         wait;
     end process stim_proc;
 
-    kill_switch : process
-    begin
-        wait for 100 ns; -- Timeout di sicurezza (modifica secondo le tue esigenze)
-        assert false report "Simulazione terminata per timeout (kill switch attivato)." severity failure;
-    end process kill_switch;
+--    kill_switch : process
+--    begin
+--        wait for 1000 ns; -- Timeout di sicurezza (modifica secondo le tue esigenze)
+--        assert false report "Simulazione terminata per timeout (kill switch attivato)." severity failure;
+--    end process kill_switch;
 
 end behavior;

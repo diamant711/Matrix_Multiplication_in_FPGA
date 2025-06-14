@@ -41,7 +41,6 @@ entity DSP is
            DAREADY : in STD_LOGIC;
            DBREADY : in STD_LOGIC;
            START : in STD_LOGIC;
-           RDY : out STD_LOGIC;
            DONE : out STD_LOGIC;
            MPTY : in STD_LOGIC);
 end DSP;
@@ -49,7 +48,14 @@ end DSP;
 architecture v0 of DSP is
     
     -- stato
-    type state_type is (IDLE, DATAIN, PROC, DECOP, MULT, ACC, NORMROUNDCOMP, ENDED);
+    type state_type is (
+        IDLE, DATAIN, PROC, DECOP, MULT, MULT_INIT,
+        MULT_STEP, MULT_STEP_2, MULT_STEP_3, MULT_SHIFT, MULT_BIAS, 
+        MULT_BIAS_2, MULT_BIAS_3, MULT_BIAS_4, MULT_BIAS_5, MULT_BIAS_6, MULT_FINISH,
+        ACC, ACC_START, ACC_SHIFT, ACC_CALC, NORMROUNDCOMP,
+        NORM_START, NORM_SHIFT, NORM_ROUND, NORM_PACK, NORM_PACK_2,
+        ENDED
+    );
     signal state : state_type := IDLE;
 
     -- costanti
@@ -68,40 +74,45 @@ architecture v0 of DSP is
     signal sign_a, sign_b, sign_res : STD_LOGIC := '0';
     signal exp_a, exp_b : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal man_a, man_b : STD_LOGIC_VECTOR(52 downto 0) := (others => '0'); -- 53 bit con '1' implicito
-    signal exp_res : STD_LOGIC_VECTOR(10 downto 0) := (others => '0'); -- 1 bit extra per overflow
+    signal exp_res : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal man_res : STD_LOGIC_VECTOR(105 downto 0) := (others => '0'); -- 53+53
     signal acc_sign : STD_LOGIC := '0';
-    signal acc_man_reg : STD_LOGIC_VECTOR(105 downto 0) := (others => '0'); -- 53+53+1
+    signal acc_man_reg : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal acc_exp_reg : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
-    signal result : STD_LOGIC_VECTOR(63 downto 0) := (others => '0');
-    
+        
     -- variabili di supporto non NUMERIC
     signal carry_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal tmp_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal carry_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal y_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal x_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
+    signal man_a_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal tmp_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
-    signal bias : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
-    signal borrow_11 : STD_LOGIC_VECTOR(11 downto 0) := (others => '0');
+    signal bias : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
+    signal borrow_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
     signal borrow_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
-    signal found : STD_LOGIC := '0';
     signal GETN_reg : STD_LOGIC := '0';
+    signal MPTY_reg : STD_LOGIC := '0';
     signal iready : STD_LOGIC := '0';
+    signal acc_step_done : std_logic := '0';
+    signal norm_step_done : std_logic := '0';
+    signal tmp_sticky : std_logic := '0';
     
     -- Normalizzazione del mantissa (acc_man_reg) e dell'esponente (acc_exp_reg)
     signal tmp_man : std_logic_vector(105 downto 0) := (others => '0');
-    signal norm_man : std_logic_vector(105 downto 0);
+    signal norm_man : std_logic_vector(105 downto 0) := (others => '0');
     signal norm_exp : std_logic_vector(10 downto 0) := (others => '0');
-    signal rounded_man : std_logic_vector(52 downto 0); -- 53 bit con 1 implicito
-    signal final_exp : std_logic_vector(10 downto 0);
-    signal ieee_mantissa : std_logic_vector(51 downto 0);
+    signal rounded_man : std_logic_vector(52 downto 0) := (others => '0'); -- 53 bit con 1 implicito
+    signal final_exp : std_logic_vector(10 downto 0) := (others => '0');
+    signal ieee_mantissa : std_logic_vector(51 downto 0) := (others => '0');
     signal round_bit : std_logic := '0';
     signal sticky_bit : std_logic := '0';
     
     -- variabili di supporto con NUMERIC
-    signal exp_diff : integer;
+    signal exp_diff : integer := 0;
     signal leading_zeros : integer := 0;
+    signal norm_shift_count : integer range 0 to 106 := 0;
+    signal acc_shift_count : integer range 0 to 105 := 0;
 
 begin
     
@@ -109,23 +120,56 @@ begin
     begin
         if RESET = '1' then
         DOUT <= (others => '0');
+        GETN <= '0';
+        DONE <= '0';
         a <= (others => '0');
         b <= (others => '0');
         c <= (others => '0');
-        GETN <= '0';
-        DONE <= '0';
-        RDY <= '0';
-        GETN_reg <= '0';
-        iready <= '0';
+        sign_a <= '0';
+        sign_b <= '0';
+        sign_res <= '0';
+        exp_a <= (others => '0');
+        exp_b <= (others => '0');
+        man_a <= (others => '0');
+        man_b <= (others => '0');
+        exp_res <= (others => '0');
+        man_res <= (others => '0');
+        acc_sign <= '0';
+        acc_man_reg <= (others => '0');
+        acc_exp_reg <= (others => '0');
+        carry_11 <= (others => '0');
+        tmp_11 <= (others => '0');
+        carry_106 <= (others => '0');
+        y_106 <= (others => '0');
+        x_106 <= (others => '0');
+        man_a_106 <= (others => '0');
+        tmp_106 <= (others => '0');
         bias <= (others => '0');
         borrow_11 <= (others => '0');
-        acc_man_reg <= (others => '0');
-        acc_sign <= '0';
-        acc_exp_reg <= (others => '0');
+        borrow_106 <= (others => '0');
+        GETN_reg <= '0';
+        MPTY_reg <= '0';
+        iready <= '0';
+        acc_step_done <= '0';
+        norm_step_done <= '0';
+        tmp_sticky <= '0';
+        tmp_man <= (others => '0');
+        norm_man <= (others => '0');
+        norm_exp <= (others => '0');
+        rounded_man <= (others => '0');
+        final_exp <= (others => '0');
+        ieee_mantissa <= (others => '0');
+        round_bit <= '0';
+        sticky_bit <= '0';
+        exp_diff <= 0;
+        leading_zeros <= 0;
+        norm_shift_count <= 0;
+        acc_shift_count <= 0;
         elsif rising_edge(CLOCK) then
             case state is
                 when IDLE =>
                     if START = '1' then
+                        c <= (others => '0');
                         DONE <= '0';
                         acc_man_reg <= (others => '0');
                         acc_sign <= '0';
@@ -135,11 +179,47 @@ begin
                         state <= IDLE;
                     end if;
                 when PROC =>
-                    if MPTY = '0' and iready = '1' then
+                    MPTY_reg <= MPTY;
+                    if MPTY_reg = '0' and iready = '1' then
+                        sign_a <= '0';
+                        sign_b <= '0';
+                        sign_res <= '0';
+                        exp_a <= (others => '0');
+                        exp_b <= (others => '0');
+                        man_a <= (others => '0');
+                        man_b <= (others => '0');
+                        exp_res <= (others => '0');
+                        man_res <= (others => '0');
+                        carry_11 <= (others => '0');
+                        tmp_11 <= (others => '0');
+                        carry_106 <= (others => '0');
+                        y_106 <= (others => '0');
+                        x_106 <= (others => '0');
+                        man_a_106 <= (others => '0');
+                        tmp_106 <= (others => '0');
+                        bias <= (others => '0');
+                        borrow_11 <= (others => '0');
+                        borrow_106 <= (others => '0');
+                        iready <= '0';
+                        acc_step_done <= '0';
+                        norm_step_done <= '0';
+                        tmp_sticky <= '0';
+                        tmp_man <= (others => '0');
+                        norm_man <= (others => '0');
+                        norm_exp <= (others => '0');
+                        rounded_man <= (others => '0');
+                        final_exp <= (others => '0');
+                        ieee_mantissa <= (others => '0');
+                        round_bit <= '0';
+                        sticky_bit <= '0';
+                        exp_diff <= 0;
+                        leading_zeros <= 0;
+                        norm_shift_count <= 0;
+                        acc_shift_count <= 0;
                         state <= DECOP;
-                    elsif MPTY = '0' and iready = '0' then
+                    elsif MPTY_reg = '0' and iready = '0' then
                         state <= DATAIN;
-                    elsif MPTY = '1' then
+                    elsif MPTY_reg = '1' then
                         state <= NORMROUNDCOMP;
                     else
                         state <= IDLE;
@@ -168,178 +248,244 @@ begin
                     man_a  <= "1" & a(51 downto 0); -- aggiungiamo il bit implicito
                     man_b  <= "1" & b(51 downto 0);
                     -- Reset support variable before MULT stage
-                    bias <= "000111111111";
+                    bias <= "01111111111";
                     man_res <= (others => '0');
-                    found <= '1';
                     state <= MULT;
                 when MULT =>
-                    sign_res <= sign_a xor sign_b; -- <-- SIGN_RES ASSIGN
-                    if man_b /= ZERO_53 then
-                        if man_b(0) = '1' then
-                            --Accumulo a in multiplication_result
-                            if found = '1' then
-                                carry_106 <= (others => '1'); -- Magic Number
-                                x_106 <= ZERO_53 & man_a;
-                                y_106 <= man_res;
-                                found <= '0';
-                            end if;
-                            if carry_106 /= ZERO_106 then
-                                tmp_106 <= x_106 xor y_106;
-                                carry_106 <= x_106 and y_106;
-                                carry_106 <= carry_106(104 downto 0) & "0";
-                                x_106 <= tmp_106;
-                                y_106 <= carry_106;
-                            else
-                                man_res <= x_106; -- <-- MAN_RES ACC
-                                man_a <= man_a(51 downto 0) & "0";
-                                man_b <= "0" & man_b(52 downto 1);
-                                found <= '1';
-                            end if;
-                        else
-                            man_a <= man_a(51 downto 0) & "0";
-                            man_b <= "0" & man_b(52 downto 1);
-                        end if;
-                    end if;
-                    if exp_b /= ZERO_11 then
-                        tmp_11 <= "0" & exp_a xor exp_b;
-                        carry_11 <= exp_a and exp_b;
-                        carry_11 <= carry_11(9 downto 0) & "0";
-                        exp_a <= tmp_11;
-                        exp_b <= carry_11;
-                    end if;
-                    if bias /= ZERO_12 then
-                        borrow_11 <= (not exp_a) and bias;
-                        exp_a <= exp_a xor bias;
-                        bias <= borrow_11(10 downto 0) & "0";
-                    end if;
-                    if man_b = ZERO_53 and exp_b = ZERO_11 and bias = ZERO_12 then
-                        exp_res <= exp_a; -- <-- EXP_RES ASSIGN
-                        state <= ACC;
+                    sign_res <= sign_a xor sign_b;
+                    man_a_106 <= ZERO_53 & man_a;
+                    state <= MULT_INIT;
+                -- Prepara l'accumulazione
+                when MULT_INIT =>
+                    if man_b(0) = '1' then
+                        x_106 <= man_a_106;
+                        y_106 <= man_res;
+                        carry_106 <= (others => '1'); -- Magic number
+                        state <= MULT_STEP;
                     else
-                        state <= MULT;
+                        state <= MULT_SHIFT;
                     end if;
+                -- Somma iterativa finché carry_106 ≠ 0
+                when MULT_STEP =>
+                    if carry_106 /= ZERO_106 then
+                        tmp_106 <= x_106 xor y_106;
+                        carry_106 <= x_106 and y_106;
+                        state <= MULT_STEP_2;
+                    else
+                        man_res <= x_106;
+                        state <= MULT_SHIFT;
+                    end if;
+                -- Shift carry_106 a sinistra
+                when MULT_STEP_2 =>
+                    carry_106 <= carry_106(104 downto 0) & '0';
+                    state <= MULT_STEP_3;
+                -- Aggiorno valori variabili per la prossima iterazione
+                when MULT_STEP_3 =>
+                    x_106 <= tmp_106;
+                    y_106 <= carry_106;
+                    state <= MULT_STEP;
+                -- Shift a destra man_b, a sinistra man_a_106
+                when MULT_SHIFT =>
+                    man_a_106 <= man_a_106(104 downto 0) & '0';
+                    man_b <= '0' & man_b(52 downto 1);
+                    -- Se man_b è zero, prosegui
+                    if man_b = ZERO_53 then
+                        state <= MULT_BIAS;
+                    else
+                        state <= MULT_INIT;
+                    end if;
+                -- Calcolo exp_a <- exp_a + exp_b - bias
+                when MULT_BIAS =>
+                    tmp_11 <= exp_a xor exp_b;
+                    carry_11 <= exp_a and exp_b;
+                    state <= MULT_BIAS_2;
+                when MULT_BIAS_2 =>
+                    carry_11 <= carry_11(9 downto 0) & '0';
+                    state <= MULT_BIAS_3;
+                when MULT_BIAS_3 =>
+                    exp_a <= tmp_11;
+                    exp_b <= carry_11;
+                    if carry_11 = ZERO_11 then
+                        state <= MULT_BIAS_4;
+                    else
+                        state <= MULT_BIAS;
+                    end if;
+                    -- Sub bias
+                when MULT_BIAS_4 =>
+                    borrow_11 <= (not exp_a) and bias;
+                    exp_a <= exp_a xor bias;
+                    state <= MULT_BIAS_5;
+                when MULT_BIAS_5 =>
+                    bias <= borrow_11(9 downto 0) & '0';
+                    state <= MULT_BIAS_6;
+                when MULT_BIAS_6 =>
+                    if exp_b = ZERO_11 and bias = ZERO_11 then
+                        state <= MULT_FINISH;
+                    else
+                        state <= MULT_BIAS_4; -- Continua l'iterazione
+                    end if;
+                -- Fine: scrive i risultati
+                when MULT_FINISH =>
+                    exp_res <= exp_a;
+                    state <= ACC;
                 when ACC =>
-                    -- fino ad ora abbiamo exp_res(12) e man_res(106) che vanno accumulati
-                    -- Qui è l'unico punto in cui uso la STD NUMERIC
-                    -- Qui dati i while loop l'esecuzione resta bloccata dentro
-                    -- Controllo su esponenti
+                    state <= ACC_START;
+                when ACC_START =>
                     if acc_exp_reg > exp_res then
                         exp_diff <= to_integer(unsigned(acc_exp_reg) - unsigned(exp_res));
-                        if exp_diff > 105 then
-                            man_res <= (others => '0');
-                        else
-                            man_res <= man_res(105 - exp_diff downto 0) & (exp_diff downto 1 => '0');
-                        end if;
-                        exp_res <= acc_exp_reg;
+                        acc_shift_count <= 0;
+                        state <= ACC_SHIFT;
                     elsif exp_res > acc_exp_reg then
                         exp_diff <= to_integer(unsigned(exp_res) - unsigned(acc_exp_reg));
-                        if exp_diff > 105 then
-                            acc_man_reg <= (others => '0');
-                        else
-                            acc_man_reg <= acc_man_reg(105 - exp_diff downto 0) & (exp_diff downto 1 => '0');
-                        end if;
-                        acc_exp_reg <= exp_res;
+                        acc_shift_count <= 0;
+                        state <= ACC_SHIFT;
+                    else
+                        state <= ACC_CALC;
                     end if;
-                    -- Somma o sottrazione in base al segno
+                when ACC_SHIFT =>
+                    if acc_exp_reg > exp_res then
+                        if acc_shift_count < exp_diff and acc_shift_count < 106 then
+                            man_res <= '0' & man_res(105 downto 1);
+                            acc_shift_count <= acc_shift_count + 1;
+                        else
+                            exp_res <= acc_exp_reg;
+                            state <= ACC_CALC;
+                        end if;
+                    else
+                        if acc_shift_count < exp_diff and acc_shift_count < 106 then
+                            acc_man_reg <= '0' & acc_man_reg(105 downto 1);
+                            acc_shift_count <= acc_shift_count + 1;
+                        else
+                            acc_exp_reg <= exp_res;
+                            state <= ACC_CALC;
+                        end if;
+                    end if;
+                when ACC_CALC =>
                     if sign_res /= acc_sign then
-                        if sign_res = '1' then
-                            if man_res > acc_man_reg then
-                                acc_sign <= '1';
-                                --acc_man_reg <= man_res - acc_man_reg;
-                                while acc_man_reg /= ZERO_106 loop
-                                    borrow_106 <= (not man_res) and acc_man_reg;
-                                    man_res <= man_res xor acc_man_reg;
-                                    acc_man_reg <= borrow_106(104 downto 0) & "0";
-                                end loop;
+                        if man_res > acc_man_reg then
+                            acc_sign <= sign_res;
+                            if acc_man_reg /= ZERO_106 then
+                                borrow_106 <= (not man_res) and acc_man_reg;
+                                man_res <= man_res xor acc_man_reg;
+                                acc_man_reg <= borrow_106(104 downto 0) & '0';
+                                state <= ACC_CALC;
+                            else
                                 acc_man_reg <= man_res;
-                            elsif man_res = acc_man_reg then
-                                acc_sign <= '0';
-                                acc_man_reg <= (others => '0');
-                            else --if man_res < acc_man_reg then
-                                acc_sign <= '0';
-                                --acc_man_reg <= acc_man_reg - man_res;
-                                while man_res /= ZERO_106 loop
-                                    borrow_106 <= (not acc_man_reg) and man_res;
-                                    acc_man_reg <= acc_man_reg xor man_res;
-                                    man_res <= borrow_106(104 downto 0) & "0";
-                                end loop;
+                                state <= PROC;
                             end if;
-                        else --if acc_sign = '1' then
-                            if man_res > acc_man_reg then
-                                acc_sign <= '0';
-                                --acc_man_reg <= man_res - acc_man_reg;
-                                while acc_man_reg /= ZERO_106 loop
-                                    borrow_106 <= (not man_res) and acc_man_reg;
-                                    man_res <= man_res xor acc_man_reg;
-                                    acc_man_reg <= borrow_106(104 downto 0) & "0";
-                                end loop;
-                                acc_man_reg <= man_res;
-                            elsif man_res = acc_man_reg then
-                                acc_sign <= '0';
-                                acc_man_reg <= (others => '0');
-                            else --if man_res < acc_man_reg then
-                                acc_sign <= '1';
-                                --acc_man_reg <= acc_man_reg - man_res;
-                                while man_res /= ZERO_106 loop
-                                    borrow_106 <= (not acc_man_reg) and man_res;
-                                    acc_man_reg <= acc_man_reg xor man_res;
-                                    man_res <= borrow_106(104 downto 0) & "0";
-                                end loop;
+                        elsif man_res = acc_man_reg then
+                            acc_sign <= '0';
+                            acc_man_reg <= (others => '0');
+                            state <= PROC;
+                        else
+                            acc_sign <= acc_sign;
+                            if man_res /= ZERO_106 then
+                                borrow_106 <= (not acc_man_reg) and man_res;
+                                acc_man_reg <= acc_man_reg xor man_res;
+                                man_res <= borrow_106(104 downto 0) & '0';
+                                state <= ACC_CALC;
+                            else
+                                state <= PROC;
                             end if;
                         end if;
                     else
-                        --acc_man_reg <= acc_man_reg + man_res;
-                        while man_res /= ZERO_106 loop
+                        if man_res /= ZERO_106 then
                             carry_106 <= acc_man_reg and man_res;
-                            carry_106 <= carry_106(104 downto 0) & "0";
+                            carry_106 <= carry_106(104 downto 0) & '0';
                             acc_man_reg <= acc_man_reg xor man_res;
                             man_res <= carry_106;
-                        end loop;
+                            state <= ACC_CALC;
+                        else
+                            state <= PROC;
+                        end if;
                     end if;
-                    iready <= '0';
-                    state <= PROC;
                 when NORMROUNDCOMP =>
+                    state <= NORM_START;
+                when NORM_START =>
                     tmp_man <= acc_man_reg;
                     norm_exp <= acc_exp_reg;
-                    leading_zeros <= 0;
-                    -- Trova leading '1'
-                    -- QUI FA LOOP INFINITO!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                    while leading_zeros < 106 and tmp_man(105) = '0' loop
+                    norm_shift_count <= 0;
+                    state <= NORM_SHIFT;
+                when NORM_SHIFT =>
+                    if tmp_man(105) = '0' and norm_shift_count < 106 then
                         tmp_man <= tmp_man(104 downto 0) & '0';
-                        leading_zeros <= leading_zeros + 1;
-                    end loop;
-                    norm_man <= tmp_man;
-                    norm_exp <= std_logic_vector(unsigned(norm_exp) - leading_zeros);
-                    -- Arrotondamento (round-to-nearest-even)
+                        norm_exp <= std_logic_vector(unsigned(norm_exp) - 1);
+                        norm_shift_count <= norm_shift_count + 1;
+                    else
+                        norm_man <= tmp_man;
+                        state <= NORM_ROUND;
+                    end if;
+                when NORM_ROUND =>
                     rounded_man <= norm_man(105 downto 53);
                     round_bit <= norm_man(52);
-                    sticky_bit <= '0';
+                    tmp_sticky <= '0';
                     for i in 0 to 51 loop
                         if norm_man(i) = '1' then
-                            sticky_bit <= '1';
+                            tmp_sticky <= '1';
                         end if;
                     end loop;
-                    -- Applica arrotondamento (round to nearest even)
-                    if (round_bit = '1' and sticky_bit = '1') or
-                       (round_bit = '1' and sticky_bit = '0' and norm_man(53) = '1') then
+                    sticky_bit <= tmp_sticky;
+                    if (round_bit = '1' and sticky_bit = '1') or (round_bit = '1' and sticky_bit = '0' and norm_man(53) = '1') then
                         rounded_man <= std_logic_vector(unsigned(rounded_man) + 1);
                     end if;
-                    -- Controlla overflow del mantissa (carry nel bit 53)
+                    state <= NORM_PACK;
+                when NORM_PACK =>
                     if rounded_man(52) = '1' then
-                        ieee_mantissa <= rounded_man(51 downto 0); -- taglia il bit implicito
-                        final_exp <= norm_exp(10 downto 0);
+                        ieee_mantissa <= rounded_man(51 downto 0);
+                        final_exp <= norm_exp;
                     else
-                        -- se carry ha causato un bit extra, shiftiamo
                         ieee_mantissa <= rounded_man(50 downto 0) & '0';
-                        final_exp <= std_logic_vector(unsigned(norm_exp(10 downto 0)) + 1);
+                        final_exp <= std_logic_vector(unsigned(norm_exp) + 1);
                     end if;
-                    -- Componi il double IEEE-754: sign | exp | mantissa
-                    result <= acc_sign & final_exp & ieee_mantissa;
-                    c <= result;
+                    state <= NORM_PACK_2;
+                when NORM_PACK_2 =>
+                    c <= acc_sign & final_exp & ieee_mantissa;
                     state <= ENDED;
                 when ENDED =>
                     DOUT <= c;
                     DONE <= '1';
+                    a <= (others => '0');
+                    b <= (others => '0');
+                    sign_a <= '0';
+                    sign_b <= '0';
+                    sign_res <= '0';
+                    exp_a <= (others => '0');
+                    exp_b <= (others => '0');
+                    man_a <= (others => '0');
+                    man_b <= (others => '0');
+                    exp_res <= (others => '0');
+                    man_res <= (others => '0');
+                    acc_sign <= '0';
+                    acc_man_reg <= (others => '0');
+                    acc_exp_reg <= (others => '0');
+                    carry_11 <= (others => '0');
+                    tmp_11 <= (others => '0');
+                    carry_106 <= (others => '0');
+                    y_106 <= (others => '0');
+                    x_106 <= (others => '0');
+                    man_a_106 <= (others => '0');
+                    tmp_106 <= (others => '0');
+                    bias <= (others => '0');
+                    borrow_11 <= (others => '0');
+                    borrow_106 <= (others => '0');
+                    GETN_reg <= '0';
+                    MPTY_reg <= '0';
+                    iready <= '0';
+                    acc_step_done <= '0';
+                    norm_step_done <= '0';
+                    tmp_sticky <= '0';
+                    tmp_man <= (others => '0');
+                    norm_man <= (others => '0');
+                    norm_exp <= (others => '0');
+                    rounded_man <= (others => '0');
+                    final_exp <= (others => '0');
+                    ieee_mantissa <= (others => '0');
+                    round_bit <= '0';
+                    sticky_bit <= '0';
+                    exp_diff <= 0;
+                    leading_zeros <= 0;
+                    norm_shift_count <= 0;
+                    acc_shift_count <= 0;
                     state <= IDLE;
                 when others =>
                     state <= IDLE;
