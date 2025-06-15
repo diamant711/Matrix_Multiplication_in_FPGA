@@ -1,0 +1,4 @@
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/diamant/Scrivania/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'DSP'
+INFO: [VRFC 10-163] Analyzing VHDL file "/home/diamant/Scrivania/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_DSP.vhd" into library xil_defaultlib
+INFO: [VRFC 10-3107] analyzing entity 'TB_DSP'
