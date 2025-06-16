@@ -1,4 +1,1 @@
 Time resolution is 1 ps
-Failure: Simulazione completata.
-Time: 2155 ns  Iteration: 0  Process: /TB_CACHE_LOADER/stim_proc  File: /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CACHE_LOADER.vhd
-$finish called at time : 2155 ns : File "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CACHE_LOADER.vhd" Line 143
