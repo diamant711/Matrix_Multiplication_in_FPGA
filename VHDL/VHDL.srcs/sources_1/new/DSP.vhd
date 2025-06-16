@@ -105,6 +105,7 @@ architecture v0 of DSP is
     signal norm_man : std_logic_vector(105 downto 0) := (others => '0');
     signal norm_exp : std_logic_vector(10 downto 0) := (others => '0');
     signal rounded_man : std_logic_vector(52 downto 0) := (others => '0'); -- 53 bit con 1 implicito
+    signal guard_bit : std_logic := '0';
     signal round_bit : std_logic := '0';
     signal sticky_bit : std_logic := '0';
     
@@ -159,6 +160,7 @@ begin
         norm_exp <= (others => '0');
         rounded_man <= (others => '0');
         round_bit <= '0';
+        guard_bit <= '0';
         sticky_bit <= '0';
         exp_diff <= 0;
         leading_zeros <= 0;
@@ -208,6 +210,7 @@ begin
                         norm_exp <= (others => '0');
                         rounded_man <= (others => '0');
                         round_bit <= '0';
+                        guard_bit <= '0';
                         sticky_bit <= '0';
                         exp_diff <= 0;
                         leading_zeros <= 0;
@@ -442,7 +445,8 @@ begin
                     end if;
                 when NORM_ROUND =>
                     rounded_man <= norm_man(104 downto 52);
-                    round_bit <= norm_man(52);
+                    guard_bit <= norm_man(52);
+                    round_bit <= norm_man(51);
                     tmp_sticky <= '0';
                     state <= NORM_ROUND_2;
                 when NORM_ROUND_2 =>
@@ -455,7 +459,7 @@ begin
                         state <= NORM_ROUND_3;
                     end if;
                 when NORM_ROUND_3 =>
-                    if (round_bit = '1' and sticky_bit = '1') or (round_bit = '1' and sticky_bit = '0' and norm_man(53) = '1') then
+                    if round_bit = '1' and (guard_bit = '1' or sticky_bit = '1') then
                         rounded_man <= std_logic_vector(unsigned(rounded_man) + 1);
                     end if;
                     state <= NORM_PACK;
@@ -500,6 +504,7 @@ begin
                     norm_exp <= (others => '0');
                     rounded_man <= (others => '0');
                     round_bit <= '0';
+                    guard_bit <= '0';
                     sticky_bit <= '0';
                     exp_diff <= 0;
                     leading_zeros <= 0;
