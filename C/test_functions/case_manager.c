@@ -44,29 +44,82 @@ void set_operating_mode(enum OPERATING_MODE *mode, const char *arg)
 
 }
 
-int standard_case()
+int standard_case(const char* fileA, const char* fileB, const int n)
 {
 
-    double a[] = {1.0, 2.0, 3.0};
-    double b[] = {4.0, 5.0, 6.0};
-    uint64_t size = sizeof(a) / sizeof(a[0]);
+    double a[n][n];
+    double b[n][n];
 
-    double expected = standard_inner_product(a, b, size);
-    double obtained = inner_product(a, b, size);
+    double bt[n][n];
 
-    printf("Standard Inner Product : %f\n", expected);
-    printf("Inner product: %f\n", obtained);
+    double obtained[n][n];
+    double expected[n][n];
 
-    if (expected == obtained)
-    {
-        printf("TEST SUCCEDED\n");
-    }
-    else
-    {
-        printf("TEST FAILED\n");
+    FILE *fpA = fopen(fileA, "r");
+    FILE *fpB = fopen(fileB, "r");
+    char ch;
+
+    if ((fpA == NULL) || (fpB == NULL)) {
+        fprintf(stderr, "Errore lettura file %s o %s", fileA, fileB);
     }
 
-    return (expected == obtained) ? 0 : 1;
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            if(fscanf(fpA, "%lf", &a[i][j]) != 1) {
+                fprintf(stderr, "Errore di input alla posizione %s:[%d][%d]\n", fileA, i, j);
+                return 1;
+            }
+            if(fscanf(fpB, "%lf", &b[i][j]) != 1) {
+                fprintf(stderr, "Errore di input alla posizione %s:[%d][%d]\n", fileB, i, j);
+                return 1;
+            }
+            // Legge il separatore: ',' o '\n'
+            ch = fgetc(fpA);
+            if (j < n - 1) {
+                if (ch != ',') {
+                    fprintf(stderr, "Errore: atteso ',' alla posizione %s:[%d][%d]\n", fileA, i, j);
+                    return 1;
+                }
+            } else if (i < n - 1) {
+                if (ch != '\n') {
+                    fprintf(stderr, "Errore: atteso newline dopo riga %s:%d\n", fileA, i);
+                    return 1;
+                }
+            }
+            ch = fgetc(fpB);
+            if (j < n - 1) {
+                if (ch != ',') {
+                    fprintf(stderr, "Errore: atteso ',' alla posizione %s:[%d][%d]\n", fileB, i, j);
+                    return 1;
+                }
+            } else if (i < n - 1) {
+                if (ch != '\n') {
+                    fprintf(stderr, "Errore: atteso newline dopo riga %s:%d\n", fileB, i);
+                    return 1;
+                }
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        for (int j = 0; j < n; j++) {
+            bt[j][i] = b[i][j];
+        }
+    }
+
+    for (int i = 0; i < n; ++i) {
+        for (int j = 0; j < n; ++j) {
+            expected[i][j] = standard_inner_product(a[i], bt[j], n);
+            obtained[i][j] = inner_product(a[i], bt[j], n);
+            // Fails but i dunno why seem == but the if statement trigger
+            if (obtained[i][j] != expected[i][j]) {
+                fprintf(stderr, "Errore: %lf != %lf => true (al ciclo [%d][%d])\n", obtained[i][j], expected[i][j], i, j);
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 }
 
 int check_mantissa_case()

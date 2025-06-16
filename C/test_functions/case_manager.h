@@ -27,7 +27,7 @@ enum OPERATING_MODE
 void print_operating_mode(enum OPERATING_MODE mode);
 void set_operating_mode(enum OPERATING_MODE *mode, const char *arg);
 
-int standard_case();
+int standard_case(const char* fileA, const char* fileB, const int N);
 int check_mantissa_case();
 int check_exponent_case();
 int check_double_composition_case();

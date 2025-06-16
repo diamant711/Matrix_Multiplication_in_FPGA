@@ -1,0 +1,154 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/main.o",
+      "main.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/main.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/components/adder.o",
+      "components/adder.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/components/adder.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/components/adder.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/components/double_composer.o",
+      "components/double_composer.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/components/double_composer.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/components/double_composer.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/components/inner_product.o",
+      "components/inner_product.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/components/inner_product.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/components/inner_product.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/components/multiplier.o",
+      "components/multiplier.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/components/multiplier.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/components/multiplier.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/components/old_adder.o",
+      "components/old_adder.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/components/old_adder.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/components/old_adder.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/test_functions/case_manager.o",
+      "test_functions/case_manager.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/test_functions/case_manager.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/test_functions/case_manager.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Wshadow",
+      "-std=gnu17",
+      "-DDEBUG",
+      "-Icomponents",
+      "-Itest_functions",
+      "-c",
+      "-o",
+      "build/test_functions/debug_function.o",
+      "test_functions/debug_function.c"
+    ],
+    "directory": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C",
+    "file": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/test_functions/debug_function.c",
+    "output": "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/C/build/test_functions/debug_function.o"
+  }
+]
