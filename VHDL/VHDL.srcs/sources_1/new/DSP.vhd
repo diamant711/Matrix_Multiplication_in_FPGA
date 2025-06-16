@@ -370,13 +370,15 @@ begin
                             state <= ACC_CALC_A_SUB_B;
                         elsif man_res = acc_man_reg then
                             acc_sign <= '0';
+                            acc_exp_reg <= (others => '0');
                             acc_man_reg <= (others => '0');
                             state <= PROC;
                         else
-                            acc_sign <= acc_sign;
+                            --acc_sign <= acc_sign;
                             state <= ACC_CALC_B_SUB_A;
                         end if;
                     else
+                        --acc_sign <= acc_sign;
                         state <= ACC_CALC_A_SUM_B;
                     end if;
                 when ACC_CALC_A_SUM_B =>
