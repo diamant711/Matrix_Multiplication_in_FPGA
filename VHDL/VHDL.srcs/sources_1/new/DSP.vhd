@@ -254,71 +254,34 @@ begin
                 when MULT =>
                     sign_res <= sign_a xor sign_b;
                     man_a_106 <= ZERO_53 & man_a;
-                    state <= MULT_INIT;
-                -- Prepara l'accumulazione
-                when MULT_INIT =>
-                    if man_b(0) = '1' then
-                        x_106 <= man_a_106;
-                        y_106 <= man_res;
-                        carry_106 <= (others => '1'); -- Magic number
+                    state <= MULT_STEP;
+                -- Somma iterativa finché y_106 ≠ 0
+------------------ Ho ridotto troppo qualcosa qui non funziona a dovere --------------------------------------------------------------------
+                when MULT_STEP =>
+                    if man_b /= ZERO_53 then
+                        if man_b(0) = '1' then
+                            man_res <= std_logic_vector(unsigned(man_res) + unsigned(man_a_106));
+                        end if;
+                        man_a_106 <= man_a_106(104 downto 0) & '0';  -- shift a sinistra (×2)
+                        man_b <= '0' & man_b(52 downto 1);            -- shift a destra (÷2)
                         state <= MULT_STEP;
                     else
-                        state <= MULT_SHIFT;
-                    end if;
-                -- Somma iterativa finché carry_106 ≠ 0
-                when MULT_STEP =>
-                    if carry_106 /= ZERO_106 then
-                        tmp_106 <= x_106 xor y_106;
-                        carry_106 <= x_106 and y_106;
-                        state <= MULT_STEP_2;
-                    else
-                        man_res <= x_106;
-                        state <= MULT_SHIFT;
-                    end if;
-                -- Shift carry_106 a sinistra
-                when MULT_STEP_2 =>
-                    carry_106 <= carry_106(104 downto 0) & '0';
-                    state <= MULT_STEP_3;
-                -- Aggiorno valori variabili per la prossima iterazione
-                when MULT_STEP_3 =>
-                    x_106 <= tmp_106;
-                    y_106 <= carry_106;
-                    state <= MULT_STEP;
-                -- Shift a destra man_b, a sinistra man_a_106
-                when MULT_SHIFT =>
-                    man_a_106 <= man_a_106(104 downto 0) & '0';
-                    man_b <= '0' & man_b(52 downto 1);
-                    -- Se man_b è zero, prosegui
-                    if man_b = ZERO_53 then
                         state <= MULT_BIAS;
-                    else
-                        state <= MULT_INIT;
                     end if;
+---------------------------------------------------------------------------------------------------------------------------------------------
                 -- Calcolo exp_a <- exp_a + exp_b - bias
                 when MULT_BIAS =>
-                    tmp_11 <= exp_a xor exp_b;
-                    carry_11 <= exp_a and exp_b;
-                    state <= MULT_BIAS_2;
-                when MULT_BIAS_2 =>
-                    carry_11 <= carry_11(9 downto 0) & '0';
-                    state <= MULT_BIAS_3;
-                when MULT_BIAS_3 =>
-                    exp_a <= tmp_11;
-                    exp_b <= carry_11;
-                    if carry_11 = ZERO_11 then
+                    exp_a <= exp_a xor exp_b;
+                    exp_b <= (exp_a(9 downto 0) & '0') and (exp_b(9 downto 0) & '0');
+                    if exp_b = ZERO_11 then
                         state <= MULT_BIAS_4;
                     else
                         state <= MULT_BIAS;
                     end if;
                     -- Sub bias
                 when MULT_BIAS_4 =>
-                    borrow_11 <= (not exp_a) and bias;
+                    bias <= ((not exp_a(9 downto 0) & '0')) and (bias(9 downto 0) & '0');
                     exp_a <= exp_a xor bias;
-                    state <= MULT_BIAS_5;
-                when MULT_BIAS_5 =>
-                    bias <= borrow_11(9 downto 0) & '0';
-                    state <= MULT_BIAS_6;
-                when MULT_BIAS_6 =>
                     if exp_b = ZERO_11 and bias = ZERO_11 then
                         state <= MULT_FINISH;
                     else
@@ -430,6 +393,7 @@ begin
                     tmp_man <= acc_man_reg;
                     norm_exp <= acc_exp_reg;
                     norm_shift_count <= 0;
+                    i <= 0;
                     state <= NORM_SHIFT;
                 when NORM_SHIFT =>
                     if tmp_man(105) = '1' then
