@@ -256,7 +256,6 @@ begin
                     man_a_106 <= ZERO_53 & man_a;
                     state <= MULT_STEP;
                 -- Somma iterativa finché y_106 ≠ 0
------------------- Ho ridotto troppo qualcosa qui non funziona a dovere --------------------------------------------------------------------
                 when MULT_STEP =>
                     if man_b /= ZERO_53 then
                         if man_b(0) = '1' then
@@ -268,7 +267,6 @@ begin
                     else
                         state <= MULT_BIAS;
                     end if;
----------------------------------------------------------------------------------------------------------------------------------------------
                 -- Calcolo exp_a <- exp_a + exp_b - bias
                 when MULT_BIAS =>
                     exp_a <= exp_a xor exp_b;
@@ -294,7 +292,10 @@ begin
                 when ACC =>
                     state <= ACC_START;
                 when ACC_START =>
-                    if acc_exp_reg > exp_res then
+                    if acc_man_reg = ZERO_106 then
+                        acc_exp_reg <= exp_res;
+                        state <= ACC_CALC;
+                    elsif acc_exp_reg > exp_res then
                         exp_diff <= to_integer(unsigned(acc_exp_reg) - unsigned(exp_res));
                         acc_shift_count <= 0;
                         state <= ACC_SHIFT;
@@ -346,41 +347,29 @@ begin
                     end if;
                 when ACC_CALC_A_SUM_B =>
                         if man_res /= ZERO_106 then
-                            carry_106 <= acc_man_reg and man_res;
-                            state <= ACC_CALC_A_SUM_B_2;
+                            man_res <= (acc_man_reg(104 downto 0) & '0') and (man_res(104 downto 0) & '0');
+                            acc_man_reg <= acc_man_reg xor man_res;
+                            state <= ACC_CALC_A_SUM_B;
                         else
                             state <= ACC_OVERFLOW_FIX;
                         end if;
-                when ACC_CALC_A_SUM_B_2 =>
-                    carry_106 <= carry_106(104 downto 0) & '0';
-                    acc_man_reg <= acc_man_reg xor man_res;
-                    state <= ACC_CALC_A_SUM_B_3;
-                when ACC_CALC_A_SUM_B_3 =>
-                    man_res <= carry_106;
-                    state <= ACC_CALC_A_SUM_B;
                 when ACC_CALC_A_SUB_B =>
                     if acc_man_reg /= ZERO_106 then
-                        borrow_106 <= (not man_res) and acc_man_reg;
+                        acc_man_reg <= (not (man_res(104 downto 0) & '1')) and (acc_man_reg(104 downto 0) & '0');
                         man_res <= man_res xor acc_man_reg;
-                        state <= ACC_CALC_A_SUB_B_2;
+                        state <= ACC_CALC_A_SUB_B;
                     else
                         acc_man_reg <= man_res;
                         state <= ACC_OVERFLOW_FIX;
                     end if;
-                when ACC_CALC_A_SUB_B_2 =>
-                    acc_man_reg <= borrow_106(104 downto 0) & '0';
-                    state <= ACC_CALC_A_SUB_B;
                 when ACC_CALC_B_SUB_A =>
                     if man_res /= ZERO_106 then
-                        borrow_106 <= (not acc_man_reg) and man_res;
+                        man_res <= (not (acc_man_reg(104 downto 0) & '1')) and (man_res(104 downto 0) & '0');
                         acc_man_reg <= acc_man_reg xor man_res;
-                        state <= ACC_CALC_B_SUB_A_2;
+                        state <= ACC_CALC_B_SUB_A;
                     else
                         state <= ACC_OVERFLOW_FIX;
                     end if;
-                when ACC_CALC_B_SUB_A_2 =>
-                    man_res <= borrow_106(104 downto 0) & '0';
-                    state <= ACC_CALC_B_SUB_A;
                 when ACC_OVERFLOW_FIX =>
                     if acc_man_reg(105) = '1' then
                         acc_man_reg <= '0' & acc_man_reg(105 downto 1);
