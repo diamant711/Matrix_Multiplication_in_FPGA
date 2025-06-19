@@ -50,12 +50,10 @@ architecture v0 of DSP is
     -- stato
     type state_type is (
         IDLE, DATAIN, PROC, DECOP, MULT, MULT_INIT,
-        MULT_STEP, MULT_STEP_2, MULT_STEP_3, MULT_SHIFT, MULT_BIAS, 
-        MULT_BIAS_2, MULT_BIAS_3, MULT_BIAS_4, MULT_BIAS_5, MULT_BIAS_6, MULT_FINISH,
-        ACC, ACC_START, ACC_SHIFT, ACC_CALC, ACC_CALC_A_SUM_B, ACC_CALC_A_SUM_B_2, ACC_CALC_A_SUM_B_3,
-        ACC_CALC_A_SUB_B, ACC_CALC_A_SUB_B_2, ACC_CALC_B_SUB_A, ACC_CALC_B_SUB_A_2,
-        ACC_OVERFLOW_FIX, NORMROUNDCOMP,
-        NORM_START, NORM_SHIFT, NORM_ROUND, NORM_ROUND_2, NORM_ROUND_3, NORM_PACK, NORM_PACK_2,
+        MULT_STEP, MULT_SHIFT, MULT_BIAS, MULT_BIAS_2, MULT_FINISH,
+        ACC, ACC_START, ACC_SHIFT, ACC_CALC, ACC_CALC_A_SUM_B,
+        ACC_CALC_A_SUB_B, ACC_CALC_B_SUB_A, ACC_OVERFLOW_FIX, NORMROUNDCOMP,
+        NORM_START, NORM_SHIFT, NORM_ROUND, NORM_ROUND_2, NORM_ROUND_3, NORM_PACK,
         ENDED
     );
     signal state : state_type := IDLE;
@@ -64,8 +62,7 @@ architecture v0 of DSP is
     constant ZERO_106 : std_logic_vector(105 downto 0) := (others => '0');    
     constant ZERO_53 : std_logic_vector(52 downto 0) := (others => '0');
     constant ZERO_11 : std_logic_vector(10 downto 0) := (others => '0');
-    constant ZERO_12 : std_logic_vector(11 downto 0) := (others => '0');
-    
+        
     -- buffer ingresso e uscita
     subtype operand_type is STD_LOGIC_VECTOR(63 downto 0);
     signal a : operand_type := (others => '0');
@@ -83,16 +80,8 @@ architecture v0 of DSP is
     signal acc_exp_reg : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
         
     -- variabili di supporto non NUMERIC
-    signal carry_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
-    signal tmp_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
-    signal carry_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
-    signal y_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
-    signal x_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal man_a_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
-    signal tmp_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal bias : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
-    signal borrow_11 : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
-    signal borrow_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal GETN_reg : STD_LOGIC := '0';
     signal MPTY_reg : STD_LOGIC := '0';
     signal iready : STD_LOGIC := '0';
@@ -139,16 +128,8 @@ begin
         acc_sign <= '0';
         acc_man_reg <= (others => '0');
         acc_exp_reg <= (others => '0');
-        carry_11 <= (others => '0');
-        tmp_11 <= (others => '0');
-        carry_106 <= (others => '0');
-        y_106 <= (others => '0');
-        x_106 <= (others => '0');
         man_a_106 <= (others => '0');
-        tmp_106 <= (others => '0');
         bias <= (others => '0');
-        borrow_11 <= (others => '0');
-        borrow_106 <= (others => '0');
         GETN_reg <= '0';
         MPTY_reg <= '0';
         iready <= '0';
@@ -191,16 +172,8 @@ begin
                         man_b <= (others => '0');
                         exp_res <= (others => '0');
                         man_res <= (others => '0');
-                        carry_11 <= (others => '0');
-                        tmp_11 <= (others => '0');
-                        carry_106 <= (others => '0');
-                        y_106 <= (others => '0');
-                        x_106 <= (others => '0');
                         man_a_106 <= (others => '0');
-                        tmp_106 <= (others => '0');
                         bias <= (others => '0');
-                        borrow_11 <= (others => '0');
-                        borrow_106 <= (others => '0');
                         iready <= '0';
                         acc_step_done <= '0';
                         norm_step_done <= '0';
@@ -272,18 +245,18 @@ begin
                     exp_a <= exp_a xor exp_b;
                     exp_b <= (exp_a(9 downto 0) & '0') and (exp_b(9 downto 0) & '0');
                     if exp_b = ZERO_11 then
-                        state <= MULT_BIAS_4;
+                        state <= MULT_BIAS_2;
                     else
                         state <= MULT_BIAS;
                     end if;
                     -- Sub bias
-                when MULT_BIAS_4 =>
+                when MULT_BIAS_2 =>
                     bias <= ((not exp_a(9 downto 0) & '0')) and (bias(9 downto 0) & '0');
                     exp_a <= exp_a xor bias;
                     if exp_b = ZERO_11 and bias = ZERO_11 then
                         state <= MULT_FINISH;
                     else
-                        state <= MULT_BIAS_4; -- Continua l'iterazione
+                        state <= MULT_BIAS_2; -- Continua l'iterazione
                     end if;
                 -- Fine: scrive i risultati
                 when MULT_FINISH =>
@@ -438,16 +411,8 @@ begin
                     acc_sign <= '0';
                     acc_man_reg <= (others => '0');
                     acc_exp_reg <= (others => '0');
-                    carry_11 <= (others => '0');
-                    tmp_11 <= (others => '0');
-                    carry_106 <= (others => '0');
-                    y_106 <= (others => '0');
-                    x_106 <= (others => '0');
                     man_a_106 <= (others => '0');
-                    tmp_106 <= (others => '0');
                     bias <= (others => '0');
-                    borrow_11 <= (others => '0');
-                    borrow_106 <= (others => '0');
                     GETN_reg <= '0';
                     MPTY_reg <= '0';
                     iready <= '0';
