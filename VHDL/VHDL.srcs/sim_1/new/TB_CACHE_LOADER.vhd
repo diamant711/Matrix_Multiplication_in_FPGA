@@ -48,6 +48,8 @@ architecture sim of TB_CACHE_LOADER is
             A_addr      : out unsigned(13 downto 0);
             B_data      : in std_logic_vector(63 downto 0);
             B_addr      : out unsigned(13 downto 0);
+            GETA        : out std_logic;
+            GETB        : out std_logic;
             ROW_we      : out std_logic;
             ROW_addr    : out unsigned(6 downto 0);
             ROW_data    : out std_logic_vector(63 downto 0);
