@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company:
--- Engineer:
+-- Company: Unimi
+-- Engineer: Riccardo Osvaldo Nana, Stefano Pilosio
 --
 -- Create Date: 06/09/2025 05:06:57 PM
 -- Design Name:
@@ -62,12 +62,15 @@ entity CACHE_LOADER is
         COL_we       : out std_logic;
         COL_addr     : out unsigned(6 downto 0);
         COL_data     : out std_logic_vector(63 downto 0);
-        COL_done     : in std_logic;
+        COL_done     : in std_logic
     );
 end CACHE_LOADER;
 
 architecture v0 of CACHE_LOADER is
 
+    constant row_size : unsigned := to_unsigned(100, 7);
+    constant col_size : unsigned := row_size;
+    
     type state_type is (IDLE, GET, LOAD, DONE);
     signal state        : state_type := IDLE;
 
@@ -93,7 +96,6 @@ begin
             case state is
                 when IDLE =>
                     if start = '1' then
-                        state     <= IDLE;
                         index     <= (others => '0');
                         ended      <= '0';
                         A_addr    <= (others => '0');
@@ -102,22 +104,57 @@ begin
                         COL_we    <= '0';
                         ROW_data  <= (others => '0');
                         COL_data  <= (others => '0');
-                        GETA <= '0';
-                        GETB <= '0';
+                        GETA <= '1'; -- Questo va posto a 1 quando si inizia a leggere
+                        GETB <= '1'; -- Questo va posto a 1 quando si inizia a leggere
                         state <= GET;
                     else
                         state <= IDLE;
                     end if;
                 when GET =>
-                    if READYA = '1' and READYB = '1' then
-                        
+                    if READYA = '1' and READYB = '1' then                       
+                        -- Carico nella riga il valore attuale della cella A
+                        ROW_data <= A_data;
+                        -- Carico nella colonna il valore attuale di B
+                        COL_data <= B_data;
+
+                        -- Al ciclo di clock successivo anche l'indirizzo di row e col vengono portati al valore attuale di index
+                        ROW_addr <= index;
+                        COL_addr <= index; 
+
+                        -- Non voglio pi`u leggere i dati al ciclo di clock successivo che sar`a il load.
+                        GETA <= '0';
+                        GETB <= '0';
+                        -- Per`o la  cella di memoria per la colonna e la riga possono essere abilitate alla lettura.
+                        ROW_we <= '1';
+                        COL_we <= '1';
+                    
+                        -- Seleziono l'indirizzo di memoria per lo step successivo di A
+                        A_addr <= row_select * row_size + index; 
+                        -- Seleziono l'indirizzo di memoria per lo step successivo di B
+                        B_addr <= index * col_size + col_select;
+                                        
+                        -- Passo allo stato in cui carico nella cache interna del moltiplicatore.
                         state <= LOAD;
                     else
                         state <= GET;
                     end if;
                 when LOAD =>
                     if full = '0' then
-                        state <= GET;
+                        if COL_done = '1' and ROW_done = '1' then
+                            -- Accetto nuovi numeri da leggere
+                            GETA <= '1';
+                            GETB <= '1';
+                            -- Chiudo la possibilit`a di leggere alle celle di memoria
+                            ROW_we <= '0';                            
+                            COL_we <= '0';                            
+                            
+                            -- incremento l'indice di 1 per spostarmi all'elemento successivo da copiare
+                            index <= index + 1;
+                            -- Passo allo stato per ottenere nuove informazioni
+                            state <= GET;
+                        else
+                            state <= LOAD;
+                        end if;                      
                     else
                         state <= DONE;
                     end if;

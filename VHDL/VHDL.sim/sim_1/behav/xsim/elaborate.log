@@ -1,17 +1,12 @@
 Vivado Simulator v2024.2.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot TB_CACHE_LOADER_behav xil_defaultlib.TB_CACHE_LOADER -log elaborate.log 
+Running: /opt/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot TB_CACHE_LOADER_behav xil_defaultlib.TB_CACHE_LOADER -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
-Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling package std.standard
-Compiling package std.textio
-Compiling package ieee.std_logic_1164
-Compiling package ieee.numeric_std
-Compiling architecture v0 of entity xil_defaultlib.CACHE_LOADER [cache_loader_default]
-Compiling architecture sim of entity xil_defaultlib.tb_cache_loader
-Built simulation snapshot TB_CACHE_LOADER_behav
+ERROR: [VRFC 10-3353] formal port 'full' has no actual or default value [/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:41]
+ERROR: [VRFC 10-3353] formal port 'readya' has no actual or default value [/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:47]
+ERROR: [VRFC 10-3353] formal port 'readyb' has no actual or default value [/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:53]
+ERROR: [VRFC 10-3353] formal port 'row_done' has no actual or default value [/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:59]
+ERROR: [VRFC 10-3353] formal port 'col_done' has no actual or default value [/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:65]
+ERROR: [XSIM 43-3321] Static elaboration of top level VHDL design unit tb_cache_loader in library work failed.
