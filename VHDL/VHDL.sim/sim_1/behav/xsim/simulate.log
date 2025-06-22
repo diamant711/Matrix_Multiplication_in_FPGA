@@ -1,0 +1,5 @@
+Time resolution is 1 ps
+Note: Starting row=0 col=0
+Time: 40 ns  Iteration: 0  Process: /TB_CACHE_LOADER/stim_proc  File: /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CACHE_LOADER.vhd
+Note: SIMULAZIONE COMPLETATA CON SUCCESSO
+Time: 243500 ps  Iteration: 0  Process: /TB_CACHE_LOADER/stim_proc  File: /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CACHE_LOADER.vhd

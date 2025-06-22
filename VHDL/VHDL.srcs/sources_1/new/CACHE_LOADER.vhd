@@ -38,8 +38,7 @@ entity CACHE_LOADER is
         row_select   : in  unsigned(6 downto 0); -- 7 bit per 0..99
         col_select   : in  unsigned(6 downto 0); -- 7 bit per 0..99
         ended        : out std_logic;
-        full         : in std_logic; 
-
+        
         -- Interfaccia lettura matrice A (100x100)
         A_data       : in  std_logic_vector(63 downto 0);
         A_addr       : out unsigned(13 downto 0); -- 14 bit per 100*100 = 10,000 celle
@@ -56,20 +55,21 @@ entity CACHE_LOADER is
         ROW_we       : out std_logic;
         ROW_addr     : out unsigned(6 downto 0);
         ROW_data     : out std_logic_vector(63 downto 0);
-        ROW_done     : in std_logic;
+        ROW_full     : in std_logic;
+        ROW_w_done   : in std_logic;
 
         -- Interfaccia scrittura COL (100 word)
         COL_we       : out std_logic;
         COL_addr     : out unsigned(6 downto 0);
         COL_data     : out std_logic_vector(63 downto 0);
-        COL_done     : in std_logic
+        COL_full     : in std_logic;
+        COL_w_done   : in std_logic
     );
 end CACHE_LOADER;
 
 architecture v0 of CACHE_LOADER is
 
-    constant row_size : unsigned := to_unsigned(100, 7);
-    constant col_size : unsigned := row_size;
+    constant size : unsigned := to_unsigned(100, 7);
     
     type state_type is (IDLE, GET, LOAD, DONE);
     signal state        : state_type := IDLE;
@@ -83,9 +83,11 @@ begin
         if rst = '1' then
             state     <= IDLE;
             index     <= (others => '0');
-            ended      <= '0';
+            ended     <= '0';
             A_addr    <= (others => '0');
             B_addr    <= (others => '0');
+            ROW_addr    <= (others => '0');
+            COL_addr    <= (others => '0');
             ROW_we    <= '0';
             COL_we    <= '0';
             ROW_data  <= (others => '0');
@@ -98,8 +100,8 @@ begin
                     if start = '1' then
                         index     <= (others => '0');
                         ended      <= '0';
-                        A_addr    <= (others => '0');
-                        B_addr    <= (others => '0');
+                        A_addr    <= row_select * size + index;
+                        B_addr    <= index * size + col_select;
                         ROW_we    <= '0';
                         COL_we    <= '0';
                         ROW_data  <= (others => '0');
@@ -112,52 +114,37 @@ begin
                     end if;
                 when GET =>
                     if READYA = '1' and READYB = '1' then                       
-                        -- Carico nella riga il valore attuale della cella A
                         ROW_data <= A_data;
-                        -- Carico nella colonna il valore attuale di B
                         COL_data <= B_data;
-
-                        -- Al ciclo di clock successivo anche l'indirizzo di row e col vengono portati al valore attuale di index
-                        ROW_addr <= index;
-                        COL_addr <= index; 
-
-                        -- Non voglio pi`u leggere i dati al ciclo di clock successivo che sar`a il load.
                         GETA <= '0';
                         GETB <= '0';
-                        -- Per`o la  cella di memoria per la colonna e la riga possono essere abilitate alla lettura.
-                        ROW_we <= '1';
+                        ROW_we <= '1';                            
                         COL_we <= '1';
-                    
-                        -- Seleziono l'indirizzo di memoria per lo step successivo di A
-                        A_addr <= row_select * row_size + index; 
-                        -- Seleziono l'indirizzo di memoria per lo step successivo di B
-                        B_addr <= index * col_size + col_select;
-                                        
-                        -- Passo allo stato in cui carico nella cache interna del moltiplicatore.
+                        ROW_addr <= index;
+                        COL_addr <= index;
+                        index <= index + 1;
                         state <= LOAD;
                     else
                         state <= GET;
                     end if;
                 when LOAD =>
-                    if full = '0' then
-                        if COL_done = '1' and ROW_done = '1' then
-                            -- Accetto nuovi numeri da leggere
+                    if COL_w_done = '1' and ROW_w_done = '1' then
+                        ROW_data  <= (others => '0');
+                        COL_data  <= (others => '0');
+                        ROW_we <= '0';                            
+                        COL_we <= '0';
+                        if COL_full = '0' and ROW_full = '0' then
                             GETA <= '1';
                             GETB <= '1';
-                            -- Chiudo la possibilit`a di leggere alle celle di memoria
-                            ROW_we <= '0';                            
-                            COL_we <= '0';                            
-                            
-                            -- incremento l'indice di 1 per spostarmi all'elemento successivo da copiare
-                            index <= index + 1;
-                            -- Passo allo stato per ottenere nuove informazioni
+                            A_addr <= row_select * size + index; 
+                            B_addr <= index * size + col_select;
                             state <= GET;
                         else
-                            state <= LOAD;
-                        end if;                      
+                            state <= DONE;
+                        end if;
                     else
-                        state <= DONE;
-                    end if;
+                        state <= LOAD;
+                    end if;                      
                 when DONE =>
                     ended <= '1';
                     state <= IDLE;
