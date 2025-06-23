@@ -36,12 +36,13 @@ entity CACHE is
            CLOCK : in STD_LOGIC;
            ADDR : in STD_LOGIC_VECTOR (6 downto 0);
            WE : in STD_LOGIC;
+           WDONE: out STD_LOGIC;
            DIN : in STD_LOGIC_VECTOR (63 downto 0);
            DOUT : out STD_LOGIC_VECTOR (63 downto 0);
            MPTY : out STD_LOGIC;
            FLL : out STD_LOGIC;
-           DREADY: out STD_LOGIC;
-           NE : in STD_LOGIC);
+           DREADY: out STD_LOGIC; -- Data Ready to be read
+           NE : in STD_LOGIC);    -- Next Element Parallel input Serial Output
 end CACHE;
 
 architecture v0 of CACHE is
@@ -63,14 +64,16 @@ begin
             count <= 0;
             MPTY <= '1';
             FLL <= '0';
+            WDONE <= '0';
             DREADY <= '0';
             DOUT <= (others => '0');
             memory <= (others => (others => '0'));
         elsif rising_edge(CLOCK) then
             case state is
                 when IDLE =>
-                    if WE = '1' and count < 128 then
+                    if WE = '1' and count < 100 then
                         state <= LOAD;
+                        WDONE <= '0';
                     elsif WE = '0' and count > 0 and rising_edge(NE) then
                         DREADY <= '0';
                         state <= UNLOAD;
@@ -84,20 +87,23 @@ begin
                     if count < 100 then
                         count <= count + 1;
                     end if;
-                    if count + 1 = 100 then
+                    if count = 100 then
+                        FLL <= '1';
                         state <= FULL;
                     else
+                        WDONE <= '1';
                         state <= IDLE;
                     end if;
                 when UNLOAD =>
-                    DOUT <= memory(to_integer(unsigned(ADDR)));
+                    DOUT <= memory(count - 1);
                     DREADY <= '1';
                     MPTY <= '0';
                     FLL <= '0';
                     if count > 0 then
                         count <= count - 1;
                     end if;
-                    if count - 1 = 0 then
+                    if count = 0 then
+                        MPTY <= '1';
                         state <= EMPTY;
                     else
                         state <= IDLE;
