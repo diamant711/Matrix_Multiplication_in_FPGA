@@ -1,6 +1,6 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: Riboldi's little engeneers
+-- Engineer: Riccardo Osvaldo Nana e Stefano Pilosio
 -- 
 -- Create Date: 06/23/2025 02:58:45 PM
 -- Design Name: 
@@ -114,7 +114,7 @@ architecture v0 of MULTIPLIER is
     signal icl_ended : std_logic;
     
     signal irow_we : std_logic;
-    signal irow_addr : std_logic_vector(13 downto 0);
+    signal irow_addr : std_logic_vector(6 downto 0);
     signal irow_din : std_logic_vector(63 downto 0);
     signal irow_full : std_logic;
     signal irow_w_done : std_logic;
@@ -123,7 +123,7 @@ architecture v0 of MULTIPLIER is
     signal irow_dready : std_logic;
     
     signal icol_we : std_logic;
-    signal icol_addr : std_logic_vector(13 downto 0);
+    signal icol_addr : std_logic_vector(6 downto 0);
     signal icol_din : std_logic_vector(63 downto 0);
     signal icol_full : std_logic;
     signal icol_w_done : std_logic;

@@ -1,7 +1,7 @@
 Vivado Simulator v2024.2.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot TB_CACHE_behav xil_defaultlib.TB_CACHE -log elaborate.log 
+Running: /opt/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip --snapshot TB_MULTIPLIER_behav xil_defaultlib.TB_MULTIPLIER -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
 Completed static elaboration
@@ -12,6 +12,9 @@ Compiling package std.standard
 Compiling package std.textio
 Compiling package ieee.std_logic_1164
 Compiling package ieee.numeric_std
+Compiling architecture v0 of entity xil_defaultlib.CACHE_LOADER [cache_loader_default]
 Compiling architecture v0 of entity xil_defaultlib.CACHE [cache_default]
-Compiling architecture behavior of entity xil_defaultlib.tb_cache
-Built simulation snapshot TB_CACHE_behav
+Compiling architecture v0 of entity xil_defaultlib.DSP [dsp_default]
+Compiling architecture v0 of entity xil_defaultlib.MULTIPLIER [multiplier_default]
+Compiling architecture behavioral of entity xil_defaultlib.tb_multiplier
+Built simulation snapshot TB_MULTIPLIER_behav
