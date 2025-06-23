@@ -102,7 +102,7 @@ begin
     
         
 
-        while FLL = '0' loop    
+        while FLL = '0' and TEST_ADDR < 100 loop    
             -- Write to cache
             ADDR <= std_logic_vector(to_unsigned(TEST_ADDR, 7));
             DIN  <= std_logic_vector(to_unsigned(TEST_ADDR, 64));

@@ -35,32 +35,32 @@ entity CACHE_LOADER is
         clk          : in  std_logic;
         rst          : in  std_logic;
         start        : in  std_logic;
-        row_select   : in  unsigned(6 downto 0); -- 7 bit per 0..99
-        col_select   : in  unsigned(6 downto 0); -- 7 bit per 0..99
+        row_select   : in  std_logic_vector(6 downto 0); -- 7 bit per 0..99
+        col_select   : in  std_logic_vector(6 downto 0); -- 7 bit per 0..99
         ended        : out std_logic;
         
         -- Interfaccia lettura matrice A (100x100)
         A_data       : in  std_logic_vector(63 downto 0);
-        A_addr       : out unsigned(13 downto 0); -- 14 bit per 100*100 = 10,000 celle
+        A_addr       : out std_logic_vector(13 downto 0); -- 14 bit per 100*100 = 10,000 celle
         GETA         : out std_logic;
         READYA       : in std_logic;
 
         -- Interfaccia lettura matrice B (100x100)
         B_data       : in  std_logic_vector(63 downto 0);
-        B_addr       : out unsigned(13 downto 0);
+        B_addr       : out std_logic_vector(13 downto 0);
         GETB         : out std_logic;
         READYB       : in std_logic;
 
         -- Interfaccia scrittura ROW (100 word)
         ROW_we       : out std_logic;
-        ROW_addr     : out unsigned(6 downto 0);
+        ROW_addr     : out std_logic_vector(6 downto 0);
         ROW_data     : out std_logic_vector(63 downto 0);
         ROW_full     : in std_logic;
         ROW_w_done   : in std_logic;
 
         -- Interfaccia scrittura COL (100 word)
         COL_we       : out std_logic;
-        COL_addr     : out unsigned(6 downto 0);
+        COL_addr     : out std_logic_vector(6 downto 0);
         COL_data     : out std_logic_vector(63 downto 0);
         COL_full     : in std_logic;
         COL_w_done   : in std_logic
@@ -100,8 +100,8 @@ begin
                     if start = '1' then
                         index     <= (others => '0');
                         ended      <= '0';
-                        A_addr    <= row_select * size + index;
-                        B_addr    <= index * size + col_select;
+                        A_addr    <= std_logic_vector(unsigned(row_select) * size + index);
+                        B_addr    <= std_logic_vector(index * size + unsigned(col_select));
                         ROW_we    <= '0';
                         COL_we    <= '0';
                         ROW_data  <= (others => '0');
@@ -120,8 +120,8 @@ begin
                         GETB <= '0';
                         ROW_we <= '1';                            
                         COL_we <= '1';
-                        ROW_addr <= index;
-                        COL_addr <= index;
+                        ROW_addr <= std_logic_vector(index);
+                        COL_addr <= std_logic_vector(index);
                         index <= index + 1;
                         state <= LOAD;
                     else
@@ -136,8 +136,8 @@ begin
                         if COL_full = '0' and ROW_full = '0' then
                             GETA <= '1';
                             GETB <= '1';
-                            A_addr <= row_select * size + index; 
-                            B_addr <= index * size + col_select;
+                            A_addr <= std_logic_vector(unsigned(row_select) * size + index);
+                            B_addr <= std_logic_vector(index * size + unsigned(col_select));
                             state <= GET;
                         else
                             state <= DONE;

@@ -84,14 +84,14 @@ begin
                     memory(to_integer(unsigned(ADDR))) <= DIN;
                     MPTY <= '0';
                     FLL <= '0';
-                    if count < 100 then
+                    if count < 99 then
                         count <= count + 1;
                     end if;
-                    if count = 100 then
+                    WDONE <= '1';
+                    if count = 99 then
                         FLL <= '1';
                         state <= FULL;
                     else
-                        WDONE <= '1';
                         state <= IDLE;
                     end if;
                 when UNLOAD =>
@@ -117,6 +117,7 @@ begin
                         state <= EMPTY;
                     end if;
                 when FULL =>
+                    WDONE <= '0';
                     FLL <= '1';
                     MPTY <= '0';
                     if WE = '0' then
