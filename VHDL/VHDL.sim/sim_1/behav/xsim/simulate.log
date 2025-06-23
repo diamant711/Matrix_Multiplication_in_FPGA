@@ -1,4 +1,3 @@
 Time resolution is 1 ps
 Note: Starting row=0 col=0
-Time: 40 ns  Iteration: 0  Process: /TB_MULTIPLIER/stim_proc  File: /home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_MULTIPLIER.vhd
-INFO: xsimkernel Simulation Memory Usage: 492432 KB (Peak: 541764 KB), Simulation CPU Usage: 560 ms
+Time: 40 ns  Iteration: 0  Process: /TB_MULTIPLIER/stim_proc  File: /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_MULTIPLIER.vhd

@@ -127,7 +127,7 @@ begin
                 ROW_SELECT <= std_logic_vector(to_unsigned(0, 7));
                 COL_SELECT <= std_logic_vector(to_unsigned(0, 7));
                 START <= '1';
-
+                
                 -- Simulazione del comportamento della memoria
                 for i in 0 to 99 loop
                     wait until GETA = '1' and GETB = '1';
