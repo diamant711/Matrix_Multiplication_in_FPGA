@@ -53,14 +53,12 @@ entity CACHE_LOADER is
 
         -- Interfaccia scrittura ROW (100 word)
         ROW_we       : out std_logic;
-        ROW_addr     : out std_logic_vector(6 downto 0);
         ROW_data     : out std_logic_vector(63 downto 0);
         ROW_full     : in std_logic;
         ROW_w_done   : in std_logic;
 
         -- Interfaccia scrittura COL (100 word)
         COL_we       : out std_logic;
-        COL_addr     : out std_logic_vector(6 downto 0);
         COL_data     : out std_logic_vector(63 downto 0);
         COL_full     : in std_logic;
         COL_w_done   : in std_logic
@@ -86,8 +84,6 @@ begin
             ended     <= '0';
             A_addr    <= (others => '0');
             B_addr    <= (others => '0');
-            ROW_addr    <= (others => '0');
-            COL_addr    <= (others => '0');
             ROW_we    <= '0';
             COL_we    <= '0';
             ROW_data  <= (others => '0');
@@ -99,7 +95,7 @@ begin
                 when IDLE =>
                     if start = '1' then
                         index     <= (others => '0');
-                        ended      <= '0';
+                        ended     <= '0';
                         A_addr    <= std_logic_vector(unsigned(row_select) * size + index);
                         B_addr    <= std_logic_vector(index * size + unsigned(col_select));
                         ROW_we    <= '0';
@@ -120,19 +116,19 @@ begin
                         GETB <= '0';
                         ROW_we <= '1';                            
                         COL_we <= '1';
-                        ROW_addr <= std_logic_vector(index);
-                        COL_addr <= std_logic_vector(index);
                         index <= index + 1;
                         state <= LOAD;
+                    elsif COL_full = '1' and ROW_full = '1' then
+                        state <= DONE;
                     else
                         state <= GET;
                     end if;
                 when LOAD =>
+                    ROW_we <= '0';
+                    COL_we <= '0';
                     if COL_w_done = '1' and ROW_w_done = '1' then
                         ROW_data  <= (others => '0');
                         COL_data  <= (others => '0');
-                        ROW_we <= '0';                            
-                        COL_we <= '0';
                         if COL_full = '0' and ROW_full = '0' then
                             GETA <= '1';
                             GETB <= '1';

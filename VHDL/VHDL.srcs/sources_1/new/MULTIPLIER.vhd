@@ -56,7 +56,6 @@ architecture v0 of MULTIPLIER is
         Port (
             RESET   : in  STD_LOGIC;
             CLOCK   : in  STD_LOGIC;
-            ADDR    : in  STD_LOGIC_VECTOR (6 downto 0);
             WE      : in  STD_LOGIC;
             WDONE   : out STD_LOGIC;
             DIN     : in  STD_LOGIC_VECTOR (63 downto 0);
@@ -84,12 +83,10 @@ architecture v0 of MULTIPLIER is
             GETB         : out std_logic;
             READYB       : in std_logic;
             ROW_we       : out std_logic;
-            ROW_addr     : out std_logic_vector(6 downto 0);
             ROW_data     : out std_logic_vector(63 downto 0);
             ROW_full     : in std_logic;
             ROW_w_done   : in std_logic;
             COL_we       : out std_logic;
-            COL_addr     : out std_logic_vector(6 downto 0);
             COL_data     : out std_logic_vector(63 downto 0);
             COL_full     : in std_logic;
             COL_w_done   : in std_logic
@@ -154,12 +151,10 @@ begin
             GETB => GETB,
             READYB => READYB,
             ROW_we => irow_we,
-            ROW_addr => irow_addr,
             ROW_data => irow_din,
             ROW_full => irow_full,
             ROW_w_done => irow_w_done,
             COL_we => icol_we,
-            COL_addr => icol_addr,
             COL_data => icol_din,
             COL_full => icol_full,
             COL_w_done => icol_w_done
@@ -168,7 +163,6 @@ begin
         port map (
             RESET => RESET,
             CLOCK => CLOCK,
-            ADDR => irow_addr,
             WE => irow_we,
             WDONE => irow_w_done,
             DIN => irow_din,
@@ -182,7 +176,6 @@ begin
         port map (
             RESET => RESET,
             CLOCK => CLOCK,
-            ADDR => icol_addr,
             WE => icol_we,
             WDONE => icol_w_done,
             DIN => icol_din,

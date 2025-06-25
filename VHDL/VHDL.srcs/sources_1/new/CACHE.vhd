@@ -34,7 +34,6 @@ use IEEE.NUMERIC_STD.ALL;
 entity CACHE is
     Port ( RESET : in STD_LOGIC;
            CLOCK : in STD_LOGIC;
-           ADDR : in STD_LOGIC_VECTOR (6 downto 0);
            WE : in STD_LOGIC;
            WDONE: out STD_LOGIC;
            DIN : in STD_LOGIC_VECTOR (63 downto 0);
@@ -47,7 +46,7 @@ end CACHE;
 
 architecture v0 of CACHE is
 
-    type state_type is (IDLE, LOAD, UNLOAD, EMPTY, FULL);
+    type state_type is (IDLE, LOAD, UNLOAD, FULL, EMPTY);
     signal state : state_type := IDLE;
     
     type mem_array is array (0 to 127) of std_logic_vector(63 downto 0);
@@ -71,60 +70,38 @@ begin
         elsif rising_edge(CLOCK) then
             case state is
                 when IDLE =>
-                    if WE = '1' and count < 100 then
-                        state <= LOAD;
-                        WDONE <= '0';
-                    elsif WE = '0' and count > 0 and rising_edge(NE) then
-                        DREADY <= '0';
+                    WDONE <= '0';
+                    DREADY <= '0';
+                    if WE = '0' and count > 0 and NE = '1' then
                         state <= UNLOAD;
-                    else
+                    elsif WE = '1' and count < 100 then
+                        state <= LOAD;
+                    elsif count = 100 then
+                        MPTY <= '0';
+                        FLL <= '1';
+                        state <= IDLE;
+                    elsif count = 0 then
+                        MPTY <= '1';
+                        FLL <= '0';
+                        state <= IDLE;
+                    else 
                         state <= IDLE;
                     end if;
                 when LOAD =>
-                    memory(to_integer(unsigned(ADDR))) <= DIN;
+                    memory(count) <= DIN;
+                    count <= count + 1;
                     MPTY <= '0';
                     FLL <= '0';
-                    if count < 99 then
-                        count <= count + 1;
-                    end if;
                     WDONE <= '1';
-                    if count = 99 then
-                        FLL <= '1';
-                        state <= FULL;
-                    else
-                        state <= IDLE;
-                    end if;
+                    state <= IDLE;
                 when UNLOAD =>
                     DOUT <= memory(count - 1);
+                    memory(count - 1) <= (others => '0');
+                    count <= count - 1;
+                    MPTY <= '0';
+                    FLL <= '0';
                     DREADY <= '1';
-                    MPTY <= '0';
-                    FLL <= '0';
-                    if count > 0 then
-                        count <= count - 1;
-                    end if;
-                    if count = 0 then
-                        MPTY <= '1';
-                        state <= EMPTY;
-                    else
-                        state <= IDLE;
-                    end if;
-                when EMPTY =>
-                    MPTY <= '1';
-                    FLL <= '0';
-                    if WE = '1' then
-                        state <= LOAD;
-                    else
-                        state <= EMPTY;
-                    end if;
-                when FULL =>
-                    WDONE <= '0';
-                    FLL <= '1';
-                    MPTY <= '0';
-                    if WE = '0' then
-                        state <= UNLOAD;
-                    else
-                        state <= FULL;
-                    end if;
+                    state <= IDLE;
                 when others =>
                     state <= IDLE;
             end case;

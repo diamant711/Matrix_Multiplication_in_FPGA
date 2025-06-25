@@ -131,7 +131,7 @@ begin
                 -- Simulazione del comportamento della memoria
                 for i in 0 to 99 loop
                     wait until GETA = '1' and GETB = '1';
-
+                    START <= '0';
                     
                     -- Aspetta 1 ciclo, poi fornisce i dati
                     --wait for CLK_PERIOD;
@@ -143,7 +143,6 @@ begin
 
                     -- Aspetta che scriva
                     wait until GETA = '0' and GETB = '0';
-
 
                     -- Simula fine scrittura
                     ADATA <= (others => '0');

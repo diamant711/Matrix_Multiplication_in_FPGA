@@ -150,6 +150,7 @@ begin
         elsif rising_edge(CLOCK) then
             case state is
                 when IDLE =>
+                    GETN <= '0'; -- assicura che GETN sia basso in IDLE
                     if START = '1' then
                         c <= (others => '0');
                         DONE <= '0';
@@ -200,18 +201,18 @@ begin
                 when DATAIN =>
                     if GETN_reg = '0' then
                         GETN <= '1';
-                        GETN_reg <= '1';
-                        iready <= '0';
-                        state <= DATAIN;
-                    elsif DAREADY = '1' and DBREADY = '1' and GETN_reg = '1' then
-                        GETN <= '0';
-                        GETN_reg <= '0';
-                        a <= DINA;
-                        b <= DINB;
-                        iready <= '1';
-                        state <= PROC;
+                        GETN_reg <= '1'; -- ricordiamo di aver emesso la richiesta
                     else
-                        state <= DATAIN;
+                        GETN <= '0'; -- subito dopo, lo abbassiamo
+                        if DAREADY = '1' and DBREADY = '1' then
+                            a <= DINA;
+                            b <= DINB;
+                            iready <= '1';
+                            GETN_reg <= '0'; -- resettiamo per permettere una nuova richiesta in futuro
+                            state <= PROC;
+                        else
+                            state <= DATAIN;
+                        end if;
                     end if;
                 when DECOP =>
                     sign_a <= a(63);

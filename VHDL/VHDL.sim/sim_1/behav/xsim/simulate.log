@@ -1,3 +1,6 @@
 Time resolution is 1 ps
 Note: Starting row=0 col=0
 Time: 40 ns  Iteration: 0  Process: /TB_MULTIPLIER/stim_proc  File: /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_MULTIPLIER.vhd
+Stopped at time : 443500 ps : File "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd" Line 155
+Note: SIMULAZIONE COMPLETATA CON SUCCESSO
+Time: 9523500 ps  Iteration: 0  Process: /TB_MULTIPLIER/stim_proc  File: /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_MULTIPLIER.vhd
