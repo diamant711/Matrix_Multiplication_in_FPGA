@@ -1,10 +1,10 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
+-- Company: Unimi
+-- Engineer: Stefano Pilosio
 -- 
 -- Create Date: 06/25/2025 03:15:18 PM
 -- Design Name: 
--- Module Name: CONTROLLER - Behavioral
+-- Module Name: CONTROLLER - v0
 -- Project Name: 
 -- Target Devices: 
 -- Tool Versions: 
@@ -42,7 +42,8 @@ entity CONTROLLER is
         D_DIN   : in  std_logic_vector(63 downto 0);
         D_DOUT  : out std_logic_vector(63 downto 0);
         D_WE    : out std_logic;
-        D_READY : in  std_logic;
+        D_DE    : in std_logic; -- Writing Done
+        D_READY : in  std_logic; -- Reading Ready
         
         -- Controllo moltiplicatori
         -- -- Primo
@@ -50,14 +51,16 @@ entity CONTROLLER is
         COL_SELECT_A : out std_logic_vector(6 downto 0);
         START_A      : out std_logic;
         DONE_A       : in  std_logic; 
-        RESULT_A     : in  std_logic_vector(64 downto 0);
+        RESULT_A     : in  std_logic_vector(63 downto 0);
+        CL_DONE_A    : in  std_logic; -- segnala che moltiplicatore ha finito di leggere.
         
         -- -- Secondo
         ROW_SELECT_B : out std_logic_vector(6 downto 0);
         COL_SELECT_B : out std_logic_vector(6 downto 0);
         START_B      : out std_logic;
         DONE_B       : in  std_logic;
-        RESULT_B     : in  std_logic_vector(64 downto 0);
+        RESULT_B     : in  std_logic_vector(63 downto 0);
+        CL_DONE_B    : in  std_logic; -- segnala che moltiplicatore ha finito di leggere.
         
         -- Interfaccia con buffer C
         C_ADDR : out std_logic_vector( 13 downto 0 );
@@ -75,8 +78,8 @@ architecture v0 of CONTROLLER is
     
     signal PC_STATE : PROCESS_CONTROL_STATE := IDLING;
     
-    signal CURRENT_ROW : unsigned := to_unsigned( 0, 7);
-    signal CURRENT_COL : unsigned := TO_UNSIGNED( 0, 7);
+    signal CURRENT_ROW : unsigned(6 downto 0) := to_unsigned(0, 7);
+    signal CURRENT_COL : unsigned(6 downto 0) := to_unsigned(0, 7);
     
     signal ENABLE_A      : std_logic := '0'; -- Variabile per abilitare all'accesso
     signal ENABLE_B      : std_logic := '0'; -- alla memoria il moltiplicatore
@@ -91,10 +94,10 @@ architecture v0 of CONTROLLER is
 
     signal TMP_RESULT_A : std_logic_vector(63 downto 0) := std_logic_vector(to_unsigned(0,64));
     signal TMP_RESULT_B : std_logic_vector(63 downto 0) := std_logic_vector(to_unsigned(0,64));
-    signal ROW_IDX_A : unsigned := to_unsigned(0, 7); -- servono come variabili temporanee...
-    signal ROW_IDX_B : unsigned := to_unsigned(0, 7);
-    signal COL_IDX_A : unsigned := to_unsigned(0, 7); -- servono come variabili temporanee...
-    signal COL_IDX_B : unsigned := to_unsigned(0, 7);
+    signal ROW_IDX_A : unsigned(6 downto 0) := to_unsigned(0, 7); -- servono come variabili temporanee...
+    signal ROW_IDX_B : unsigned(6 downto 0) := to_unsigned(0, 7);
+    signal COL_IDX_A : unsigned(6 downto 0) := to_unsigned(0, 7); -- servono come variabili temporanee...
+    signal COL_IDX_B : unsigned(6 downto 0) := to_unsigned(0, 7);
 
 begin
     
@@ -106,6 +109,12 @@ begin
             CURRENT_COL <= to_unsigned(0,7);
             PC_STATE <= IDLING;
             D_ADDR <= std_logic_vector(to_unsigned( 0, 14));
+            C_ADDR <= std_logic_vector(to_unsigned( 0, 14));
+            C_DOUT <= std_logic_vector(to_unsigned( 0, 64));
+            D_DOUT <= std_logic_vector(to_unsigned( 0, 64));
+            C_WE <= '0';
+            ENABLE_A <= '0';
+            ENABLE_B <= '0';
         elsif rising_edge(CLOCK) then
              case PC_STATE is
                 when IDLING =>
@@ -155,6 +164,7 @@ begin
                         READING_DONE_A <= '0';
                         PC_STATE <= LOAD;
                     else
+                        PC_STATE <= PROCESSING;
                     end if;
                 
                 WHEN LOAD =>
@@ -165,7 +175,22 @@ begin
                     end if;
                        
                 when DONE =>
-                when others =>        
+                    D_WE <= '1';
+                    D_DOUT <= (62 downto 0 => '0') & '1';
+                    if D_DE = '0' then
+                        PC_STATE <= DONE;
+                    else
+                        PC_STATE <= IDLING;
+                    end if;
+                when others =>
+                    CURRENT_ROW <= to_unsigned(0,7);
+                    CURRENT_COL <= to_unsigned(0,7);
+                    PC_STATE <= IDLING;
+                    D_ADDR <= std_logic_vector(to_unsigned( 0, 14));
+                    C_ADDR <= std_logic_vector(to_unsigned( 0, 14));
+                    C_DOUT <= std_logic_vector(to_unsigned( 0, 64));
+                    D_DOUT <= std_logic_vector(to_unsigned( 0, 64));
+                    C_WE <= '0';      
              end case;
         end if;
     end process;
@@ -186,13 +211,13 @@ begin
                         COL_SELECT_A <= std_logic_vector(CURRENT_COL);
                         ROW_IDX_A <= CURRENT_ROW;
                         COL_IDX_A <= CURRENT_COL;
+                        
                         if CURRENT_COL < size then
                             CURRENT_COL <= CURRENT_COL + 1;
                         else
                             CURRENT_COL <= TO_UNSIGNED (0, 7);
                             CURRENT_ROW <= CURRENT_ROW + 1;
                         end if;
-
                         
                         START_A <= '1';
                         M_STATE_A <= COMPUTING;
@@ -200,8 +225,14 @@ begin
                         M_STATE_A <= ACCEPTING;
                     end if;
                 when COMPUTING =>
-                    START_A <= '0';                    
-                    if DONE_A = '1' then
+                    START_A <= '0';
+                    if ENABLE_A = '1' and CL_DONE_A = '1' then
+                         -- Aspetto che il moltiplicatore finisca di leggere prima di restituire il controllo del BUS
+                         ENABLE_A <= '0';
+                         M_STATE_A <= COMPUTING;
+                    elsif ENABLE_A = '1' and CL_DONE_A = '0' then
+                        M_STATE_A <= COMPUTING;
+                    elsif DONE_A = '1' then
                         TMP_RESULT_A <= RESULT_A;
                         M_STATE_A <= DONE;
                     else
@@ -251,9 +282,15 @@ begin
                         M_STATE_B <= ACCEPTING;
                     end if;
                 when COMPUTING =>
-                    START_B <= '0';                    
-                    if DONE_B = '1' then
-                        TMP_RESULT_B <= RESULT_A;
+                    START_B <= '0';
+                    if ENABLE_B = '1' and CL_DONE_B= '1' then
+                         -- Aspetto che il moltiplicatore finisca di leggere prima di restituire il controllo del BUS
+                         ENABLE_B <= '0';
+                         M_STATE_B <= COMPUTING;
+                    elsif ENABLE_B = '1' and CL_DONE_B = '0' then
+                        M_STATE_B <= COMPUTING;               
+                    elsif DONE_B = '1' then
+                        TMP_RESULT_B <= RESULT_B;
                         M_STATE_B <= DONE;
                     else
                         M_STATE_B <= COMPUTING;
