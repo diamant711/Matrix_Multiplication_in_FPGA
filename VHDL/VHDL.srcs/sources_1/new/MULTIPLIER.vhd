@@ -47,6 +47,7 @@ entity MULTIPLIER is
         READYB       : in std_logic;
         DOUT         : out STD_LOGIC_VECTOR (63 downto 0);
         DONE         : out std_logic;
+        CL_DONE      : out std_logic;
         START        : in  std_logic
     );
 end MULTIPLIER;
@@ -202,5 +203,6 @@ begin
 
     idsp_start <= irow_full and icol_full and icl_ended;
     idsp_mpty <= irow_mpty or icol_mpty;
+    CL_DONE <= icl_ended;
 
 end v0;
