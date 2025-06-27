@@ -28,44 +28,43 @@ end TB_CONTROLLER;
 architecture Behavioral of TB_CONTROLLER is
     -- Component Declaration for the Unit Under Test (UUT)
     component CONTROLLER
-        Port ( 
-            -- Sincronismo
-            CLOCK : in std_logic;
-            RESET : in std_logic;
-            
-            -- Interfaccia con Computer
-            D_ADDR  : out std_logic_vector( 13 downto 0);
-            D_DIN   : in  std_logic_vector(63 downto 0);
-            D_DOUT  : out std_logic_vector(63 downto 0);
-            D_WE    : out std_logic;
-            D_DE    : in std_logic; -- Writing Done
-            D_READY : in  std_logic; -- Reading Ready
-            
-            -- Controllo moltiplicatori
-            -- -- Primo
-            ROW_SELECT_A : out std_logic_vector(6 downto 0);
-            COL_SELECT_A : out std_logic_vector(6 downto 0);
-            START_A      : out std_logic;
-            DONE_A       : in  std_logic; 
-            RESULT_A     : in  std_logic_vector(63 downto 0);
-            CL_DONE_A    : in  std_logic; -- segnala che moltiplicatore ha finito di leggere.
-            
-            -- -- Secondo
-            ROW_SELECT_B : out std_logic_vector(6 downto 0);
-            COL_SELECT_B : out std_logic_vector(6 downto 0);
-            START_B      : out std_logic;
-            DONE_B       : in  std_logic;
-            RESULT_B     : in  std_logic_vector(63 downto 0);
-            CL_DONE_B    : in  std_logic; -- segnala che moltiplicatore ha finito di leggere.
-            
-            -- Interfaccia con buffer C
-            C_ADDR : out std_logic_vector( 13 downto 0 );
-            C_DOUT : out std_logic_vector ( 63 downto 0 );    
-            C_WE   : out std_logic;
-            C_WD   : in  std_logic -- Write Done. 
-        );
-    end component;
+    Port ( 
+-- Quanto commentato appartiene a Vecchia Versione v0
+        -- Sincronismo
+        CLOCK : in std_logic;
+        RESET : in std_logic;
+        
+        -- Interfaccia con Computer
+        D_DIN   : in  std_logic_vector(63 downto 0);
 
+        -- Appartiene a versione v1:
+        AND_IT_S_ALL_FOLKS : out std_logic; -- Segnale di fine dei calcoli o di idling
+        
+        -- Controllo moltiplicatori
+        -- -- Primo
+        ROW_SELECT_A : out std_logic_vector(6 downto 0);
+        COL_SELECT_A : out std_logic_vector(6 downto 0);
+        START_A      : out std_logic;
+        DONE_A       : in  std_logic; 
+        RESULT_A     : in  std_logic_vector(63 downto 0);
+        CL_DONE_A    : in  std_logic; -- segnala che moltiplicatore ha finito di leggere.
+
+        -- -- Secondo
+        ROW_SELECT_B : out std_logic_vector(6 downto 0);
+        COL_SELECT_B : out std_logic_vector(6 downto 0);
+        START_B      : out std_logic;
+        DONE_B       : in  std_logic;
+        RESULT_B     : in  std_logic_vector(63 downto 0);
+        CL_DONE_B    : in  std_logic; -- segnala che moltiplicatore ha finito di leggere.
+        
+        -- Interfaccia con buffer C
+        C_ADDR : out std_logic_vector( 13 downto 0 );
+        C_DOUT : out std_logic_vector ( 63 downto 0 );    
+        C_WE   : out std_logic;
+        C_WD   : in  std_logic -- Write Done. 
+    );    
+    end component;
+    
     -- Clock period definition
     constant clk_period : time := 1 ns;
     
@@ -74,12 +73,8 @@ architecture Behavioral of TB_CONTROLLER is
     signal RESET : std_logic := '0';
     
     -- Computer interface signals
-    signal D_ADDR  : std_logic_vector(13 downto 0);
     signal D_DIN   : std_logic_vector(63 downto 0) := (others => '0');
-    signal D_DOUT  : std_logic_vector(63 downto 0);
-    signal D_WE    : std_logic;
-    signal D_DE    : std_logic := '0';
-    signal D_READY : std_logic := '0';
+
     
     -- Multiplier A signals
     signal ROW_SELECT_A : std_logic_vector(6 downto 0);
@@ -117,12 +112,7 @@ begin
         Port map (
             CLOCK => CLOCK,
             RESET => RESET,
-            D_ADDR => D_ADDR,
             D_DIN => D_DIN,
-            D_DOUT => D_DOUT,
-            D_WE => D_WE,
-            D_DE => D_DE,
-            D_READY => D_READY,
             ROW_SELECT_A => ROW_SELECT_A,
             COL_SELECT_A => COL_SELECT_A,
             START_A => START_A,
@@ -144,7 +134,7 @@ begin
     -- Clock process
     clk_process: process
     begin
-        while not test_complete loop
+        while true loop
             CLOCK <= '0';
             wait for clk_period/2;
             CLOCK <= '1';
@@ -284,27 +274,17 @@ begin
         variable de_delay : integer := 0;
     begin
         if RESET = '1' then
-            D_DE <= '0';
             de_delay := 0;
         elsif rising_edge(CLOCK) then
-            if D_WE = '1' and de_delay = 0 then
+            if de_delay = 0 then
                 -- Start write acknowledgment
                 de_delay := 1;
-                D_DE <= '0';
             elsif de_delay > 0 and de_delay < 2 then
                 -- Simulate write delay
                 de_delay := de_delay + 1;
-                D_DE <= '0';
             elsif de_delay = 2 then
                 -- Write acknowledged
-                D_DE <= '1';
                 de_delay := de_delay + 1;
-            elsif de_delay > 2 then
-                -- Reset after controller reads DE
-                if D_WE = '0' then
-                    D_DE <= '0';
-                    de_delay := 0;
-                end if;
             end if;
         end if;
     end process;
@@ -316,21 +296,12 @@ begin
         RESET <= '1';
         wait for 20 ns;
         RESET <= '0';
-        wait for 20 ns;
-        
-        -- Test 1: Check initial IDLING state
-        assert D_ADDR = "00000000000000" report "Initial D_ADDR should be 0" severity error;
-        assert D_WE = '0' report "Initial D_WE should be 0" severity error;
-        
+
         wait for 50 ns;
         
         -- Test 2: Send start command (D_DIN with bits 1:0 = "10")
         D_DIN <= (1 => '1', 0 => '0', others => '0'); -- Set bits 1:0 to "10"
-        D_READY <= '1';
-        
-        wait for clk_period;
-        D_READY <= '0';
-        
+                
         -- Wait for processing to start
         wait for 100 ns;
         
@@ -350,17 +321,7 @@ begin
         RESET <= '1';
         wait for 20 ns;
         RESET <= '0';
-        
-        -- Verify reset behavior
-        wait for 20 ns;
-        assert D_ADDR = "00000000000000" report "D_ADDR should be 0 after reset" severity error;
-        
-        -- Test 5: Send invalid command
-        D_DIN <= (others => '0'); -- bits 1:0 = "00" (invalid)
-        D_READY <= '1';
-        wait for clk_period;
-        D_READY <= '0';
-        wait for 50 ns;
+
         
         -- Should remain in IDLING state
         wait for 100 ns;
@@ -390,10 +351,7 @@ begin
             if C_WE = '1' then
                 report "Writing to C: ADDR=" & integer'image(to_integer(unsigned(C_ADDR))) severity note;
             end if;
-            
-            if D_WE = '1' then
-                report "Writing completion signal to computer" severity note;
-            end if;
+
         end if;
     end process;
 

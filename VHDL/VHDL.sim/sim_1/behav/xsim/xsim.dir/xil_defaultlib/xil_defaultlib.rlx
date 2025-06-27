@@ -3,6 +3,8 @@
 Nov  8 2024
 22:36:55
 /home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CACHE.vhd,1750688443,vhdl,,,,tb_cache,,,,,,,,
-/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CONTROLLER.vhd,1750950805,vhdl,,,,tb_controller,,,,,,,,
+/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CONTROLLER.vhd,1751035461,vhdl,,,,tb_controller,,,,,,,,
 /home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE.vhd,1750858948,vhdl,,,,cache,,,,,,,,
-/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd,1750951464,vhdl,,,,controller,,,,,,,,
+/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd,1751036170,vhdl,,,,controller,,,,,,,,
+/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_LOGIC.vhd,1751035828,vhdl,,,,controller_logic,,,,,,,,
+/home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_MULTIPLIER_INTERFACE.vhd,1751028782,vhdl,,,,controller_multiplier_interface,,,,,,,,
