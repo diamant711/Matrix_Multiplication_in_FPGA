@@ -82,7 +82,7 @@ architecture v0 of CONTROLLER_LOGIC is
         signal DUMMY_CUR_COL : unsigned(6 downto 0) := to_unsigned(0, 7);        
         signal DUMMY_ENABLE_A : std_logic := '0';
         signal DUMMY_ENABLE_B : std_logic := '0';
-
+        signal D_DIN_reg : std_logic_vector(63 downto 0);
 
 begin
 
@@ -91,7 +91,10 @@ begin
 
     begin
         if RESET = '1' then
-
+            CURRENT_ROW_A <= (others => '0');
+            CURRENT_COL_A <= (others => '0');
+            --CURRENT_ROW_B <= (others => '0');
+            --CURRENT_COL_B <= (others => '0');
             AND_IT_S_ALL_FOLKS <= '1';
             C_ADDR <= (others => '0');
             C_DOUT <= (others => '0');    
@@ -107,6 +110,7 @@ begin
             CNTRL_RES_SAVE_A <= '0';
             CNTRL_RES_SAVE_B <= '0';
             PC_STATE <= IDLING;
+            D_DIN_reg <= D_DIN;
         elsif rising_edge(CLOCK) then
             case PC_STATE is
                 when IDLING =>

@@ -35,7 +35,9 @@ entity TOP is
     Port ( UART_D_IN : in STD_LOGIC;
            UART_D_OUT : out STD_LOGIC;
            Reset : in STD_LOGIC;
-           Clock_100MHz : in STD_LOGIC);
+           Clock_100MHz : in STD_LOGIC;
+           INNER_PROD_DONE : out STD_LOGIC
+    );
 end TOP;
 
 architecture v0 of TOP is
@@ -69,12 +71,8 @@ architecture v0 of TOP is
         Port ( 
             CLOCK : in std_logic;
             RESET : in std_logic;
-            D_ADDR  : out std_logic_vector( 13 downto 0);
+            AND_IT_S_ALL_FOLKS  : out std_logic;
             D_DIN   : in  std_logic_vector(63 downto 0);
-            D_DOUT  : out std_logic_vector(63 downto 0);
-            D_WE    : out std_logic;
-            D_DE    : in std_logic;
-            D_READY : in  std_logic;
             ROW_SELECT_A : out std_logic_vector(6 downto 0);
             COL_SELECT_A : out std_logic_vector(6 downto 0);
             START_A      : out std_logic;
@@ -114,13 +112,13 @@ architecture v0 of TOP is
         );
     end component;
     signal DATA_OUT_A : std_logic_vector(63 downto 0);
-    signal DATA_ADDR_A : std_logic_vector(13 downto 0);
+    signal DATA_ADDR_A_PC : std_logic_vector(13 downto 0);
     signal DATA_VALID_A : std_logic;
-    signal DATA_ADDR_VALID_A : std_logic;
+    signal DATA_ADDR_VALID_A_PC : std_logic;
     signal DATA_OUT_B : std_logic_vector(63 downto 0);
-    signal DATA_ADDR_B : std_logic_vector(13 downto 0);
+    signal DATA_ADDR_B_PC : std_logic_vector(13 downto 0);
     signal DATA_VALID_B : std_logic;
-    signal DATA_ADDR_VALID_B : std_logic;     
+    signal DATA_ADDR_VALID_B_PC : std_logic;     
     signal DATA_IN_C : std_logic_vector(63 downto 0);
     signal DATA_ADDR_C : std_logic_vector(13 downto 0);
     signal DATA_VALID_C : std_logic;
@@ -140,19 +138,28 @@ architecture v0 of TOP is
     signal RESULT_B : std_logic_vector(63 downto 0);
     signal CL_DONE_B : std_logic;
 
+    signal DATA_ADDR_B_MA : std_logic_vector(13 downto 0);
+    signal DATA_ADDR_A_MA : std_logic_vector(13 downto 0);
+    signal DATA_ADDR_VALID_B_MA : std_logic;
+    signal DATA_ADDR_VALID_A_MA : std_logic;
+    signal DATA_ADDR_B_MB : std_logic_vector(13 downto 0);
+    signal DATA_ADDR_A_MB : std_logic_vector(13 downto 0);
+    signal DATA_ADDR_VALID_B_MB : std_logic;
+    signal DATA_ADDR_VALID_A_MB : std_logic;
+
 begin    
     PC: PC_INTERFACE
         port map (
             Clock => Clock_100MHz,
             Reset => Reset,
             DATA_OUT_A => DATA_OUT_A,
-            DATA_ADDR_A => DATA_ADDR_A,
+            DATA_ADDR_A => DATA_ADDR_A_PC,
             DATA_VALID_A => DATA_VALID_A,
-            DATA_ADDR_VALID_A => DATA_ADDR_VALID_A,
+            DATA_ADDR_VALID_A => DATA_ADDR_VALID_A_PC,
             DATA_OUT_B => DATA_OUT_B,
-            DATA_ADDR_B => DATA_ADDR_B,
+            DATA_ADDR_B => DATA_ADDR_B_PC,
             DATA_VALID_B => DATA_VALID_B,
-            DATA_ADDR_VALID_B => DATA_ADDR_VALID_B,
+            DATA_ADDR_VALID_B => DATA_ADDR_VALID_B_PC,
             DATA_IN_C => DATA_IN_C,
             DATA_ADDR_C => DATA_ADDR_C,
             DATA_VALID_C => DATA_VALID_C,
@@ -165,7 +172,7 @@ begin
         port map (
             CLOCK => Clock_100MHz,
             RESET => Reset,
-            super_ended_bro => ,
+            AND_IT_S_ALL_FOLKS => INNER_PROD_DONE,
             D_DIN => DATA_OUT_D,
             ROW_SELECT_A => ROW_SELECT_A,
             COL_SELECT_A => COL_SELECT_A,
@@ -191,12 +198,12 @@ begin
             ROW_SELECT => ROW_SELECT_A,
             COL_SELECT => COL_SELECT_A,
             ADATA => DATA_OUT_A,
-            AADDR => DATA_ADDR_A,
-            GETA => DATA_ADDR_VALID_A, --Compatibile?
+            AADDR => DATA_ADDR_A_MA,
+            GETA => DATA_ADDR_VALID_A_MA, --Compatibile?
             READYA => DATA_VALID_A, --Compatibile?
             BDATA => DATA_OUT_B,
-            BADDR => DATA_ADDR_B,
-            GETB => DATA_ADDR_VALID_B, --Compatibile?
+            BADDR => DATA_ADDR_B_MA,
+            GETB => DATA_ADDR_VALID_B_MA, --Compatibile?
             READYB => DATA_VALID_B, --Compatibile?
             DOUT => RESULT_A,
             DONE => DONE_A,
@@ -210,16 +217,20 @@ begin
             ROW_SELECT => ROW_SELECT_B,
             COL_SELECT => COL_SELECT_B,
             ADATA => DATA_OUT_A,
-            AADDR => DATA_ADDR_A,
-            GETA => DATA_ADDR_VALID_A, --Compatibile?
+            AADDR => DATA_ADDR_A_MB,
+            GETA => DATA_ADDR_VALID_A_MB, --Compatibile?
             READYA => DATA_VALID_A, --Compatibile?
             BDATA => DATA_OUT_B,
-            BADDR => DATA_ADDR_B,
-            GETB => DATA_ADDR_VALID_B, --Compatibile?
+            BADDR => DATA_ADDR_B_MB,
+            GETB => DATA_ADDR_VALID_B_MB, --Compatibile?
             READYB => DATA_VALID_B, --Compatibile?
             DOUT => RESULT_B,
             DONE => DONE_B,
             CL_DONE => CL_DONE_B,
             START => START_B
         );
+    DATA_ADDR_B_PC <= DATA_ADDR_B_MA or DATA_ADDR_B_MB;
+    DATA_ADDR_A_PC <= DATA_ADDR_A_MA or DATA_ADDR_A_MB;
+    DATA_ADDR_VALID_B_PC <= DATA_ADDR_VALID_B_MA or DATA_ADDR_VALID_B_MB;
+    DATA_ADDR_VALID_A_PC <= DATA_ADDR_VALID_A_MA or DATA_ADDR_VALID_A_MB;
 end v0;
