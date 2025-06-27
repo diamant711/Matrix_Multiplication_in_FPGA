@@ -1,1 +1,0 @@
---incr --debug "typical" --relax --mt "8" -L "xil_defaultlib" -L "secureip" --snapshot "TB_CACHE_behav" "xil_defaultlib.TB_CACHE" -log "elaborate.log" 

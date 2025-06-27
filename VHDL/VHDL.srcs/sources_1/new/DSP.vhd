@@ -147,6 +147,8 @@ begin
         leading_zeros <= 0;
         norm_shift_count <= 0;
         acc_shift_count <= 0;
+        i <= 0;
+        state <= IDLE;
         elsif rising_edge(CLOCK) then
             case state is
                 when IDLE =>

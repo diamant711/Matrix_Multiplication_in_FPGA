@@ -1,4 +1,5 @@
 Time resolution is 1 ps
+<<<<<<< Updated upstream
 Note: Multiplier A started: ROW=0 COL=0
 Time: 74500 ps  Iteration: 1  Process: /TB_CONTROLLER/monitor  File: /home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CONTROLLER.vhd
 Note: Writing to C: ADDR=100
@@ -7770,3 +7771,8 @@ Time: 3998500 ps  Iteration: 1  Process: /TB_CONTROLLER/monitor  File: /home/SPi
 Note: Writing to C: ADDR=200
 Time: 3999500 ps  Iteration: 1  Process: /TB_CONTROLLER/monitor  File: /home/SPilosio/Documents/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_CONTROLLER.vhd
 INFO: xsimkernel Simulation Memory Usage: 492348 KB (Peak: 541680 KB), Simulation CPU Usage: 600 ms
+=======
+Stopped at time : 0 fs : File "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/imports/new/TB_1.vhd" Line 117
+Stopped at time : 22310170 ns : File "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/imports/new/TB_1.vhd" Line 5239
+INFO: xsimkernel Simulation Memory Usage: 267908 KB (Peak: 317240 KB), Simulation CPU Usage: 15680 ms
+>>>>>>> Stashed changes
