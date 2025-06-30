@@ -1,0 +1,1 @@
+--incr --debug "typical" --relax --mt "8" -L "xil_defaultlib" -L "secureip" -L "xpm" --snapshot "TB_UART_TEST_behav" "xil_defaultlib.TB_UART_TEST" -log "elaborate.log" 
