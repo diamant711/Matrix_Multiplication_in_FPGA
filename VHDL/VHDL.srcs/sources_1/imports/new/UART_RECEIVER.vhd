@@ -22,7 +22,7 @@ end UART_RECEIVER;
 
 architecture V0 of UART_RECEIVER is
 
-type SM_stati is (SM_Reset, SM_Receive, SM_Validate, SM_MEM_access, SM_MEM_wait, SM_MEM_done, SM_Reply, SM_UART_Send);
+type SM_stati is (SM_Reset, SM_Receive, SM_Validate, SM_MEM_access, SM_MEM_wait, SM_MEM_done, SM_Reply, SM_UART_Send, SM_Wait);
 signal SM_stato: SM_stati;
 
 signal Counter_1_MHz : unsigned(6 downto 0); -- da 0 a 99
@@ -30,7 +30,7 @@ signal WD_Counter : unsigned(10 downto 0); -- da 0 a 2048 (2 ms)
 signal SM_WD, Clock_1_MHz : std_logic;
 
 signal SM_Counter : unsigned(3 downto 0);
-
+signal SM_Counter_1 : unsigned(2 downto 0);
 signal UART_HEADER : std_logic_vector(7 downto 0);
 signal MEM_ADDRESS : std_logic_vector(15 downto 0);
 signal MEM_DATA : std_logic_vector(63 downto 0);
@@ -59,6 +59,7 @@ begin
                 if (Clock_1_MHz = '1') then
                     if WD_Counter = "11111111111" then
                         SM_WD <= '1';
+                        WD_Counter <= (others =>'0');
                     else
                         WD_Counter <= WD_Counter + 1;
                     end if;
@@ -84,53 +85,66 @@ begin
             case SM_stato is
                 when SM_Reset =>
                     SM_stato <= SM_Receive;
-                    SM_Counter <= (others => '0');
+                    SM_Counter <= "1011";
 					UART_CALCULATED_CHKSUM <= (others => '0');
                 when SM_Receive =>
                     SM_stato <= SM_Receive;
                     if (UART_RX_DONE = '1') then
-                        UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
-						if (SM_Counter = "1011") then
+						if (SM_Counter = "0000") then
                             SM_stato <= SM_Validate;
                         else 
-                            SM_Counter <= SM_Counter + 1;
+                            SM_Counter <= SM_Counter - 1;
                         end if;
                         case SM_Counter is
-							when "0000" => 
+							when "1011" => 
 								UART_HEADER <= UART_RX_DATA;
-							when "0001" =>	
+								UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+							when "1010" =>	
 								MEM_ADDRESS(15 downto 8) <= UART_RX_DATA;
-							when "0010" => 
-								MEM_ADDRESS(7 downto 0) <= UART_RX_DATA;        
-							when "0011" => 
+								UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+							when "1001" => 
+								MEM_ADDRESS(7 downto 0) <= UART_RX_DATA;
+								UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+								if UART_HEADER(0) = '0' then
+								    SM_Counter <= "0000";
+								end if;        
+							when "1000" => 
 								MEM_DATA(63 downto 56) <= UART_RX_DATA;
-                            when "0100" => 
-                                MEM_DATA(55 downto 48) <= UART_RX_DATA;
-                            when "0101" => 
-                                MEM_DATA(47 downto 40) <= UART_RX_DATA;
-                            when "0110" => 
-                                MEM_DATA(39 downto 32) <= UART_RX_DATA;
+								UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
                             when "0111" => 
+                                MEM_DATA(55 downto 48) <= UART_RX_DATA;
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+                            when "0110" => 
+                                MEM_DATA(47 downto 40) <= UART_RX_DATA;
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+                            when "0101" => 
+                                MEM_DATA(39 downto 32) <= UART_RX_DATA;
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+                            when "0100" => 
                                 MEM_DATA(31 downto 24) <= UART_RX_DATA;
-                            when "1000" => 
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+                            when "0011" => 
                                 MEM_DATA(23 downto 16) <= UART_RX_DATA;
-                            when "1001" => 
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+                            when "0010" => 
                                 MEM_DATA(15 downto 8) <= UART_RX_DATA;
-                            when "1010" => 
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
+                            when "0001" => 
                                 MEM_DATA(7 downto 0) <= UART_RX_DATA;
+                                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_RX_DATA;
 							when others =>
 								UART_CHKSUM <= UART_RX_DATA;
 						end case;
-                    end if;
-				when SM_Validate =>
+					end if;
+       			when SM_Validate =>
 					if (UART_CHKSUM = UART_CALCULATED_CHKSUM) then
 						SM_Stato <= SM_MEM_access;
+						SM_Counter <= (others => '0');
 					else
 						SM_Stato <= SM_Reset;
 					end if;
 				when SM_MEM_access =>
-					SM_Stato <= SM_MEM_wait;
-                    SM_Counter <= (others => '0');
+					SM_Stato <= SM_MEM_access;
                     MEM_ADDRESS_OUT <= MEM_ADDRESS(13 downto 0);
                     MEM_DATA_OUT <= MEM_DATA;
                     MEM_Write_en <= UART_HEADER(0);
@@ -146,15 +160,13 @@ begin
 					if MEM_ADDRESS(15 downto 14) = "11" then
 					   MEM_D_EN <= '1';
 					end if;
-				when SM_MEM_wait =>
-                    SM_Stato <= SM_MEM_wait;
-                    if (SM_Counter = "0010") then
+                    if (SM_Counter = "0100") then
 						SM_Stato <= SM_MEM_done;
                     else
                         SM_Counter <= SM_Counter + 1;
                     end if;
                 when SM_MEM_done =>
-                    if UART_HEADER(1) = '0' then -- write
+                    if UART_HEADER(1) = '1' then -- write
                         SM_Stato <= SM_Reset;
                     else
                         SM_Stato <= SM_Reply;
@@ -170,7 +182,7 @@ begin
                          end case;
                         SM_Counter <= (others => '0');
                         UART_CHKSUM <= (others => '0');
-                        UART_TX_DATA <= "00000000";
+                        --UART_TX_DATA <= "00000000";
                     end if;
                 when SM_Reply =>
 					SM_stato <= SM_Reply;
@@ -210,11 +222,19 @@ begin
 						end case;
 					end if;
 				when SM_UART_Send =>
-				    SM_Stato <= SM_Reply;
+				    SM_Stato <= SM_Wait;
+				    SM_Counter_1 <= "111";
 	                UART_SEND_TX <= '1';
 	                UART_TX_DATA <= UART_DATA;
-	                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_DATA;			    
-				when others =>
+	                UART_CALCULATED_CHKSUM <= UART_CALCULATED_CHKSUM xor UART_DATA;		
+	            when SM_Wait =>
+	               SM_Stato <= SM_Wait;
+	               if (SM_Counter_1 = "000") then
+	                   SM_Stato <= SM_Reply;
+	               else
+	                   SM_Counter_1 <= SM_Counter_1 - 1;
+	               end if;
+	      	    when others =>
 					SM_stato <= SM_Reset;
             end case;
         end if;

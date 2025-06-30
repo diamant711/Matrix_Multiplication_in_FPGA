@@ -29,8 +29,7 @@ Port (
     
     D_IN : in STD_LOGIC; 
     D_OUT : out std_logic
-    );
-    
+    );    
 end PC_INTERFACE;
 
 architecture V0 of PC_INTERFACE is

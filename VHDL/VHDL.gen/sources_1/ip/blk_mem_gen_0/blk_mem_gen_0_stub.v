@@ -2,10 +2,10 @@
 // Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
 // --------------------------------------------------------------------------------
 // Tool Version: Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
-// Date        : Fri Jun 27 19:19:23 2025
+// Date        : Fri Jun 27 19:19:22 2025
 // Host        : artixThinkpad running 64-bit unknown
-// Command     : write_verilog -force -mode synth_stub
-//               /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0_stub.v
+// Command     : write_verilog -force -mode synth_stub -rename_top blk_mem_gen_0 -prefix
+//               blk_mem_gen_0_ blk_mem_gen_0_stub.v
 // Design      : blk_mem_gen_0
 // Purpose     : Stub declaration of top-level module interface
 // Device      : xc7z020clg484-1
