@@ -56,9 +56,9 @@ architecture tb of TB_CONTROLLER_LOGIC is
     signal CNTRL_MULT_DONE_A : std_logic := '0';
     signal CNTRL_MULT_DONE_B : std_logic := '0';
     signal TMP_RESULT_A : std_logic_vector(63 downto 0) := (others => '0');
-    signal TMP_RESULT_B : std_logic_vector(63 downto 0) := (others => '0');
+    signal TMP_RESULT_B : std_logic_vector(63 downto 0) := std_logic_vector(to_unsigned(10000, 64));
 
-    constant clk_period : time := 10 ns;
+    constant clk_period : time := 1 ns;
 
 begin
 
@@ -92,6 +92,51 @@ begin
             TMP_RESULT_B => TMP_RESULT_B
         );
 
+    response_a : process
+    begin
+        wait until CNTRL_ENABLE_A = '1';
+        CNTRL_OCC_A <= '1';
+        wait for 10 ns;
+        CNTRL_WRT_DONE_A <= '1';
+        wait until CNTRL_ENABLE_A = '0';
+        CNTRL_WRT_DONE_A <= '0';
+        wait for 10 ns;
+        CNTRL_MULT_DONE_A <= '1';
+        TMP_RESULT_A <= std_logic_vector(unsigned(TMP_RESULT_A) + 1);
+        wait until CNTRL_RES_SAVE_A = '1';
+        CNTRL_MULT_DONE_A <= '0';
+        CNTRL_OCC_A <= '0';
+        wait for 10 ns;
+    end process;
+
+
+    
+    response_b : process
+    begin
+        wait until CNTRL_ENABLE_B = '1';
+        CNTRL_OCC_B <= '1';
+        wait for 10 ns;
+        CNTRL_WRT_DONE_B <= '1';
+        wait until CNTRL_ENABLE_B = '0';
+        CNTRL_WRT_DONE_B <= '0';
+        wait for 10 ns;
+        CNTRL_MULT_DONE_B <= '1';
+        TMP_RESULT_B <= std_logic_vector(unsigned(TMP_RESULT_B) + 1);
+        wait until CNTRL_RES_SAVE_B = '1';
+        CNTRL_MULT_DONE_B <= '0';
+        CNTRL_OCC_B <= '0';
+        wait for 10 ns;
+    end process;
+    
+    memory_response : process
+    begin
+        wait until C_WE = '1';
+        C_WD <= '1';
+        wait for 10 ns;
+        assert C_WE = '0' report "Sistema smette di scrivere" severity note;
+        C_WD <= '0';
+    end process;
+    
     -- Stimuli
     stim_proc: process
     begin
@@ -106,43 +151,10 @@ begin
         wait for clk_period;
         D_DIN(1 downto 0) <= "00";  -- Torna a idle dopo trigger
 
-        -- Attiva A
-        wait for 100 ns;
-        CNTRL_WRT_DONE_A <= '1';  -- Fine lettura da A
-        wait for clk_period;
-        CNTRL_WRT_DONE_A <= '0';
 
-        wait for 100 ns;
-        CNTRL_MULT_DONE_A <= '1';
-        TMP_RESULT_A <= x"00000000000000AA";
-        wait for clk_period;
-        CNTRL_MULT_DONE_A <= '0';
-
-        -- Simula salvataggio
-        wait for 20 ns;
-        C_WD <= '1';
-        wait for clk_period;
-        C_WD <= '0';
-
-        -- Attiva B
-        wait for 100 ns;
-        CNTRL_WRT_DONE_B <= '1';
-        wait for clk_period;
-        CNTRL_WRT_DONE_B <= '0';
-
-        wait for 100 ns;
-        CNTRL_MULT_DONE_B <= '1';
-        TMP_RESULT_B <= x"00000000000000BB";
-        wait for clk_period;
-        CNTRL_MULT_DONE_B <= '0';
-
-        wait for 20 ns;
-        C_WD <= '1';
-        wait for clk_period;
-        C_WD <= '0';
 
         -- Fine simulazione
-        wait for 200 ns;
+        wait until AND_IT_S_ALL_FOLKS = '1';
         assert false report "Fine simulazione." severity note;
         wait;
     end process;
