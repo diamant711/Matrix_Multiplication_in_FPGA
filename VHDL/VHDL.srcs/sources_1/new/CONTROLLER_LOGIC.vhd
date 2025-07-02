@@ -114,7 +114,7 @@ begin
         elsif rising_edge(CLOCK) then
             case PC_STATE is
                 when IDLING =>
-                    if D_DIN(1 downto 0) = "10" then
+                    if D_DIN(1 downto 0) = "01" then
                         -- Assumo che A e B siano state riempite correttamente.
                         CNTRL_CUR_ROW <= to_unsigned(0,7);
                         CNTRL_CUR_COL <= to_unsigned(0,7);
