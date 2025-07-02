@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wave_config>
+   <wave_state>
+   </wave_state>
+   <db_ref_list>
+      <db_ref path="TB_TOP_behav.wdb" id="1">
+         <top_modules>
+            <top_module name="TB_TOP" />
+            <top_module name="glbl" />
+         </top_modules>
+      </db_ref>
+   </db_ref_list>
+   <zoom_setting>
+      <ZoomStartTime time="3.561499704 ms"></ZoomStartTime>
+      <ZoomEndTime time="49.647374180 ms"></ZoomEndTime>
+      <Cursor1Time time="41.966395100 ms"></Cursor1Time>
+   </zoom_setting>
+   <column_width_setting>
+      <NameColumnWidth column_width="178"></NameColumnWidth>
+      <ValueColumnWidth column_width="58"></ValueColumnWidth>
+   </column_width_setting>
+   <WVObjectSize size="27" />
+   <wave_markers>
+      <marker label="" time="3039595000" />
+   </wave_markers>
+   <wvobject type="logic" fp_name="/TB_TOP/UART_D_IN">
+      <obj_property name="ElementShortName">UART_D_IN</obj_property>
+      <obj_property name="ObjectShortName">UART_D_IN</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/TB_TOP/UART_D_OUT">
+      <obj_property name="ElementShortName">UART_D_OUT</obj_property>
+      <obj_property name="ObjectShortName">UART_D_OUT</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/TB_TOP/Reset">
+      <obj_property name="ElementShortName">Reset</obj_property>
+      <obj_property name="ObjectShortName">Reset</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/TB_TOP/Clock_100MHz">
+      <obj_property name="ElementShortName">Clock_100MHz</obj_property>
+      <obj_property name="ObjectShortName">Clock_100MHz</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/TB_TOP/INNER_PROD_DONE">
+      <obj_property name="ElementShortName">INNER_PROD_DONE</obj_property>
+      <obj_property name="ObjectShortName">INNER_PROD_DONE</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_ADDRESS">
+      <obj_property name="ElementShortName">MEM_ADDRESS[15:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_ADDRESS[15:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_DATA_IN_D">
+      <obj_property name="ElementShortName">MEM_DATA_IN_D[63:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA_IN_D[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_DATA_IN_C">
+      <obj_property name="ElementShortName">MEM_DATA_IN_C[63:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA_IN_C[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_DATA_IN_B">
+      <obj_property name="ElementShortName">MEM_DATA_IN_B[63:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA_IN_B[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_DATA_IN_A">
+      <obj_property name="ElementShortName">MEM_DATA_IN_A[63:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA_IN_A[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_DATA_OUT">
+      <obj_property name="ElementShortName">MEM_DATA_OUT[63:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA_OUT[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_ADDRESS_OUT">
+      <obj_property name="ElementShortName">MEM_ADDRESS_OUT[13:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_ADDRESS_OUT[13:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/PC/D2/MEM_DATA">
+      <obj_property name="ElementShortName">MEM_DATA[63:0]</obj_property>
+      <obj_property name="ObjectShortName">MEM_DATA[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/CNT/ROW_SELECT_A">
+      <obj_property name="ElementShortName">ROW_SELECT_A[6:0]</obj_property>
+      <obj_property name="ObjectShortName">ROW_SELECT_A[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/CNT/COL_SELECT_A">
+      <obj_property name="ElementShortName">COL_SELECT_A[6:0]</obj_property>
+      <obj_property name="ObjectShortName">COL_SELECT_A[6:0]</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/TB_TOP/uut/A/alu/state">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+      <obj_property name="label">stateA</obj_property>
+   </wvobject>
+   <wvobject type="other" fp_name="/TB_TOP/uut/B/alu/state">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">state</obj_property>
+      <obj_property name="ObjectShortName">state</obj_property>
+      <obj_property name="label">stateB</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/A/cl/COL_data">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">COL_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">COL_data[63:0]</obj_property>
+      <obj_property name="label">COL_dataA[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/A/cl/ROW_data">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">ROW_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">ROW_data[63:0]</obj_property>
+      <obj_property name="label">ROW_dataA[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/B/cl/COL_data">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">COL_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">COL_data[63:0]</obj_property>
+      <obj_property name="label">COL_dataB[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/B/cl/ROW_data">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">ROW_data[63:0]</obj_property>
+      <obj_property name="ObjectShortName">ROW_data[63:0]</obj_property>
+      <obj_property name="label">ROW_dataB[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/A/alu/DINA">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">DINA[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DINA[63:0]</obj_property>
+      <obj_property name="label">DINAA[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/A/alu/DINB">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">DINB[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DINB[63:0]</obj_property>
+      <obj_property name="label">DINBA[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/A/alu/DOUT">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      <obj_property name="label">DOUTA[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/B/alu/DINA">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">DINA[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DINA[63:0]</obj_property>
+      <obj_property name="label">DINAB[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/B/alu/DINB">
+      <obj_property name="DisplayName">label</obj_property>
+      <obj_property name="ElementShortName">DINB[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DINB[63:0]</obj_property>
+      <obj_property name="label">DINBB[63:0]</obj_property>
+   </wvobject>
+   <wvobject type="array" fp_name="/TB_TOP/uut/B/alu/DOUT">
+      <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
+      <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+   </wvobject>
+</wave_config>

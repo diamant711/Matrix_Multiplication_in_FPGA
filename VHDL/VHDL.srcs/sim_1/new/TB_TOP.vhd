@@ -7,62 +7,38 @@ end TB_TOP;
 
 architecture Behavioral of TB_TOP is
 
-    -- Component declaration for the Unit Under Test (UUT)
+    -- Componenti
     component TOP
         Port (
-            UART_D_IN : in STD_LOGIC;
-            UART_D_OUT : out STD_LOGIC;
-            Reset : in STD_LOGIC;
-            Clock_100MHz : in STD_LOGIC;
-            INNER_PROD_DONE : out STD_LOGIC
+            UART_D_IN       : in  std_logic;
+            UART_D_OUT      : out std_logic;
+            Reset           : in  std_logic;
+            Clock_100MHz    : in  std_logic;
+            INNER_PROD_DONE : out std_logic
         );
     end component;
 
-    signal UART_D_IN       : STD_LOGIC := '1';
-    signal UART_D_OUT      : STD_LOGIC;
-    signal Reset           : STD_LOGIC := '0';
-    signal Clock_100MHz    : STD_LOGIC := '0';
-    signal INNER_PROD_DONE : STD_LOGIC;
+    -- Segnali
+    signal UART_D_IN       : std_logic := '1';
+    signal UART_D_OUT      : std_logic;
+    signal Reset           : std_logic := '0';
+    signal Clock_100MHz    : std_logic := '0';
+    signal INNER_PROD_DONE : std_logic;
 
-    constant BIT_PERIOD : time := 8.68 us; -- 1 / 115200 baud
-
-    -- Conversion function for hex print
-    function to_hex_char(val : std_logic_vector(3 downto 0)) return character is
-        variable result : character;
-    begin
-        case to_integer(unsigned(val)) is
-            when 0  => result := '0';
-            when 1  => result := '1';
-            when 2  => result := '2';
-            when 3  => result := '3';
-            when 4  => result := '4';
-            when 5  => result := '5';
-            when 6  => result := '6';
-            when 7  => result := '7';
-            when 8  => result := '8';
-            when 9  => result := '9';
-            when 10 => result := 'A';
-            when 11 => result := 'B';
-            when 12 => result := 'C';
-            when 13 => result := 'D';
-            when 14 => result := 'E';
-            when others => result := 'F';
-        end case;
-        return result;
-    end;
+    constant BIT_PERIOD : time := 8.68 us;
 
 begin
-
+    -- Istanza UUT
     uut: TOP
         port map (
-            UART_D_IN => UART_D_IN,
-            UART_D_OUT => UART_D_OUT,
-            Reset => Reset,
-            Clock_100MHz => Clock_100MHz,
+            UART_D_IN       => UART_D_IN,
+            UART_D_OUT      => UART_D_OUT,
+            Reset           => Reset,
+            Clock_100MHz    => Clock_100MHz,
             INNER_PROD_DONE => INNER_PROD_DONE
         );
 
-    -- Clock generation
+    -- Clock 100 MHz
     clock_process : process
     begin
         while true loop
@@ -73,137 +49,75 @@ begin
         end loop;
     end process;
 
-    -- Stimulus
-    stim_proc: process
+    -- Stimulus process: invia 12 byte via UART
+    stim_proc : process
         procedure uart_send_byte(data : std_logic_vector(7 downto 0)) is
         begin
-            -- Start bit
-            UART_D_IN <= '0';
+            UART_D_IN <= '0';  -- Start bit
             wait for BIT_PERIOD;
-
-            -- Data bits (LSB first)
             for i in 0 to 7 loop
                 UART_D_IN <= data(i);
                 wait for BIT_PERIOD;
             end loop;
-
-            -- Stop bit
-            UART_D_IN <= '1';
+            UART_D_IN <= '1';  -- Stop bit
             wait for BIT_PERIOD;
         end procedure;
-
-
-
-
+        procedure uart_send_packet(data : std_logic_vector(11*8-1 downto 0)) is
+            variable checksum : std_logic_vector(7 downto 0) := (others => '0');
+        begin
+            -- Comando WRITE in Mem A @0x0000
+            checksum := data(11*8-1 downto 10*8) xor 
+                        data(10*8-1 downto  9*8) xor 
+                        data( 9*8-1 downto  8*8) xor 
+                        data( 8*8-1 downto  7*8) xor 
+                        data( 7*8-1 downto  6*8) xor 
+                        data( 6*8-1 downto  5*8) xor 
+                        data( 5*8-1 downto  4*8) xor 
+                        data( 4*8-1 downto  3*8) xor 
+                        data( 3*8-1 downto  2*8) xor 
+                        data( 2*8-1 downto  1*8) xor 
+                        data( 1*8-1 downto  0*8);
+            uart_send_byte(data(11*8-1 downto 10*8));  -- Command
+            uart_send_byte(data(10*8-1 downto 9*8));  -- Addr MSB
+            uart_send_byte(data( 9*8-1 downto 8*8));  -- Addr LSB
+            uart_send_byte(data( 8*8-1 downto 7*8));
+            uart_send_byte(data( 7*8-1 downto 6*8));
+            uart_send_byte(data( 6*8-1 downto 5*8));
+            uart_send_byte(data( 5*8-1 downto 4*8));
+            uart_send_byte(data( 4*8-1 downto 3*8));
+            uart_send_byte(data( 3*8-1 downto 2*8));
+            uart_send_byte(data( 2*8-1 downto 1*8));
+            uart_send_byte(data( 1*8-1 downto 0*8));
+            uart_send_byte(checksum);
+        end procedure;
+        variable addr : std_logic_vector(13 downto 0);  -- 14 bits for address
+        variable full_addr : std_logic_vector(15 downto 0);
+        variable packet : std_logic_vector(87 downto 0); -- FF + address + data
     begin
-        -- Reset
         Reset <= '1';
         wait for 100 ns;
         Reset <= '0';
         wait for 2 ms;
 
-        -- ============ WRITE 1 to Mem A @ 0x0000 ============
-
-        -- Byte 0: FF (Write command)
-        uart_send_byte(x"FF");
-
-        -- Byte 1: Address LSB = 00
-        uart_send_byte(x"00");
-
-        -- Byte 2: Address MSB (bits 14-15 = 00 for Mem A)
-        uart_send_byte(x"00");
-
-        -- Bytes 3-10: 64-bit data = 0x0000000000000001
-        uart_send_byte(x"00");
-        uart_send_byte(x"00");
-        uart_send_byte(x"00");
-        uart_send_byte(x"00");
-        uart_send_byte(x"00");
-        uart_send_byte(x"00");
-        uart_send_byte(x"00");
-        uart_send_byte(x"01");
-
-        -- Byte 11: Checksum XOR dei byte precedenti
-        uart_send_byte(x"FF" xor x"00" xor x"00" xor x"00" xor x"00" xor x"00" xor x"00" xor x"00" xor x"00" xor x"00" xor x"01");
-
-        wait for 1 ms;
-
-        -- ============ READ Mem A @ 0x0000 ============
-
-        -- Byte 0: 00 (Read command)
-        uart_send_byte(x"00");
-
-        -- Byte 1: Address LSB = 00
-        uart_send_byte(x"00");
-
-        -- Byte 2: Address MSB = 00 (Mem A)
-        uart_send_byte(x"00");
-
-        -- Byte 3: Checksum
-        uart_send_byte(x"00" xor x"00" xor x"00");
-
-        -- Wait and decode UART response
-        --uart_read_response;
+        -- Memory A (0b00XXXXXXXXXXXXX)
+        for i in 0 to 2**14 - 1 loop
+            addr := std_logic_vector(to_unsigned(i, 14));
+            full_addr := "00" & addr;
+            packet := x"FF" & full_addr & x"3FF0000000000000";
+            uart_send_packet(packet);
+            wait for 10 ns;
+        end loop;
+    
+        -- Memory B (0b01XXXXXXXXXXXXX)
+        for i in 0 to 2**14 - 1 loop
+            addr := std_logic_vector(to_unsigned(i, 14));
+            full_addr := "01" & addr;
+            packet := x"FF" & full_addr & x"3FF0000000000000";
+            uart_send_packet(packet);
+            wait for 10 ns;
+        end loop;
 
         wait;
-    end process;
-
-    uart_read_response: process
-        type byte_array is array (0 to 10) of std_logic_vector(7 downto 0);
-        variable received_packet : byte_array;
-        variable msg : string(1 to 100);
-        variable idx : integer := 17;  -- partiamo da dopo "UART Received: "
-    begin
-        msg(1 to 16) := "UART Received:  ";
-        for byte_idx in 0 to 10 loop
-            --Attesa start bit
-            wait until UART_D_OUT = '0';
-            wait for BIT_PERIOD / 2;
-            --Legge i bit LSB first
-            for bit_idx in 0 to 7 loop
-                wait for BIT_PERIOD;
-                received_packet(byte_idx)(bit_idx) := UART_D_OUT;
-            end loop;
-            --Attesa stop bit
-            wait for BIT_PERIOD;
-        end loop;
-        -- Composizione stringa esadecimale
-        for i in 0 to 10 loop
-            msg(idx)     := to_hex_char(received_packet(i)(7 downto 4)); -- high nibble
-            msg(idx + 1) := to_hex_char(received_packet(i)(3 downto 0)); -- low nibble
-            msg(idx + 2) := ' ';
-            idx := idx + 3;
-        end loop;
-        report msg(1 to idx - 1) severity NOTE;
-    end process;
-    
-    uart_send_response: process
-        type byte_array is array (0 to 10) of std_logic_vector(7 downto 0);
-        variable received_packet : byte_array;
-        variable msg : string(1 to 100);
-        variable idx : integer := 17;  -- partiamo da dopo "UART Received: "
-    begin
-        msg(1 to 16) := "UART Received:  ";
-        for byte_idx in 0 to 10 loop
-            --Attesa start bit
-            wait until UART_D_IN = '0';
-            wait for BIT_PERIOD / 2;
-            --Legge i bit LSB first
-            for bit_idx in 0 to 7 loop
-                wait for BIT_PERIOD;
-                received_packet(byte_idx)(bit_idx) := UART_D_IN;
-            end loop;
-            --Attesa stop bit
-            wait for BIT_PERIOD;
-        end loop;
-        -- Composizione stringa esadecimale
-        for i in 0 to 10 loop
-            msg(idx)     := to_hex_char(received_packet(i)(7 downto 4)); -- high nibble
-            msg(idx + 1) := to_hex_char(received_packet(i)(3 downto 0)); -- low nibble
-            msg(idx + 2) := ' ';
-            idx := idx + 3;
-        end loop;
-        report msg(1 to idx - 1) severity NOTE;
     end process;
 
 end Behavioral;
