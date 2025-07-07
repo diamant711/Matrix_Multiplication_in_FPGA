@@ -64,33 +64,36 @@ begin
         MPTY <= '0';
         DAREADY <= '0';
         DBREADY <= '0';
-        DINA <= x"0000000000000000";
-        DINB <= x"0000000000000000";
+        DINA <= (others => '0');
+        DINB <= (others => '0');
+        
         -- Attendi il reset
         wait until RESET = '0';
-        -- Simulazione
         wait for 20 ns;
+    
+        -- Avvia la DSP
         START <= '1';
         wait until GETN = '1';
         START <= '0';
-        DINA <= x"400921FB54442D18";
-        DINB <= x"400921FB54442D18";
---        DINA <= x"4000000000000000";
---        DINB <= x"4000000000000000";
+        DINA <= x"0000000000000000";
+        DINB <= x"0000000000000000";
         DAREADY <= '1';
         DBREADY <= '1';
-        MPTY <= '1';
+        -- Invio di 100 coppie di dati nulli
+        for i in 0 to 97 loop
+            wait until GETN = '1';
+        end loop;
+        wait until GETN = '1';
         wait until GETN = '0';
-        DINA <= x"0000000000000000";
-        DINB <= x"0000000000000000";
+        -- Disattiva i segnali dopo l'invio
+        MPTY <= '1';
         DAREADY <= '0';
         DBREADY <= '0';
+    
+        -- Attendi completamento
         wait until DONE = '1';
         MPTY <= '0';
-        DAREADY <= '0';
-        DBREADY <= '0';
-        DINA <= x"0000000000000000";
-        DINB <= x"0000000000000000";
+    
         -- Fine simulazione
         wait;
     end process stim_proc;

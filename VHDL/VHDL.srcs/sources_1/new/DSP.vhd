@@ -224,9 +224,13 @@ begin
                     man_a  <= "1" & a(51 downto 0); -- aggiungiamo il bit implicito
                     man_b  <= "1" & b(51 downto 0);
                     -- Reset support variable before MULT stage
-                    bias <= "01111111111";
-                    man_res <= (others => '0');
-                    state <= MULT;
+                    if a = x"0000000000000000" and b = x"0000000000000000" then
+                        state <= PROC;
+                    else
+                        bias <= "01111111111";
+                        man_res <= (others => '0');
+                        state <= MULT;
+                    end if;
                 when MULT =>
                     sign_res <= sign_a xor sign_b;
                     man_a_106 <= ZERO_53 & man_a;
@@ -353,7 +357,12 @@ begin
                     end if;
                     state <= PROC;
                 when NORMROUNDCOMP =>
-                    state <= NORM_START;
+                    if acc_man_reg = std_logic_vector(to_unsigned(0, 106)) then
+                        c <= (others => '0');
+                        state <= ENDED;
+                    else
+                        state <= NORM_START;
+                    end if;
                 when NORM_START =>
                     tmp_man <= acc_man_reg;
                     norm_exp <= acc_exp_reg;
