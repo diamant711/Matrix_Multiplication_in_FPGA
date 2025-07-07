@@ -1,17 +1,1 @@
 Time resolution is 1 ps
- Block Memory Generator module loading initial data...
- Block Memory Generator data initialization complete.
-Block Memory Generator module TB_TOP.uut.PC.D3.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst is using a behavioral model for simulation which will not precisely model memory collision behavior.
- Block Memory Generator module loading initial data...
- Block Memory Generator data initialization complete.
-Block Memory Generator module TB_TOP.uut.PC.D4.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst is using a behavioral model for simulation which will not precisely model memory collision behavior.
- Block Memory Generator module loading initial data...
- Block Memory Generator data initialization complete.
-Block Memory Generator module TB_TOP.uut.PC.D6.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst is using a behavioral model for simulation which will not precisely model memory collision behavior.
-Stopped at time : 100 ns : File "/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sim_1/new/TB_TOP.vhd" Line 100
-blk_mem_gen_v8_4_9 collision detected at time: 3039605000, Instance: TB_TOP.uut.PC.D3.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst, A write address: 0, B read address: 0
-blk_mem_gen_v8_4_9 collision detected at time: 3039615000, Instance: TB_TOP.uut.PC.D3.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst, A write address: 0, B read address: 0
-blk_mem_gen_v8_4_9 collision detected at time: 3039625000, Instance: TB_TOP.uut.PC.D3.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst, A write address: 0, B read address: 0
-blk_mem_gen_v8_4_9 collision detected at time: 3039635000, Instance: TB_TOP.uut.PC.D3.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst, A write address: 0, B read address: 0
-blk_mem_gen_v8_4_9 collision detected at time: 3039645000, Instance: TB_TOP.uut.PC.D3.A_MEM.inst.native_mem_module.blk_mem_gen_v8_4_9_inst, A write address: 0, B read address: 0
-INFO: xsimkernel Simulation Memory Usage: 269864 KB (Peak: 318708 KB), Simulation CPU Usage: 92440 ms

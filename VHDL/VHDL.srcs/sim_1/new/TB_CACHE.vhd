@@ -32,7 +32,6 @@ architecture behavior of TB_CACHE is
         Port (
             RESET   : in  STD_LOGIC;
             CLOCK   : in  STD_LOGIC;
-            ADDR    : in  STD_LOGIC_VECTOR (6 downto 0);
             WE      : in  STD_LOGIC;
             WDONE   : out STD_LOGIC;
             DIN     : in  STD_LOGIC_VECTOR (63 downto 0);
@@ -56,7 +55,7 @@ architecture behavior of TB_CACHE is
     signal FLL       : STD_LOGIC;
     signal DREADY    : STD_LOGIC;
     signal NE        : STD_LOGIC := '0';
-    signal TEST_ADDR : integer range 0 to 100 := 0;
+    signal TEST_DATA : integer range 0 to 100 := 0;
 
     -- Clock period definition
     constant clk_period : time := 1 ns;
@@ -68,7 +67,6 @@ begin
         port map (
             RESET   => RESET,
             CLOCK   => CLOCK,
-            ADDR    => ADDR,
             WE      => WE,
             WDONE   => WDONE,
             DIN     => DIN,
@@ -102,23 +100,28 @@ begin
     
         
 
-        while FLL = '0' and TEST_ADDR < 100 loop    
+        while TEST_DATA < 99 loop    
             -- Write to cache
-            ADDR <= std_logic_vector(to_unsigned(TEST_ADDR, 7));
-            DIN  <= std_logic_vector(to_unsigned(TEST_ADDR, 64));
+            DIN  <= std_logic_vector(to_unsigned(TEST_DATA, 64));
             WE   <= '1';
             wait until WDONE = '1';
             WE   <= '0';
             wait for clk_period;
-            TEST_ADDR <= TEST_ADDR + 1;
+            TEST_DATA <= TEST_DATA + 1;
         end loop;
-
+        DIN  <= std_logic_vector(to_unsigned(0, 64));
+        WE   <= '1';
+        wait for clk_period;
+        WE   <= '0';
+        wait for clk_period;
+        DIN <= (others => '0');
         -- Read from cache
-        while MPTY = '0' loop
+        while TEST_DATA >= 0 loop
             NE   <= '1';
             wait for clk_period;
             NE   <= '0';
             wait for clk_period;
+            TEST_DATA <= TEST_DATA - 1;
         end loop;
 
         wait for 10 ns;

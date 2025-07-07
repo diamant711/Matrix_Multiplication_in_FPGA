@@ -1,41 +1,8 @@
 Vivado Simulator v2024.2.0
 Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
 Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
-Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L blk_mem_gen_v8_4_9 -L unisims_ver -L unimacro_ver -L secureip -L xpm --snapshot TB_TOP_behav xil_defaultlib.TB_TOP xil_defaultlib.glbl -log elaborate.log 
+Running: /tools/Xilinx/Vivado/2024.2/bin/unwrapped/lnx64.o/xelab --incr --debug typical --relax --mt 8 -L xil_defaultlib -L secureip -L xpm --snapshot TB_DSP_behav xil_defaultlib.TB_DSP -log elaborate.log 
 Using 8 slave threads.
 Starting static elaboration
-Pass Through NonSizing Optimizer
 Completed static elaboration
-Starting simulation data flow analysis
-Completed simulation data flow analysis
-Time Resolution for simulation is 1ps
-Compiling package std.standard
-Compiling package std.textio
-Compiling package ieee.std_logic_1164
-Compiling package ieee.numeric_std
-Compiling package unisim.vcomponents
-Compiling package vl.vl_types
-Compiling module xil_defaultlib.glbl
-Compiling architecture v0 of entity xil_defaultlib.UART_INTERFACE [\UART_INTERFACE(uart_sync="11011...]
-Compiling architecture v0 of entity xil_defaultlib.UART_RECEIVER [uart_receiver_default]
-Compiling module blk_mem_gen_v8_4_9.blk_mem_gen_v8_4_9_output_stage(...
-Compiling module blk_mem_gen_v8_4_9.blk_mem_gen_v8_4_9_softecc_outpu...
-Compiling module blk_mem_gen_v8_4_9.blk_mem_gen_v8_4_9_mem_module(C_...
-Compiling module blk_mem_gen_v8_4_9.blk_mem_axi_regs_fwd_v8_4(C_DATA...
-Compiling module blk_mem_gen_v8_4_9.blk_mem_gen_v8_4_9(C_FAMILY="zyn...
-Compiling module xil_defaultlib.blk_mem_gen_0
-Compiling architecture v0 of entity xil_defaultlib.MEM_A [mem_a_default]
-Compiling architecture v0 of entity xil_defaultlib.MEM_B [mem_b_default]
-Compiling architecture v0 of entity xil_defaultlib.MEM_D [mem_d_default]
-Compiling architecture v0 of entity xil_defaultlib.MEM_C [mem_c_default]
-Compiling architecture v0 of entity xil_defaultlib.PC_INTERFACE [pc_interface_default]
-Compiling architecture v0 of entity xil_defaultlib.CONTROLLER_LOGIC [controller_logic_default]
-Compiling architecture v0 of entity xil_defaultlib.CONTROLLER_MULTIPLIER_INTERFACE [controller_multiplier_interface_...]
-Compiling architecture v1 of entity xil_defaultlib.CONTROLLER [controller_default]
-Compiling architecture v0 of entity xil_defaultlib.CACHE_LOADER [cache_loader_default]
-Compiling architecture v0 of entity xil_defaultlib.CACHE [cache_default]
-Compiling architecture v0 of entity xil_defaultlib.DSP [dsp_default]
-Compiling architecture v0 of entity xil_defaultlib.MULTIPLIER [multiplier_default]
-Compiling architecture v0 of entity xil_defaultlib.TOP [top_default]
-Compiling architecture behavioral of entity xil_defaultlib.tb_top
-Built simulation snapshot TB_TOP_behav
+INFO: [XSIM 43-4323] No Change in HDL. Linking previously generated obj files to create kernel
