@@ -11,15 +11,15 @@
       </db_ref>
    </db_ref_list>
    <zoom_setting>
-      <ZoomStartTime time="3,049,654.348 ns"></ZoomStartTime>
-      <ZoomEndTime time="3,049,860.952 ns"></ZoomEndTime>
-      <Cursor1Time time="10,360,015.000 ns"></Cursor1Time>
+      <ZoomStartTime time="3,129,455.000 ns"></ZoomStartTime>
+      <ZoomEndTime time="3,129,484.601 ns"></ZoomEndTime>
+      <Cursor1Time time="3,129,469.950 ns"></Cursor1Time>
    </zoom_setting>
    <column_width_setting>
       <NameColumnWidth column_width="203"></NameColumnWidth>
-      <ValueColumnWidth column_width="170"></ValueColumnWidth>
+      <ValueColumnWidth column_width="163"></ValueColumnWidth>
    </column_width_setting>
-   <WVObjectSize size="30" />
+   <WVObjectSize size="32" />
    <wvobject type="logic" fp_name="/TB_TOP/UART_D_IN">
       <obj_property name="ElementShortName">UART_D_IN</obj_property>
       <obj_property name="ObjectShortName">UART_D_IN</obj_property>
@@ -96,6 +96,14 @@
       <obj_property name="ElementShortName">PC_STATE</obj_property>
       <obj_property name="ObjectShortName">PC_STATE</obj_property>
    </wvobject>
+   <wvobject type="logic" fp_name="/TB_TOP/uut/CNT/cl/CNTRL_ENABLE_A">
+      <obj_property name="ElementShortName">CNTRL_ENABLE_A</obj_property>
+      <obj_property name="ObjectShortName">CNTRL_ENABLE_A</obj_property>
+   </wvobject>
+   <wvobject type="logic" fp_name="/TB_TOP/uut/CNT/cl/CNTRL_ENABLE_B">
+      <obj_property name="ElementShortName">CNTRL_ENABLE_B</obj_property>
+      <obj_property name="ObjectShortName">CNTRL_ENABLE_B</obj_property>
+   </wvobject>
    <wvobject type="other" fp_name="/TB_TOP/uut/CNT/multiplier_a/MULT_STATE">
       <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">MULT_STATE</obj_property>
@@ -163,7 +171,9 @@
       <obj_property name="label">DINBB[63:0]</obj_property>
    </wvobject>
    <wvobject type="array" fp_name="/TB_TOP/uut/B/alu/DOUT">
+      <obj_property name="DisplayName">label</obj_property>
       <obj_property name="ElementShortName">DOUT[63:0]</obj_property>
       <obj_property name="ObjectShortName">DOUT[63:0]</obj_property>
+      <obj_property name="label">DOUTB[63:0]</obj_property>
    </wvobject>
 </wave_config>
