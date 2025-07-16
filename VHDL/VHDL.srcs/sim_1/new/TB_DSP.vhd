@@ -75,20 +75,20 @@ begin
         START <= '1';
         wait until GETN = '1';
         START <= '0';
-        DINA <= x"0000000000000000";
-        DINB <= x"0000000000000000";
+        DINA <= x"3FF0000000000000";
+        DINB <= x"3FF0000000000000";
         DAREADY <= '1';
         DBREADY <= '1';
         -- Invio di 100 coppie di dati nulli
-        for i in 0 to 97 loop
-            wait until GETN = '1';
-        end loop;
-        wait until GETN = '1';
-        wait until GETN = '0';
+--        for i in 0 to 87 loop
+--            wait until GETN = '1';
+--        end loop;
+--        wait until GETN = '1';
+--        wait until GETN = '0';
         -- Disattiva i segnali dopo l'invio
         MPTY <= '1';
-        DAREADY <= '0';
-        DBREADY <= '0';
+--        DAREADY <= '0';
+--        DBREADY <= '0';
     
         -- Attendi completamento
         wait until DONE = '1';

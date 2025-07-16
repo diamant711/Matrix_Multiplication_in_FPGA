@@ -99,23 +99,20 @@ begin
         Reset <= '0';
         wait for 2 ms;
 
---        -- Memory A (0b00XXXXXXXXXXXXX)
---        for i in 0 to 99 loop
---            addr := std_logic_vector(to_unsigned(i, 14));
---            full_addr := "00" & addr;
---            packet := x"FF" & full_addr & x"3FF0000000000000";
---            uart_send_packet(packet);
---            wait for 10 ns;
---        end loop;
+        -- Memory A (0b00XXXXXXXXXXXXX)
+--        addr := std_logic_vector(to_unsigned(0, 14));
+--        full_addr := "00" & addr;
+--        packet := x"FF" & full_addr & x"3FF0000000000000";
+--        uart_send_packet(packet);
+--        wait for 10 ns;
     
 --        -- Memory B (0b01XXXXXXXXXXXXX)
---        for i in 0 to 99 loop
---            addr := std_logic_vector(to_unsigned(i, 14));
---            full_addr := "01" & addr;
---            packet := x"FF" & full_addr & x"3FF0000000000000";
---            uart_send_packet(packet);
---            wait for 10 ns;
---        end loop;
+--        addr := std_logic_vector(to_unsigned(0, 14));
+--        full_addr := "01" & addr;
+--        packet := x"FF" & full_addr & x"3FF0000000000000";
+--        uart_send_packet(packet);
+--        wait for 10 ns;
+
         addr := std_logic_vector(to_unsigned(0, 14));
         full_addr := "11" & addr;
         packet := x"FF" & full_addr & x"0000000000000001";

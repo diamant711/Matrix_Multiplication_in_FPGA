@@ -1,21 +1,21 @@
 ----------------------------------------------------------------------------------
--- Company: 
--- Engineer: 
--- 
+-- Company:
+-- Engineer:
+--
 -- Create Date: 06/12/2025 10:02:55 AM
--- Design Name: 
+-- Design Name:
 -- Module Name: DSP - v0
--- Project Name: 
--- Target Devices: 
--- Tool Versions: 
--- Description: 
--- 
--- Dependencies: 
--- 
+-- Project Name:
+-- Target Devices:
+-- Tool Versions:
+-- Description:
+--
+-- Dependencies:
+--
 -- Revision:
 -- Revision 0.01 - File Created
 -- Additional Comments:
--- 
+--
 ----------------------------------------------------------------------------------
 
 
@@ -46,7 +46,7 @@ entity DSP is
 end DSP;
 
 architecture v0 of DSP is
-    
+
     -- stato
     type state_type is (
         IDLE, DATAIN, PROC, DECOP, MULT, MULT_INIT,
@@ -59,10 +59,10 @@ architecture v0 of DSP is
     signal state : state_type := IDLE;
 
     -- costanti
-    constant ZERO_106 : std_logic_vector(105 downto 0) := (others => '0');    
+    constant ZERO_106 : std_logic_vector(105 downto 0) := (others => '0');
     constant ZERO_53 : std_logic_vector(52 downto 0) := (others => '0');
     constant ZERO_11 : std_logic_vector(10 downto 0) := (others => '0');
-        
+
     -- buffer ingresso e uscita
     subtype operand_type is STD_LOGIC_VECTOR(63 downto 0);
     signal a : operand_type := (others => '0');
@@ -78,7 +78,7 @@ architecture v0 of DSP is
     signal acc_sign : STD_LOGIC := '0';
     signal acc_man_reg : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal acc_exp_reg : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
-        
+
     -- variabili di supporto non NUMERIC
     signal man_a_106 : STD_LOGIC_VECTOR(105 downto 0) := (others => '0');
     signal bias : STD_LOGIC_VECTOR(10 downto 0) := (others => '0');
@@ -88,7 +88,7 @@ architecture v0 of DSP is
     signal acc_step_done : std_logic := '0';
     signal norm_step_done : std_logic := '0';
     signal tmp_sticky : std_logic := '0';
-    
+
     -- Normalizzazione del mantissa (acc_man_reg) e dell'esponente (acc_exp_reg)
     signal tmp_man : std_logic_vector(105 downto 0) := (others => '0');
     signal norm_man : std_logic_vector(105 downto 0) := (others => '0');
@@ -97,7 +97,7 @@ architecture v0 of DSP is
     signal guard_bit : std_logic := '0';
     signal round_bit : std_logic := '0';
     signal sticky_bit : std_logic := '0';
-    
+
     -- variabili di supporto con NUMERIC
     signal exp_diff : integer := 0;
     signal i : integer := 0;
@@ -106,7 +106,7 @@ architecture v0 of DSP is
     signal acc_shift_count : integer range 0 to 105 := 0;
 
 begin
-    
+
     process(CLOCK, RESET)
     begin
         if RESET = '1' then

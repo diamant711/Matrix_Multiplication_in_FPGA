@@ -1,0 +1,597 @@
+#-----------------------------------------------------------
+# Vivado v2024.2 (64-bit)
+# SW Build 5239630 on Fri Nov 08 22:34:34 MST 2024
+# IP Build 5239520 on Sun Nov 10 16:12:51 MST 2024
+# SharedData Build 5239561 on Fri Nov 08 14:39:27 MST 2024
+# Start of session at: Fri Jul 11 12:05:39 2025
+# Process ID         : 14419
+# Current directory  : /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1
+# Command line       : vivado -log TOP.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source TOP.tcl
+# Log file           : /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/TOP.vds
+# Journal file       : /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/vivado.jou
+# Running On         : artixThinkpad
+# Platform           : unknown
+# Operating System   : unknown
+# Processor Detail   : Intel(R) Core(TM) i5-2520M CPU @ 2.50GHz
+# CPU Frequency      : 2950.885 MHz
+# CPU Physical cores : 2
+# CPU Logical cores  : 4
+# Host memory        : 8272 MB
+# Swap memory        : 3833 MB
+# Total Virtual      : 12105 MB
+# Available Virtual  : 8916 MB
+#-----------------------------------------------------------
+source TOP.tcl -notrace
+Command: read_checkpoint -auto_incremental -incremental /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/utils_1/imports/synth_1/DSP.dcp
+INFO: [Vivado 12-5825] Read reference checkpoint from /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/utils_1/imports/synth_1/DSP.dcp for incremental synthesis
+INFO: [Vivado 12-7989] Please ensure there are no constraint changes
+Command: synth_design -top TOP -part xc7z020clg484-1
+Starting synth_design
+Attempting to get a license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Common 17-349] Got license for feature 'Synthesis' and/or device 'xc7z020'
+INFO: [Device 21-403] Loading part xc7z020clg484-1
+INFO: [Synth 8-7079] Multithreading enabled for synth_design using a maximum of 7 processes.
+INFO: [Synth 8-7078] Launching helper process for spawning children vivado processes
+INFO: [Synth 8-7075] Helper process launched with PID 14476
+---------------------------------------------------------------------------------
+Starting RTL Elaboration : Time (s): cpu = 00:00:07 ; elapsed = 00:00:07 . Memory (MB): peak = 1879.051 ; gain = 419.797 ; free physical = 719 ; free virtual = 7482
+---------------------------------------------------------------------------------
+INFO: [Synth 8-638] synthesizing module 'TOP' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/TOP.vhd:43]
+INFO: [Synth 8-3491] module 'PC_INTERFACE' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:8' bound to instance 'PC' of component 'PC_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/TOP.vhd:151]
+INFO: [Synth 8-638] synthesizing module 'PC_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:35]
+INFO: [Synth 8-3491] module 'UART_INTERFACE' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_INTERFACE.vhd:5' bound to instance 'D1' of component 'UART_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:146]
+INFO: [Synth 8-638] synthesizing module 'UART_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_INTERFACE.vhd:18]
+	Parameter UART_SYNC bound to: 8'b11011000 
+	Parameter UART_OS bound to: 2'b11 
+INFO: [Synth 8-226] default block is never used [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_INTERFACE.vhd:211]
+INFO: [Synth 8-256] done synthesizing module 'UART_INTERFACE' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_INTERFACE.vhd:18]
+INFO: [Synth 8-3491] module 'UART_RECEIVER' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_RECEIVER.vhd:4' bound to instance 'D2' of component 'UART_RECEIVER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:163]
+INFO: [Synth 8-638] synthesizing module 'UART_RECEIVER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_RECEIVER.vhd:23]
+INFO: [Synth 8-256] done synthesizing module 'UART_RECEIVER' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_RECEIVER.vhd:23]
+INFO: [Synth 8-3491] module 'MEM_A' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_A.vhd:7' bound to instance 'D3' of component 'MEM_A' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:189]
+INFO: [Synth 8-638] synthesizing module 'MEM_A' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_A.vhd:24]
+INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/.Xil/Vivado-14419-artixThinkpad/realtime/blk_mem_gen_0_stub.vhdl:6' bound to instance 'A_MEM' of component 'blk_mem_gen_0' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_A.vhd:49]
+INFO: [Synth 8-638] synthesizing module 'blk_mem_gen_0' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/.Xil/Vivado-14419-artixThinkpad/realtime/blk_mem_gen_0_stub.vhdl:30]
+INFO: [Synth 8-256] done synthesizing module 'MEM_A' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_A.vhd:24]
+INFO: [Synth 8-3491] module 'MEM_B' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_B.vhd:7' bound to instance 'D4' of component 'MEM_B' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:207]
+INFO: [Synth 8-638] synthesizing module 'MEM_B' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_B.vhd:24]
+INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/.Xil/Vivado-14419-artixThinkpad/realtime/blk_mem_gen_0_stub.vhdl:6' bound to instance 'A_MEM' of component 'blk_mem_gen_0' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_B.vhd:49]
+INFO: [Synth 8-256] done synthesizing module 'MEM_B' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_B.vhd:24]
+INFO: [Synth 8-3491] module 'MEM_D' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_D.vhd:5' bound to instance 'D5' of component 'MEM_D' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:225]
+INFO: [Synth 8-638] synthesizing module 'MEM_D' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_D.vhd:17]
+INFO: [Synth 8-256] done synthesizing module 'MEM_D' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_D.vhd:17]
+INFO: [Synth 8-3491] module 'MEM_C' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_C.vhd:7' bound to instance 'D6' of component 'MEM_C' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:239]
+INFO: [Synth 8-638] synthesizing module 'MEM_C' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_C.vhd:24]
+INFO: [Synth 8-3491] module 'blk_mem_gen_0' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/.Xil/Vivado-14419-artixThinkpad/realtime/blk_mem_gen_0_stub.vhdl:6' bound to instance 'A_MEM' of component 'blk_mem_gen_0' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_C.vhd:49]
+INFO: [Synth 8-256] done synthesizing module 'MEM_C' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_C.vhd:24]
+INFO: [Synth 8-256] done synthesizing module 'PC_INTERFACE' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/PC_INTERFACE.vhd:35]
+INFO: [Synth 8-3491] module 'CONTROLLER' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd:34' bound to instance 'CNT' of component 'CONTROLLER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/TOP.vhd:171]
+INFO: [Synth 8-638] synthesizing module 'CONTROLLER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd:77]
+INFO: [Synth 8-3491] module 'CONTROLLER_LOGIC' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_LOGIC.vhd:34' bound to instance 'cl' of component 'CONTROLLER_LOGIC' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd:164]
+INFO: [Synth 8-638] synthesizing module 'CONTROLLER_LOGIC' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_LOGIC.vhd:72]
+INFO: [Synth 8-226] default block is never used [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_LOGIC.vhd:115]
+WARNING: [Synth 8-614] signal 'D_DIN' is read in the process but is not in the sensitivity list [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_LOGIC.vhd:89]
+INFO: [Synth 8-256] done synthesizing module 'CONTROLLER_LOGIC' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_LOGIC.vhd:72]
+INFO: [Synth 8-3491] module 'CONTROLLER_MULTIPLIER_INTERFACE' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_MULTIPLIER_INTERFACE.vhd:34' bound to instance 'multiplier_a' of component 'CONTROLLER_MULTIPLIER_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd:190]
+INFO: [Synth 8-638] synthesizing module 'CONTROLLER_MULTIPLIER_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_MULTIPLIER_INTERFACE.vhd:63]
+INFO: [Synth 8-256] done synthesizing module 'CONTROLLER_MULTIPLIER_INTERFACE' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_MULTIPLIER_INTERFACE.vhd:63]
+INFO: [Synth 8-3491] module 'CONTROLLER_MULTIPLIER_INTERFACE' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER_MULTIPLIER_INTERFACE.vhd:34' bound to instance 'multiplier_b' of component 'CONTROLLER_MULTIPLIER_INTERFACE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd:215]
+INFO: [Synth 8-256] done synthesizing module 'CONTROLLER' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CONTROLLER.vhd:77]
+INFO: [Synth 8-3491] module 'MULTIPLIER' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:34' bound to instance 'A' of component 'MULTIPLIER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/TOP.vhd:194]
+INFO: [Synth 8-638] synthesizing module 'MULTIPLIER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:55]
+INFO: [Synth 8-3491] module 'CACHE_LOADER' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:33' bound to instance 'cl' of component 'CACHE_LOADER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:136]
+INFO: [Synth 8-638] synthesizing module 'CACHE_LOADER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:68]
+INFO: [Synth 8-226] default block is never used [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:94]
+INFO: [Synth 8-256] done synthesizing module 'CACHE_LOADER' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE_LOADER.vhd:68]
+INFO: [Synth 8-3491] module 'CACHE' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE.vhd:34' bound to instance 'row' of component 'CACHE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:161]
+INFO: [Synth 8-638] synthesizing module 'CACHE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE.vhd:47]
+INFO: [Synth 8-256] done synthesizing module 'CACHE' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE.vhd:47]
+INFO: [Synth 8-3491] module 'CACHE' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/CACHE.vhd:34' bound to instance 'col' of component 'CACHE' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:174]
+INFO: [Synth 8-3491] module 'DSP' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:34' bound to instance 'alu' of component 'DSP' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:187]
+INFO: [Synth 8-638] synthesizing module 'DSP' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:48]
+INFO: [Synth 8-256] done synthesizing module 'DSP' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:48]
+INFO: [Synth 8-256] done synthesizing module 'MULTIPLIER' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:55]
+INFO: [Synth 8-3491] module 'MULTIPLIER' declared at '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/MULTIPLIER.vhd:34' bound to instance 'B' of component 'MULTIPLIER' [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/TOP.vhd:213]
+INFO: [Synth 8-256] done synthesizing module 'TOP' (0#1) [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/TOP.vhd:43]
+WARNING: [Synth 8-6014] Unused sequential element MEM_DATA_OUT_reg was removed.  [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/MEM_D.vhd:26]
+WARNING: [Synth 8-6014] Unused sequential element acc_step_done_reg was removed.  [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:136]
+WARNING: [Synth 8-6014] Unused sequential element norm_step_done_reg was removed.  [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:137]
+WARNING: [Synth 8-6014] Unused sequential element leading_zeros_reg was removed.  [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/new/DSP.vhd:147]
+WARNING: [Synth 8-7129] Port D_DIN[63] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[62] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[61] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[60] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[59] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[58] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[57] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[56] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[55] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[54] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[53] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[52] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[51] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[50] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[49] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[48] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[47] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[46] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[45] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[44] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[43] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[42] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[41] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[40] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[39] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[38] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[37] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[36] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[35] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[34] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[33] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[32] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[31] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[30] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[29] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[28] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[27] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[26] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[25] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[24] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[23] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[22] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[21] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[20] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[19] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[18] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[17] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[16] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[15] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[14] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[13] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[12] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[11] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[10] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[9] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[8] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[7] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[6] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[5] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[4] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[3] in module CONTROLLER_LOGIC is either unconnected or has no load
+WARNING: [Synth 8-7129] Port D_DIN[2] in module CONTROLLER_LOGIC is either unconnected or has no load
+---------------------------------------------------------------------------------
+Finished RTL Elaboration : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2000.988 ; gain = 541.734 ; free physical = 577 ; free virtual = 7341
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2015.832 ; gain = 556.578 ; free physical = 576 ; free virtual = 7341
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 1 : Time (s): cpu = 00:00:10 ; elapsed = 00:00:10 . Memory (MB): peak = 2015.832 ; gain = 556.578 ; free physical = 576 ; free virtual = 7341
+---------------------------------------------------------------------------------
+Netlist sorting complete. Time (s): cpu = 00:00:00.55 ; elapsed = 00:00:00.55 . Memory (MB): peak = 2015.832 ; gain = 0.000 ; free physical = 561 ; free virtual = 7325
+INFO: [Project 1-570] Preparing netlist for logic optimization
+
+Processing XDC Constraints
+Initializing timing engine
+Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'PC/D3/A_MEM'
+Finished Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'PC/D3/A_MEM'
+Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'PC/D4/A_MEM'
+Finished Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'PC/D4/A_MEM'
+Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'PC/D6/A_MEM'
+Finished Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc] for cell 'PC/D6/A_MEM'
+Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/dont_touch.xdc]
+Finished Parsing XDC File [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/dont_touch.xdc]
+Completed Processing XDC Constraints
+
+Netlist sorting complete. Time (s): cpu = 00:00:00.01 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2167.582 ; gain = 0.000 ; free physical = 524 ; free virtual = 7288
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Constraint Validation Runtime : Time (s): cpu = 00:00:00.24 ; elapsed = 00:00:00.25 . Memory (MB): peak = 2167.582 ; gain = 0.000 ; free physical = 515 ; free virtual = 7280
+---------------------------------------------------------------------------------
+Finished Constraint Validation : Time (s): cpu = 00:00:29 ; elapsed = 00:00:27 . Memory (MB): peak = 2167.582 ; gain = 708.328 ; free physical = 511 ; free virtual = 7271
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Loading Part and Timing Information
+---------------------------------------------------------------------------------
+Loading part: xc7z020clg484-1
+---------------------------------------------------------------------------------
+Finished Loading Part and Timing Information : Time (s): cpu = 00:00:29 ; elapsed = 00:00:27 . Memory (MB): peak = 2175.586 ; gain = 716.332 ; free physical = 511 ; free virtual = 7271
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying 'set_property' XDC Constraints
+---------------------------------------------------------------------------------
+WARNING: set_property IS_IP_OOC_CELL could not find object (constraint file  /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.gen/sources_1/ip/blk_mem_gen_0/blk_mem_gen_0/blk_mem_gen_0_in_context.xdc, line 3).
+Applied set_property KEEP_HIERARCHY = SOFT for PC/D3/A_MEM. (constraint file  auto generated constraint).
+Applied set_property KEEP_HIERARCHY = SOFT for PC/D4/A_MEM. (constraint file  auto generated constraint).
+WARNING: set_property KEEP_HIERARCHY could not find object (constraint file  auto generated constraint, line ).
+---------------------------------------------------------------------------------
+Finished applying 'set_property' XDC Constraints : Time (s): cpu = 00:00:29 ; elapsed = 00:00:27 . Memory (MB): peak = 2175.586 ; gain = 716.332 ; free physical = 511 ; free virtual = 7271
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Preparing Guide Design
+---------------------------------------------------------------------------------
+CRITICAL WARNING: [Synth 8-6895] The reference checkpoint /home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/utils_1/imports/synth_1/DSP.dcp is not suitable for use with incremental synthesis for this design. Please regenerate the checkpoint for this design with -incremental_synth switch in the same Vivado session that synth_design has been run. Synthesis will continue with the default flow
+---------------------------------------------------------------------------------
+Finished Doing Graph Differ : Time (s): cpu = 00:00:29 ; elapsed = 00:00:27 . Memory (MB): peak = 2175.586 ; gain = 716.332 ; free physical = 512 ; free virtual = 7274
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Preparing Guide Design : Time (s): cpu = 00:00:29 ; elapsed = 00:00:27 . Memory (MB): peak = 2175.586 ; gain = 716.332 ; free physical = 512 ; free virtual = 7274
+---------------------------------------------------------------------------------
+INFO: [Synth 8-802] inferred FSM for state register 'SM1_stato_reg' in module 'UART_INTERFACE'
+INFO: [Synth 8-802] inferred FSM for state register 'SM2_stato_reg' in module 'UART_INTERFACE'
+WARNING: [Synth 8-3936] Found unconnected internal register 'UART_HEADER_reg' and it is trimmed from '8' to '2' bits. [/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.srcs/sources_1/imports/new/UART_RECEIVER.vhd:100]
+INFO: [Synth 8-802] inferred FSM for state register 'SM_stato_reg' in module 'UART_RECEIVER'
+INFO: [Synth 8-802] inferred FSM for state register 'SM_stato_reg' in module 'MEM_A'
+INFO: [Synth 8-802] inferred FSM for state register 'SM_stato_reg' in module 'MEM_B'
+INFO: [Synth 8-802] inferred FSM for state register 'SM_stato_reg' in module 'MEM_C'
+INFO: [Synth 8-802] inferred FSM for state register 'PC_STATE_reg' in module 'CONTROLLER_LOGIC'
+INFO: [Synth 8-802] inferred FSM for state register 'MULT_STATE_reg' in module 'CONTROLLER_MULTIPLIER_INTERFACE'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'CACHE_LOADER'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'CACHE'
+INFO: [Synth 8-802] inferred FSM for state register 'state_reg' in module 'DSP'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                sm1_idle |                               00 |                               00
+        sm1_receive_data |                               01 |                               01
+    sm1_receive_stop_bit |                               10 |                               10
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'SM1_stato_reg' using encoding 'sequential' in module 'UART_INTERFACE'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+               sm2_reset |                              000 |                              000
+                sm2_idle |                              001 |                              100
+      sm2_send_start_bit |                              010 |                              001
+           sm2_send_data |                              011 |                              010
+       sm2_send_stop_bit |                              100 |                              011
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'SM2_stato_reg' using encoding 'sequential' in module 'UART_INTERFACE'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                sm_reset |                         00000001 |                             0000
+              sm_receive |                         00000010 |                             0001
+             sm_validate |                         00000100 |                             0010
+           sm_mem_access |                         00001000 |                             0011
+             sm_mem_done |                         00010000 |                             0101
+                sm_reply |                         00100000 |                             0110
+            sm_uart_send |                         01000000 |                             0111
+                 sm_wait |                         10000000 |                             1000
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'SM_stato_reg' using encoding 'one-hot' in module 'UART_RECEIVER'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                               00 |                               00
+*
+                 sm_idle |                               01 |                               01
+        sm_wait_for_data |                               10 |                               10
+           sm_data_valid |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'SM_stato_reg' using encoding 'sequential' in module 'MEM_A'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                               00 |                               00
+*
+                 sm_idle |                               01 |                               01
+        sm_wait_for_data |                               10 |                               10
+           sm_data_valid |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'SM_stato_reg' using encoding 'sequential' in module 'MEM_B'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  iSTATE |                               00 |                               00
+*
+                 sm_idle |                               01 |                               01
+        sm_wait_for_data |                               10 |                               10
+           sm_data_valid |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'SM_stato_reg' using encoding 'sequential' in module 'MEM_C'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                  idling |                               00 |                               00
+              processing |                               01 |                               01
+                    load |                               10 |                               10
+                    done |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'PC_STATE_reg' using encoding 'sequential' in module 'CONTROLLER_LOGIC'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+               accepting |                               00 |                               01
+               computing |                               01 |                               00
+                    done |                               10 |                               10
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'MULT_STATE_reg' using encoding 'sequential' in module 'CONTROLLER_MULTIPLIER_INTERFACE'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |                               00 |                               00
+                     get |                               01 |                               01
+                    load |                               10 |                               10
+                    done |                               11 |                               11
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'sequential' in module 'CACHE_LOADER'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |                              001 |                              000
+                  unload |                              010 |                              010
+                    load |                              100 |                              001
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'CACHE'
+---------------------------------------------------------------------------------------------------
+                   State |                     New Encoding |                Previous Encoding 
+---------------------------------------------------------------------------------------------------
+                    idle |        0000000000000000000000001 |                            00000
+                    proc |        0000000000000000000000010 |                            00010
+                   decop |        0000000000000000000000100 |                            00011
+                    mult |        0000000000000000000001000 |                            00100
+               mult_step |        0000000000000000000010000 |                            00110
+               mult_bias |        0000000000000000000100000 |                            01000
+             mult_bias_2 |        0000000000000000001000000 |                            01001
+             mult_finish |        0000000000000000010000000 |                            01010
+                     acc |        0000000000000000100000000 |                            01011
+               acc_start |        0000000000000001000000000 |                            01100
+               acc_shift |        0000000000000010000000000 |                            01101
+                acc_calc |        0000000000000100000000000 |                            01110
+        acc_calc_a_sub_b |        0000000000001000000000000 |                            10000
+        acc_calc_b_sub_a |        0000000000010000000000000 |                            10001
+        acc_calc_a_sum_b |        0000000000100000000000000 |                            01111
+        acc_overflow_fix |        0000000001000000000000000 |                            10010
+                  datain |        0000000010000000000000000 |                            00001
+           normroundcomp |        0000000100000000000000000 |                            10011
+              norm_start |        0000001000000000000000000 |                            10100
+              norm_shift |        0000010000000000000000000 |                            10101
+              norm_round |        0000100000000000000000000 |                            10110
+            norm_round_2 |        0001000000000000000000000 |                            10111
+            norm_round_3 |        0010000000000000000000000 |                            11000
+               norm_pack |        0100000000000000000000000 |                            11001
+                   ended |        1000000000000000000000000 |                            11010
+---------------------------------------------------------------------------------------------------
+INFO: [Synth 8-3354] encoded FSM with state register 'state_reg' using encoding 'one-hot' in module 'DSP'
+---------------------------------------------------------------------------------
+Finished RTL Optimization Phase 2 : Time (s): cpu = 00:00:34 ; elapsed = 00:00:32 . Memory (MB): peak = 2175.586 ; gain = 716.332 ; free physical = 515 ; free virtual = 7277
+---------------------------------------------------------------------------------
+
+
+Incremental Synthesis Report Summary:
+
+1. Incremental synthesis run: no
+
+   Reason for not running incremental synthesis : 
+
+
+INFO: [Synth 8-7130] Flow is switching to default flow due to incremental criteria not met. If you would like to alter this behaviour and have the flow terminate instead, please set the following parameter config_implementation {autoIncr.Synth.RejectBehavior Terminate}
+---------------------------------------------------------------------------------
+Start RTL Component Statistics 
+---------------------------------------------------------------------------------
+Detailed RTL Component Info : 
++---Adders : 
+	   2 Input  106 Bit       Adders := 2     
+	   2 Input   53 Bit       Adders := 2     
+	   2 Input   32 Bit       Adders := 2     
+	   2 Input   11 Bit       Adders := 5     
+	   3 Input   11 Bit       Adders := 4     
+	   2 Input    8 Bit       Adders := 5     
+	   2 Input    7 Bit       Adders := 9     
+	   2 Input    4 Bit       Adders := 2     
+	   2 Input    3 Bit       Adders := 3     
+	   2 Input    2 Bit       Adders := 4     
++---XORs : 
+	   2 Input    106 Bit         XORs := 2     
+	   2 Input     11 Bit         XORs := 4     
+	   2 Input      8 Bit         XORs := 2     
+	   2 Input      1 Bit         XORs := 2     
++---Registers : 
+	              106 Bit    Registers := 10    
+	               64 Bit    Registers := 535   
+	               53 Bit    Registers := 6     
+	               32 Bit    Registers := 4     
+	               16 Bit    Registers := 1     
+	               14 Bit    Registers := 6     
+	               11 Bit    Registers := 13    
+	                8 Bit    Registers := 13    
+	                7 Bit    Registers := 17    
+	                4 Bit    Registers := 1     
+	                3 Bit    Registers := 3     
+	                2 Bit    Registers := 5     
+	                1 Bit    Registers := 93    
++---Muxes : 
+	   2 Input  106 Bit        Muxes := 4     
+	  25 Input  106 Bit        Muxes := 10    
+	   3 Input   64 Bit        Muxes := 6     
+	   4 Input   64 Bit        Muxes := 5     
+	  25 Input   64 Bit        Muxes := 6     
+	   2 Input   64 Bit        Muxes := 3     
+	   8 Input   64 Bit        Muxes := 2     
+	  25 Input   53 Bit        Muxes := 6     
+	   2 Input   32 Bit        Muxes := 2     
+	  25 Input   32 Bit        Muxes := 4     
+	  25 Input   25 Bit        Muxes := 2     
+	   2 Input   25 Bit        Muxes := 46    
+	   2 Input   16 Bit        Muxes := 1     
+	  13 Input   16 Bit        Muxes := 1     
+	   8 Input   16 Bit        Muxes := 1     
+	   2 Input   14 Bit        Muxes := 1     
+	  25 Input   11 Bit        Muxes := 12    
+	   5 Input    8 Bit        Muxes := 1     
+	   8 Input    8 Bit        Muxes := 3     
+	   2 Input    8 Bit        Muxes := 8     
+	   4 Input    7 Bit        Muxes := 4     
+	  25 Input    7 Bit        Muxes := 4     
+	   2 Input    7 Bit        Muxes := 1     
+	   3 Input    7 Bit        Muxes := 4     
+	  12 Input    4 Bit        Muxes := 1     
+	   2 Input    4 Bit        Muxes := 1     
+	   8 Input    4 Bit        Muxes := 1     
+	   3 Input    3 Bit        Muxes := 5     
+	   2 Input    3 Bit        Muxes := 15    
+	   5 Input    3 Bit        Muxes := 2     
+	   8 Input    3 Bit        Muxes := 1     
+	   3 Input    2 Bit        Muxes := 7     
+	   4 Input    2 Bit        Muxes := 8     
+	   2 Input    2 Bit        Muxes := 32    
+	  13 Input    2 Bit        Muxes := 1     
+	   3 Input    1 Bit        Muxes := 560   
+	   4 Input    1 Bit        Muxes := 41    
+	   2 Input    1 Bit        Muxes := 43    
+	  25 Input    1 Bit        Muxes := 86    
+	   5 Input    1 Bit        Muxes := 4     
+	  13 Input    1 Bit        Muxes := 1     
+	  12 Input    1 Bit        Muxes := 4     
+	   8 Input    1 Bit        Muxes := 11    
+---------------------------------------------------------------------------------
+Finished RTL Component Statistics 
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Part Resource Summary
+---------------------------------------------------------------------------------
+Part Resources:
+DSPs: 220 (col length:60)
+BRAMs: 280 (col length: RAMB18 60 RAMB36 30)
+---------------------------------------------------------------------------------
+Finished Part Resource Summary
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Cross Boundary and Area Optimization
+---------------------------------------------------------------------------------
+WARNING: [Synth 8-7080] Parallel synthesis criteria is not met
+---------------------------------------------------------------------------------
+Finished Cross Boundary and Area Optimization : Time (s): cpu = 00:00:57 ; elapsed = 00:00:55 . Memory (MB): peak = 2230.586 ; gain = 771.332 ; free physical = 421 ; free virtual = 7200
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Applying XDC Timing Constraints
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Applying XDC Timing Constraints : Time (s): cpu = 00:01:06 ; elapsed = 00:01:05 . Memory (MB): peak = 2230.586 ; gain = 771.332 ; free physical = 420 ; free virtual = 7199
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Timing Optimization
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Timing Optimization : Time (s): cpu = 00:01:06 ; elapsed = 00:01:05 . Memory (MB): peak = 2230.586 ; gain = 771.332 ; free physical = 420 ; free virtual = 7199
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Technology Mapping
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Technology Mapping : Time (s): cpu = 00:01:12 ; elapsed = 00:01:11 . Memory (MB): peak = 2315.477 ; gain = 856.223 ; free physical = 337 ; free virtual = 7116
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Flattening Before IO Insertion
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Final Netlist Cleanup
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished IO Insertion : Time (s): cpu = 00:01:20 ; elapsed = 00:01:19 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 250 ; free virtual = 7024
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Instances
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Instances : Time (s): cpu = 00:01:20 ; elapsed = 00:01:19 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 242 ; free virtual = 7016
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Rebuilding User Hierarchy
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Rebuilding User Hierarchy : Time (s): cpu = 00:01:22 ; elapsed = 00:01:21 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 235 ; free virtual = 7010
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Ports
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Ports : Time (s): cpu = 00:01:22 ; elapsed = 00:01:21 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 235 ; free virtual = 7010
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Handling Custom Attributes
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Handling Custom Attributes : Time (s): cpu = 00:01:23 ; elapsed = 00:01:22 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 235 ; free virtual = 7010
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Renaming Generated Nets
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Finished Renaming Generated Nets : Time (s): cpu = 00:01:23 ; elapsed = 00:01:22 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 235 ; free virtual = 7010
+---------------------------------------------------------------------------------
+---------------------------------------------------------------------------------
+Start Writing Synthesis Report
+---------------------------------------------------------------------------------
+
+Report BlackBoxes: 
++------+--------------+----------+
+|      |BlackBox name |Instances |
++------+--------------+----------+
+|1     |blk_mem_gen_0 |         3|
++------+--------------+----------+
+
+Report Cell Usage: 
++------+-------------------+------+
+|      |Cell               |Count |
++------+-------------------+------+
+|1     |blk_mem_gen_0_bbox |     3|
+|4     |BUFG               |     1|
+|5     |CARRY4             |   296|
+|6     |LUT1               |    22|
+|7     |LUT2               |  2266|
+|8     |LUT3               |   477|
+|9     |LUT4               |  1807|
+|10    |LUT5               |   504|
+|11    |LUT6               | 10167|
+|12    |MUXF7              |  4378|
+|13    |MUXF8              |  2056|
+|14    |FDCE               | 36099|
+|15    |FDPE               |    11|
+|16    |FDRE               |   433|
+|17    |FDSE               |    14|
+|18    |IBUF               |     3|
+|19    |OBUF               |     2|
++------+-------------------+------+
+---------------------------------------------------------------------------------
+Finished Writing Synthesis Report : Time (s): cpu = 00:01:23 ; elapsed = 00:01:22 . Memory (MB): peak = 2418.328 ; gain = 959.074 ; free physical = 235 ; free virtual = 7010
+---------------------------------------------------------------------------------
+Synthesis finished with 0 errors, 1 critical warnings and 2 warnings.
+Synthesis Optimization Runtime : Time (s): cpu = 00:01:12 ; elapsed = 00:01:13 . Memory (MB): peak = 2418.328 ; gain = 807.324 ; free physical = 236 ; free virtual = 7011
+Synthesis Optimization Complete : Time (s): cpu = 00:01:23 ; elapsed = 00:01:22 . Memory (MB): peak = 2418.336 ; gain = 959.074 ; free physical = 236 ; free virtual = 7011
+INFO: [Project 1-571] Translating synthesized netlist
+Netlist sorting complete. Time (s): cpu = 00:00:00.5 ; elapsed = 00:00:00.51 . Memory (MB): peak = 2418.336 ; gain = 0.000 ; free physical = 404 ; free virtual = 7179
+INFO: [Netlist 29-17] Analyzing 6730 Unisim elements for replacement
+INFO: [Netlist 29-28] Unisim Transformation completed in 0 CPU seconds
+INFO: [Project 1-570] Preparing netlist for logic optimization
+INFO: [Opt 31-138] Pushed 0 inverter(s) to 0 load pin(s).
+Netlist sorting complete. Time (s): cpu = 00:00:00 ; elapsed = 00:00:00.01 . Memory (MB): peak = 2445.309 ; gain = 0.000 ; free physical = 401 ; free virtual = 7180
+INFO: [Project 1-111] Unisim Transformation Summary:
+No Unisim elements were transformed.
+
+Synth Design complete | Checksum: c282c563
+INFO: [Common 17-83] Releasing license: Synthesis
+93 Infos, 69 Warnings, 1 Critical Warnings and 0 Errors encountered.
+synth_design completed successfully
+synth_design: Time (s): cpu = 00:01:47 ; elapsed = 00:01:42 . Memory (MB): peak = 2445.309 ; gain = 1011.871 ; free physical = 401 ; free virtual = 7180
+INFO: [Common 17-2834] synth_design peak Physical Memory [PSS] (MB): overall = 1868.979; main = 1655.012; forked = 269.502
+INFO: [Common 17-2834] synth_design peak Virtual Memory [VSS] (MB): overall = 3328.008; main = 2445.312; forked = 909.676
+INFO: [runtcl-6] Synthesis results are not added to the cache due to CRITICAL_WARNING
+Write ShapeDB Complete: Time (s): cpu = 00:00:00.41 ; elapsed = 00:00:00.15 . Memory (MB): peak = 2469.320 ; gain = 0.000 ; free physical = 390 ; free virtual = 7172
+INFO: [Common 17-1381] The checkpoint '/home/diamant/Documenti/Università/FPGA/Matrix_Multiplication_in_FPGA/VHDL/VHDL.runs/synth_1/TOP.dcp' has been generated.
+INFO: [Vivado 12-24828] Executing command : report_utilization -file TOP_utilization_synth.rpt -pb TOP_utilization_synth.pb
+INFO: [Common 17-206] Exiting Vivado at Fri Jul 11 12:07:28 2025...

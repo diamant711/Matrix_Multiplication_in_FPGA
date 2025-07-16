@@ -1,5 +1,0 @@
-vhdl xil_defaultlib  \
-"../../../../Matrix_Multiplication_in_FPGA.gen/sources_1/ip/c_mio_sommatore/sim/c_mio_sommatore.vhd" \
-
-# Do not sort compile order
-nosort

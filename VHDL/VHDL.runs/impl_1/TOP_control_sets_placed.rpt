@@ -1,0 +1,686 @@
+Copyright 1986-2022 Xilinx, Inc. All Rights Reserved. Copyright 2022-2024 Advanced Micro Devices, Inc. All Rights Reserved.
+---------------------------------------------------------------------------------------------------------------------------------------------
+| Tool Version : Vivado v.2024.2 (lin64) Build 5239630 Fri Nov 08 22:34:34 MST 2024
+| Date         : Fri Jul 11 12:09:45 2025
+| Host         : artixThinkpad running 64-bit unknown
+| Command      : report_control_sets -verbose -file TOP_control_sets_placed.rpt
+| Design       : TOP
+| Device       : xc7z020
+---------------------------------------------------------------------------------------------------------------------------------------------
+
+Control Set Information
+
+Table of Contents
+-----------------
+1. Summary
+2. Histogram
+3. Flip-Flop Distribution
+4. Detailed Control Set Information
+
+1. Summary
+----------
+
++----------------------------------------------------------+-------+
+|                          Status                          | Count |
++----------------------------------------------------------+-------+
+| Total control sets                                       |   608 |
+|    Minimum number of control sets                        |   608 |
+|    Addition due to synthesis replication                 |     0 |
+|    Addition due to physical synthesis replication        |     0 |
+| Unused register locations in slices containing registers |   213 |
++----------------------------------------------------------+-------+
+* Control sets can be merged at opt_design using control_set_merge or merge_equivalent_drivers
+** Run report_qor_suggestions for automated merging and remapping suggestions
+
+
+2. Histogram
+------------
+
++--------------------+-------+
+|       Fanout       | Count |
++--------------------+-------+
+| Total control sets |   608 |
+| >= 0 to < 4        |     1 |
+| >= 4 to < 6        |     1 |
+| >= 6 to < 8        |    10 |
+| >= 8 to < 10       |    19 |
+| >= 10 to < 12      |    15 |
+| >= 12 to < 14      |     0 |
+| >= 14 to < 16      |     5 |
+| >= 16              |   557 |
++--------------------+-------+
+* Control sets can be remapped at either synth_design or opt_design
+
+
+3. Flip-Flop Distribution
+-------------------------
+
++--------------+-----------------------+------------------------+-----------------+--------------+
+| Clock Enable | Synchronous Set/Reset | Asynchronous Set/Reset | Total Registers | Total Slices |
++--------------+-----------------------+------------------------+-----------------+--------------+
+| No           | No                    | No                     |              94 |           31 |
+| No           | No                    | Yes                    |              85 |           27 |
+| No           | Yes                   | No                     |              64 |           18 |
+| Yes          | No                    | No                     |             212 |           65 |
+| Yes          | No                    | Yes                    |           36025 |        12959 |
+| Yes          | Yes                   | No                     |             107 |           28 |
++--------------+-----------------------+------------------------+-----------------+--------------+
+
+
+4. Detailed Control Set Information
+-----------------------------------
+
++-------------------------+-----------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|       Clock Signal      |              Enable Signal              |           Set/Reset Signal           | Slice Load Count | Bel Load Count | Bels / Slice |
++-------------------------+-----------------------------------------+--------------------------------------+------------------+----------------+--------------+
+|  Clock_100MHz_IBUF_BUFG | CNT/cl/AND_IT_S_ALL_FOLKS_i_1_n_0       | Reset_IBUF_BUFG                      |                1 |              1 |         1.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/SM_Counter[3]_i_1_n_0             |                                      |                3 |              4 |         1.33 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_B_EN_reg_0                    |                                      |                1 |              6 |         6.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/ena                               |                                      |                3 |              6 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_C_EN_reg_0                    |                                      |                1 |              6 |         6.00 |
+|  Clock_100MHz_IBUF_BUFG | CNT/cl/DUMMY_CUR_ROW                    | Reset_IBUF_BUFG                      |                1 |              7 |         7.00 |
+|  Clock_100MHz_IBUF_BUFG | B/cl/index[6]_i_1__0_n_0                | Reset_IBUF_BUFG                      |                1 |              7 |         7.00 |
+|  Clock_100MHz_IBUF_BUFG |                                         | PC/D2/Counter_1_MHz[6]_i_1_n_0       |                2 |              7 |         3.50 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/acc_shift_count[6]_i_1__0_n_0     | Reset_IBUF_BUFG                      |                1 |              7 |         7.00 |
+|  Clock_100MHz_IBUF_BUFG | CNT/cl/DUMMY_CUR_COL_0                  | Reset_IBUF_BUFG                      |                2 |              7 |         3.50 |
+|  Clock_100MHz_IBUF_BUFG | A/cl/index[6]_i_1_n_0                   | Reset_IBUF_BUFG                      |                2 |              7 |         3.50 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/acc_shift_count[6]_i_1_n_0        | Reset_IBUF_BUFG                      |                2 |              7 |         3.50 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_ADDRESS[15]_i_1_n_0           |                                      |                3 |              8 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_ADDRESS[7]_i_1_n_0            |                                      |                3 |              8 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | PC/D1/UART_RX_VECT[7]_i_1_n_0           | Reset_IBUF_BUFG                      |                1 |              8 |         8.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[15]_i_1_n_0              |                                      |                4 |              8 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[23]_i_1_n_0              |                                      |                4 |              8 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[31]_i_1_n_0              |                                      |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[39]_i_1_n_0              |                                      |                3 |              8 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[47]_i_1_n_0              |                                      |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[55]_i_1_n_0              |                                      |                4 |              8 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[63]_i_1_n_0              |                                      |                3 |              8 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_DATA[7]_i_1_n_0               |                                      |                3 |              8 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/UART_CHKSUM[7]_i_1_n_0            |                                      |                3 |              8 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG |                                         | PC/D1/UART_Sync_counter[7]_i_1_n_0   |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D1/UART_RX_DATA[7]_i_1_n_0           | Reset_IBUF_BUFG                      |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D1/TX_VECT                           | Reset_IBUF_BUFG                      |                1 |              8 |         8.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D1/TX_FIFO[7]_i_1_n_0                | Reset_IBUF_BUFG                      |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/UART_CALCULATED_CHKSUM[7]_i_1_n_0 |                                      |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/UART_TX_DATA[7]_i_1_n_0           |                                      |                1 |              8 |         8.00 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/UART_DATA[7]_i_1_n_0              |                                      |                2 |              8 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/exp_res[10]_i_1_n_0               | Reset_IBUF_BUFG                      |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/exp_diff[10]_i_1_n_0              | Reset_IBUF_BUFG                      |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/exp_b[10]_i_1_n_0                 | Reset_IBUF_BUFG                      |                4 |             11 |         2.75 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/exp_a[10]_i_1_n_0                 | Reset_IBUF_BUFG                      |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/bias[10]_i_1_n_0                  | Reset_IBUF_BUFG                      |                2 |             11 |         5.50 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/acc_exp_reg0                      | Reset_IBUF_BUFG                      |                4 |             11 |         2.75 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/bias[10]_i_1__0_n_0               | Reset_IBUF_BUFG                      |                4 |             11 |         2.75 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/norm_exp[10]_i_1_n_0              | Reset_IBUF_BUFG                      |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/exp_a[10]_i_1__0_n_0              | Reset_IBUF_BUFG                      |                5 |             11 |         2.20 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/exp_b[10]_i_1__0_n_0              | Reset_IBUF_BUFG                      |                4 |             11 |         2.75 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/exp_diff[10]_i_1__0_n_0           | Reset_IBUF_BUFG                      |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/exp_res[10]_i_1__0_n_0            | Reset_IBUF_BUFG                      |                6 |             11 |         1.83 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/acc_exp_reg0                      | Reset_IBUF_BUFG                      |                4 |             11 |         2.75 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/norm_exp[10]_i_1__0_n_0           | Reset_IBUF_BUFG                      |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/Clock_1_MHz_reg_n_0               | PC/D1/SR[0]                          |                3 |             11 |         3.67 |
+|  Clock_100MHz_IBUF_BUFG |                                         | PC/D2/FSM_onehot_SM_stato[7]_i_1_n_0 |                5 |             14 |         2.80 |
+|  Clock_100MHz_IBUF_BUFG | CNT/cl/CURRENT_COL_A[6]_i_1_n_0         | Reset_IBUF_BUFG                      |                3 |             14 |         4.67 |
+|  Clock_100MHz_IBUF_BUFG | CNT/multiplier_b/__2/i__n_0             | Reset_IBUF_BUFG                      |                2 |             14 |         7.00 |
+|  Clock_100MHz_IBUF_BUFG | CNT/multiplier_a/__2/i__n_0             | Reset_IBUF_BUFG                      |                3 |             14 |         4.67 |
+|  Clock_100MHz_IBUF_BUFG | CNT/cl/CNTRL_CUR_ROW[6]_i_1_n_0         | Reset_IBUF_BUFG                      |                2 |             14 |         7.00 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/FSM_onehot_state[24]_i_1_n_0      | Reset_IBUF_BUFG                      |                8 |             27 |         3.38 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/FSM_onehot_state[24]_i_1__0_n_0   | Reset_IBUF_BUFG                      |               11 |             27 |         2.45 |
+|  Clock_100MHz_IBUF_BUFG | A/row/E[0]                              | Reset_IBUF_BUFG                      |                7 |             28 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | B/row/E[0]                              | Reset_IBUF_BUFG                      |                6 |             28 |         4.67 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/i[31]_i_1_n_0                     | Reset_IBUF_BUFG                      |                6 |             32 |         5.33 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/i[31]_i_1__0_n_0                  | Reset_IBUF_BUFG                      |                4 |             32 |         8.00 |
+|  Clock_100MHz_IBUF_BUFG | B/row/count                             | Reset_IBUF_BUFG                      |                9 |             48 |         5.33 |
+|  Clock_100MHz_IBUF_BUFG | A/row/count                             | Reset_IBUF_BUFG                      |               11 |             48 |         4.36 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/rounded_man[51]_i_1_n_0           | Reset_IBUF_BUFG                      |               15 |             52 |         3.47 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/rounded_man[51]_i_1__0_n_0        | Reset_IBUF_BUFG                      |               15 |             52 |         3.47 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/man_b[52]_i_1__0_n_0              | Reset_IBUF_BUFG                      |               14 |             53 |         3.79 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/man_b[52]_i_1_n_0                 | Reset_IBUF_BUFG                      |               14 |             53 |         3.79 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/man_a[52]_i_1__0_n_0              | Reset_IBUF_BUFG                      |               12 |             55 |         4.58 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/man_a[52]_i_1_n_0                 | Reset_IBUF_BUFG                      |               12 |             55 |         4.58 |
+|  Clock_100MHz_IBUF_BUFG | B/col/count                             | Reset_IBUF_BUFG                      |               15 |             56 |         3.73 |
+|  Clock_100MHz_IBUF_BUFG | A/col/count                             | Reset_IBUF_BUFG                      |               14 |             56 |         4.00 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[66]_306                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[63]_304                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[67]_279                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[68]_278                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[69]_277                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[102]_447                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[6]_331                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[70]_310                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[71]_275                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[72]_274                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[73]_313                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[74]_312                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[75]_272                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[65]_281                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[64]_282                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[7]_329                     | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[62]_393                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[61]_388                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[60]_389                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[5]_333                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[59]_445                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[58]_454                    | Reset_IBUF_BUFG                      |               17 |             64 |         3.76 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[57]_452                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[56]_377                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[55]_378                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[54]_425                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[53]_442                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[52]_374                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[51]_375                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[89]_459                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[112]_473                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/FSM_onehot_state_reg_n_0_[1]      | Reset_IBUF_BUFG                      |               38 |             64 |         1.68 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[9]_325                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[99]_269                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[98]_263                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[97]_264                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[96]_266                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[95]_267                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[94]_391                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[93]_385                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[92]_386                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[91]_464                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[90]_462                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[8]_327                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[76]_271                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[88]_415                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[87]_416                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[86]_427                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[85]_457                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[84]_284                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[83]_285                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[82]_418                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[81]_419                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[80]_287                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[47]_302                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[79]_288                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[78]_396                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[77]_437                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[115]_480                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[23]_345                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[22]_338                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[21]_339                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[20]_347                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[1]_290                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[19]_349                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[18]_298                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[17]_296                    | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[16]_293                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[15]_294                    | Reset_IBUF_BUFG                      |               32 |             64 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[14]_316                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[113]_489                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[114]_491                   | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[13]_317                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[24]_344                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[116]_430                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[117]_429                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[118]_432                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[119]_449                   | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[12]_319                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[127]_308                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[11]_321                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[126]_405                   | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[125]_399                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[124]_400                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[123]_411                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[122]_470                   | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[121]_467                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[37]_252                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[4]_335                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[49]_370                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[48]_301                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[120]_468                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[46]_383                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[45]_435                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[44]_356                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[43]_357                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[42]_365                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[41]_366                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[40]_359                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[3]_292                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[39]_360                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[38]_251                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[50]_372                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[36]_362                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[35]_363                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[34]_254                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[33]_255                    | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[32]_257                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[31]_258                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[30]_381                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[2]_291                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[29]_422                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[28]_341                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[27]_342                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[26]_351                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[25]_352                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[66]_57                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[59]_196                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[5]_84                      | Reset_IBUF_BUFG                      |               30 |             64 |         2.13 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[60]_140                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[61]_139                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[62]_144                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[63]_55                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[64]_33                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[65]_32                     | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[58]_205                    | Reset_IBUF_BUFG                      |               31 |             64 |         2.06 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[67]_30                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[68]_29                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[69]_28                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[6]_82                      | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[70]_61                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[71]_26                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[72]_25                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[73]_64                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[57]_203                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[56]_128                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[55]_129                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[54]_176                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[53]_193                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[52]_125                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[51]_126                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[50]_123                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[4]_86                      | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[49]_121                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[48]_52                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[47]_53                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[46]_134                    | Reset_IBUF_BUFG                      |               32 |             64 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[45]_186                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[44]_107                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[96]_17                     | Reset_IBUF_BUFG                      |               31 |             64 |         2.06 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[89]_210                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[8]_78                      | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[90]_213                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[91]_215                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[92]_137                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[93]_136                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[94]_142                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[95]_18                     | Reset_IBUF_BUFG                      |               36 |             64 |         1.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[88]_166                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[97]_15                     | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[98]_14                     | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[99]_20                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[9]_76                      | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/FSM_onehot_state_reg_n_0_[24]     | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/c[63]_i_1__0_n_0                  | Reset_IBUF_BUFG                      |               14 |             64 |         4.57 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/E[0]                              | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[43]_108                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[87]_167                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[86]_178                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[85]_208                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[84]_35                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[83]_36                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[82]_169                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[81]_170                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[80]_38                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[7]_80                      | Reset_IBUF_BUFG                      |               34 |             64 |         1.88 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[79]_39                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[78]_147                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[77]_188                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[76]_22                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[75]_23                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[74]_63                     | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[122]_221                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[115]_231                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[116]_181                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[117]_180                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[118]_183                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[119]_200                   | Reset_IBUF_BUFG                      |               32 |             64 |         2.00 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[11]_72                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[120]_219                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[121]_218                   | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[114]_242                   | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[123]_162                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[124]_151                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[125]_150                   | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[126]_156                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[127]_59                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[12]_70                     | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[13]_68                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[14]_67                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[113]_240                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[112]_224                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[111]_160                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[110]_158                   | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[10]_74                     | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[109]_153                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[108]_154                   | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[107]_229                   | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[106]_236                   | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[105]_234                   | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[104]_11                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[103]_12                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[102]_198                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[101]_226                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[100]_21                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[29]_173                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[42]_116                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[41]_117                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[40]_110                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[3]_43                      | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[39]_111                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[38]_2                      | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[37]_3                      | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[36]_113                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[35]_114                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[34]_5                      | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[33]_6                      | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[32]_8                      | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[31]_9                      | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[30]_132                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[2]_42                      | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[0][63]_i_1__1_n_0          | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[28]_92                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[27]_93                     | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[26]_102                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[25]_103                    | Reset_IBUF_BUFG                      |               30 |             64 |         2.13 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[24]_95                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[23]_96                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[22]_89                     | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[21]_90                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[20]_98                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[1]_41                      | Reset_IBUF_BUFG                      |               30 |             64 |         2.13 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[19]_100                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[18]_49                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[17]_47                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[16]_44                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | B/row/memory[15]_45                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[6]_331                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[62]_393                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[63]_304                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[64]_282                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[65]_281                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[66]_306                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[67]_279                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[68]_278                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[69]_277                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[61]_388                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[70]_310                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[71]_275                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[72]_274                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[73]_313                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[74]_312                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[75]_272                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[76]_271                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[77]_437                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[53]_442                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[46]_383                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[47]_302                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[48]_301                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[49]_370                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[4]_335                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[50]_372                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[51]_375                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[52]_374                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[78]_396                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[54]_425                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[55]_378                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[56]_377                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[57]_452                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[58]_454                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[59]_445                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[5]_333                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[60]_389                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[0][63]_i_1_n_0             | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[94]_391                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[95]_267                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[96]_266                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[97]_264                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[98]_263                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[99]_269                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[9]_325                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/FSM_onehot_state_reg_n_0_[1]      | Reset_IBUF_BUFG                      |               37 |             64 |         1.73 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[93]_385                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[100]_21                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[101]_226                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[102]_198                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[103]_12                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[104]_11                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[105]_234                   | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[106]_236                   | Reset_IBUF_BUFG                      |               17 |             64 |         3.76 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[107]_229                   | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[86]_427                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[79]_288                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[7]_329                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[80]_287                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[81]_419                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[82]_418                    | Reset_IBUF_BUFG                      |               31 |             64 |         2.06 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[83]_285                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[84]_284                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[85]_457                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[45]_435                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[87]_416                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[88]_415                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[89]_459                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[8]_327                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[90]_462                    | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[91]_464                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[92]_386                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[120]_468                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[113]_489                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[114]_491                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[115]_480                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[116]_430                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[117]_429                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[118]_432                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[119]_449                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[11]_321                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[112]_473                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[121]_467                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[122]_470                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[123]_411                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[124]_400                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[125]_399                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[126]_405                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[127]_308                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[12]_319                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[104]_260                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | CNT/multiplier_a/__10/i__n_0            | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | CNT/multiplier_b/__10/i__n_0            | Reset_IBUF_BUFG                      |               17 |             64 |         3.76 |
+|  Clock_100MHz_IBUF_BUFG | A/col/FSM_onehot_state_reg_n_0_[1]      | Reset_IBUF_BUFG                      |               37 |             64 |         1.73 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[0][63]_i_1__0_n_0          | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[100]_270                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[101]_475                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[102]_447                   | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[103]_261                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[13]_317                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[105]_483                   | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[106]_485                   | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[107]_478                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[108]_403                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[109]_402                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[10]_323                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[110]_407                   | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[111]_409                   | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[37]_252                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[2]_291                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[30]_381                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[31]_258                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[32]_257                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[33]_255                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[34]_254                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[35]_363                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[36]_362                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[29]_422                    | Reset_IBUF_BUFG                      |               29 |             64 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[38]_251                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[39]_360                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[3]_292                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[40]_359                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[41]_366                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[42]_365                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[43]_357                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[44]_356                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[21]_339                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[14]_316                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[15]_294                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[16]_293                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[17]_296                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[18]_298                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[19]_349                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[1]_290                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[20]_347                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[110]_407                   | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[22]_338                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[23]_345                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[24]_344                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[25]_352                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[26]_351                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[27]_342                    | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/col/memory[28]_341                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[77]_188                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[6]_82                      | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[70]_61                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[71]_26                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[72]_25                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[73]_64                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[74]_63                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[75]_23                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[76]_22                     | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[69]_28                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[78]_147                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[79]_39                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[7]_80                      | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[80]_38                     | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[81]_170                    | Reset_IBUF_BUFG                      |               30 |             64 |         2.13 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[82]_169                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[83]_36                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[61]_139                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[54]_176                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[55]_129                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[56]_128                    | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[57]_203                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[58]_205                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[59]_196                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[5]_84                      | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[60]_140                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[84]_35                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[62]_144                    | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[63]_55                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[64]_33                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[65]_32                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[66]_57                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[67]_30                     | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[68]_29                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[104]_260                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[9]_76                      | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/FSM_onehot_state_reg_n_0_[24]     | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/c[63]_i_1_n_0                     | Reset_IBUF_BUFG                      |               12 |             64 |         5.33 |
+|  Clock_100MHz_IBUF_BUFG | B/col/FSM_onehot_state_reg_n_0_[1]      | Reset_IBUF_BUFG                      |               37 |             64 |         1.73 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[0][63]_i_1__2_n_0          | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[100]_270                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[101]_475                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[103]_261                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[99]_20                     | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[105]_483                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[106]_485                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[107]_478                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[108]_403                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[109]_402                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[10]_323                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | B/col/memory[111]_409                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[109]_153                   | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[98]_14                     | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[97]_15                     | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[96]_17                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[95]_18                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[94]_142                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[93]_136                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[92]_137                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[91]_215                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[90]_213                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[8]_78                      | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[89]_210                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[88]_166                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[87]_167                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[86]_178                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[85]_208                    | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[16]_44                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[124]_151                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[125]_150                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[126]_156                   | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[127]_59                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[12]_70                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[13]_68                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[14]_67                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[15]_45                     | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[123]_162                   | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[17]_47                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[18]_49                     | Reset_IBUF_BUFG                      |               17 |             64 |         3.76 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[19]_100                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[1]_41                      | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[20]_98                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[21]_90                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[22]_89                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[116]_181                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[108]_154                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[10]_74                     | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[110]_158                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[111]_160                   | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[112]_224                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[113]_240                   | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[114]_242                   | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[115]_231                   | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[52]_125                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[117]_180                   | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[118]_183                   | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[119]_200                   | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[11]_72                     | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[120]_219                   | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[121]_218                   | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[122]_221                   | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[41]_117                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[37]_3                      | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[38]_2                      | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[51]_126                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[23]_96                     | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[3]_43                      | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[50]_123                    | Reset_IBUF_BUFG                      |               17 |             64 |         3.76 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[40]_110                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[4]_86                      | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[39]_111                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[42]_116                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[43]_108                    | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[44]_107                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[45]_186                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[46]_134                    | Reset_IBUF_BUFG                      |               24 |             64 |         2.67 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[47]_53                     | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[48]_52                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[49]_121                    | Reset_IBUF_BUFG                      |               18 |             64 |         3.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[26]_102                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[28]_92                     | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[29]_173                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[2]_42                      | Reset_IBUF_BUFG                      |               28 |             64 |         2.29 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[27]_93                     | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[36]_113                    | Reset_IBUF_BUFG                      |               20 |             64 |         3.20 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[30]_132                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[31]_9                      | Reset_IBUF_BUFG                      |               22 |             64 |         2.91 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[32]_8                      | Reset_IBUF_BUFG                      |               19 |             64 |         3.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[33]_6                      | Reset_IBUF_BUFG                      |               27 |             64 |         2.37 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[34]_5                      | Reset_IBUF_BUFG                      |               26 |             64 |         2.46 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[53]_193                    | Reset_IBUF_BUFG                      |               21 |             64 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[25]_103                    | Reset_IBUF_BUFG                      |               23 |             64 |         2.78 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[35]_114                    | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | A/row/memory[24]_95                     | Reset_IBUF_BUFG                      |               25 |             64 |         2.56 |
+|  Clock_100MHz_IBUF_BUFG | PC/D2/MEM_ADDRESS_OUT[13]_i_1_n_0       |                                      |               18 |             78 |         4.33 |
+|  Clock_100MHz_IBUF_BUFG | CNT/multiplier_a/E[0]                   | Reset_IBUF_BUFG                      |               20 |             78 |         3.90 |
+|  Clock_100MHz_IBUF_BUFG |                                         |                                      |               31 |             94 |         3.03 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/norm_man[104]_i_1__0_n_0          | Reset_IBUF_BUFG                      |               24 |            105 |         4.38 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/norm_man[104]_i_1_n_0             | Reset_IBUF_BUFG                      |               21 |            105 |         5.00 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/man_a_106[105]_i_1_n_0            | Reset_IBUF_BUFG                      |               19 |            106 |         5.58 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/acc_man_reg[105]_i_1__0_n_0       | Reset_IBUF_BUFG                      |               48 |            106 |         2.21 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/man_res[105]_i_1_n_0              | Reset_IBUF_BUFG                      |               44 |            106 |         2.41 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/acc_man_reg[105]_i_1_n_0          | Reset_IBUF_BUFG                      |               45 |            106 |         2.36 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/man_res[105]_i_1__0_n_0           | Reset_IBUF_BUFG                      |               44 |            106 |         2.41 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/man_a_106[105]_i_1__0_n_0         | Reset_IBUF_BUFG                      |               17 |            106 |         6.24 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/tmp_man[105]_i_1__0_n_0           | Reset_IBUF_BUFG                      |               37 |            113 |         3.05 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/tmp_man[105]_i_1_n_0              | Reset_IBUF_BUFG                      |               42 |            113 |         2.69 |
+|  Clock_100MHz_IBUF_BUFG |                                         | Reset_IBUF_BUFG                      |               36 |            120 |         3.33 |
+|  Clock_100MHz_IBUF_BUFG | A/alu/a[63]_i_1_n_0                     | Reset_IBUF_BUFG                      |               25 |            128 |         5.12 |
+|  Clock_100MHz_IBUF_BUFG | A/cl/ROW_data[63]_i_1_n_0               | Reset_IBUF_BUFG                      |               30 |            128 |         4.27 |
+|  Clock_100MHz_IBUF_BUFG | B/alu/a[63]_i_1__0_n_0                  | Reset_IBUF_BUFG                      |               26 |            128 |         4.92 |
+|  Clock_100MHz_IBUF_BUFG | B/cl/ROW_data[63]_i_1__0_n_0            | Reset_IBUF_BUFG                      |               27 |            128 |         4.74 |
++-------------------------+-----------------------------------------+--------------------------------------+------------------+----------------+--------------+
+
+
